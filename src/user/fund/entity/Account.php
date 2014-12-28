@@ -1,0 +1,49 @@
+<?php
+
+namespace user\fund\entity;
+
+use orm\DataClass;
+
+/**
+ * @hhp:orm persistentName Account
+ * @hhp:orm primaryKey userId
+ */
+class Account extends DataClass {
+	
+	/**
+	 * @hhp:orm persistentName userId
+	 *
+	 * @var integer
+	 */
+	protected $userId;
+	
+	/**
+	 * @hhp:orm persistentName amount
+	 * 用户账户的总金额，单位为分。
+	 *
+	 * @var integer
+	 */
+	protected $amount;
+	
+	/**
+	 *
+	 * @var DateTime
+	 */
+	protected $createTime;
+
+	public function setUserId ($id) {
+		$this->userId = $id;
+	}
+
+	public function getUserId () {
+		return $this->userId;
+	}
+
+	public function setAmount ($amount) {
+		$this->amount = $amount;
+	}
+
+	public function getAmount () {
+		return $this->amount;
+	}
+}
