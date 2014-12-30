@@ -32,6 +32,9 @@ return array(
 	'controller' => array(
 		'sms\controller\SMSSenderController' => array(
 			'enable' => true
+		),
+		'user\controller\FundController' => array(
+			'enable' => true
 		)
 	),
 	
@@ -39,7 +42,8 @@ return array(
 	 * 本模块依赖的其他模块，用数组的key给出名字，其值暂时保留以后扩展。
 	 */
 	'depends' => array(
-		'orm' => array()
+		'orm' => array(),
+		'sms' => array()
 	)
 );
 ?>

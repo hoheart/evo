@@ -25,7 +25,9 @@ return array(
 	 */
 	'executor' => array(
 		'pre_executor' => array(),
-		'later_executor' => array()
+		'later_executor' => array(
+			'hhp\view\JsonRender'
+		)
 	),
 	
 	/**
@@ -129,5 +131,7 @@ return array(
 	 * 整个系统存放数据的目录，包括日志的存放。所以，不需要对日志进行单独的目录配置。
 	 * 通过调用系统提供的日志
 	 */
-	'data_dir' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data'
+	'data_dir' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data',
+	'default_layout' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'view' .
+			 DIRECTORY_SEPARATOR . 'layout.php'
 );

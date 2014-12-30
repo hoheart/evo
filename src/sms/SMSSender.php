@@ -3,9 +3,9 @@
 namespace sms;
 
 use hfc\exception\ParameterErrorException;
+use sms\exception\CallGatewayErrorException;
 use user\fund\AccountManager;
 use sms\entity\SMSContent;
-use sms\entity\SMSInfo;
 use hhp\App;
 use sms\entity\ClientInfo;
 use sms\entity\SMS;
@@ -74,7 +74,9 @@ class SMSSender {
 		
 		$this->log($client->getUserId(), $phonenumArr, $msg, $subPort, $msgId, $status);
 		
-		return $ret;
+		if (! $ret) {
+			throw new CallGatewayErrorException();
+		}
 	}
 
 	public function log ($userId, $phonenumArr, $msg, $subPort, $msgId, $status) {

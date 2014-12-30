@@ -3,7 +3,6 @@
 namespace user\fund;
 
 use hhp\App;
-use orm\Condition;
 use user\fund\exception\NotSufficientFundsException;
 
 /**

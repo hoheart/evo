@@ -171,12 +171,20 @@ namespace hhp {
 				$dataObj = $executor->run($dataObj);
 			}
 			
-			$this->mBootController = new $ctrlClassName();
-			$this->mBootController->$actionMethodName($_REQUEST);
+			$this->mBootController = new $ctrlClassName($this->generateRequest());
+			$dataObj = $this->mBootController->$actionMethodName($_REQUEST);
 			
 			foreach ($confExecutorArr['later_executor'] as $class) {
 				$executor = $class::Instance();
 				$dataObj = $executor->run($dataObj);
+			}
+		}
+
+		protected function generateRequest () {
+			if ('cli' == PHP_SAPI) {
+				return new CliRequest();
+			} else {
+				return new HttpRequest();
 			}
 		}
 
@@ -217,13 +225,21 @@ namespace hhp {
 			
 			$moduleAlias = substr($uri, 1, $pos1 - $uriLen);
 			
-			$this->mRedirection = array($moduleAlias,$ctrlName,$actionName);
+			$this->mRedirection = array(
+				$moduleAlias,
+				$ctrlName,
+				$actionName
+			);
 			
 			return $this->mRedirection;
 		}
 
 		protected function combinActionConf ($ctrlClassName, $oldConf, $action) {
-			$actionConf = $ctrlClassName::getConfig($action);
+			$actionConf = array();
+			
+			if (method_exists($ctrlClassName, 'getConfig')) {
+				$actionConf = $ctrlClassName::getConfig($action);
+			}
 			return Util::mergeArray($oldConf, $actionConf);
 		}
 
@@ -322,8 +338,10 @@ namespace hhp\App {
 		private $mModuleDirIndex = array();
 
 		public function __construct () {
-			$this->mModuleDirIndex = array('hhp' . DIRECTORY_SEPARATOR => 'hhp',
-				'hhp' . DIRECTORY_SEPARATOR . 'hfc' . DIRECTORY_SEPARATOR);
+			$this->mModuleDirIndex = array(
+				'hhp' . DIRECTORY_SEPARATOR => 'hhp',
+				'hhp' . DIRECTORY_SEPARATOR . 'hfc' . DIRECTORY_SEPARATOR
+			);
 		}
 
 		/**
@@ -331,7 +349,10 @@ namespace hhp\App {
 		 * );注册给PHP解释器。
 		 */
 		public function register2System () {
-			spl_autoload_register(array($this,'autoload'));
+			spl_autoload_register(array(
+				$this,
+				'autoload'
+			));
 		}
 
 		/**
@@ -435,7 +456,10 @@ namespace hhp\App {
 				}
 			}
 			
-			return array($callerModuleAlias,$callerModuleName);
+			return array(
+				$callerModuleAlias,
+				$callerModuleName
+			);
 		}
 
 		/**
@@ -549,7 +573,10 @@ namespace hhp\App {
 		 */
 		protected function getClassModule ($className) {
 			$pos = strpos($className, '\\');
-			return array(substr($className, 0, $pos),substr($className, $pos + 1));
+			return array(
+				substr($className, 0, $pos),
+				substr($className, $pos + 1)
+			);
 		}
 	}
 	

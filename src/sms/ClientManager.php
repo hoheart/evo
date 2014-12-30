@@ -3,7 +3,7 @@
 namespace sms;
 
 use hhp\App;
-use sms\exception\PermissionDeniedException;
+use user\exception\LoginFailedException;
 
 class ClientManager {
 
@@ -24,7 +24,7 @@ class ClientManager {
 	public function checkClient ($clientId, $password) {
 		$info = $this->getClient($clientId);
 		if ($info->encodedPassword != $password) {
-			throw new PermissionDeniedException('');
+			throw new LoginFailedException('');
 		}
 		
 		$_SESSION['client'] = $info;

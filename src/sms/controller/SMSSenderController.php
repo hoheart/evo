@@ -5,6 +5,7 @@ namespace sms\controller;
 use hhp\Controller;
 use sms\SMSSender;
 use hfc\exception\ParameterErrorException;
+use hhp\view\View;
 use sms\ClientManager;
 
 class SMSSenderController extends Controller {
@@ -36,10 +37,8 @@ class SMSSenderController extends Controller {
 		}
 		
 		$sender = new SMSSender();
-		$msgId = $sender->send($client, $phonenums, $msg, $subPort, $msgId);
+		$sender->send($client, $phonenums, $msg, $subPort, $msgId);
 		
-		echo $msgId;
-		
-		$this->assign('msgId', $msgId);
+		return new View('sms/SMSSender/send');
 	}
 }
