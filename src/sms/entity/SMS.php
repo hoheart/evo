@@ -5,8 +5,7 @@ namespace sms\entity;
 use orm\DataClass;
 
 /**
- * @hhp:orm persistentName SMS
- * @hhp:orm primaryKey id
+ * @hhp:orm entity
  *
  * @author Hoheart
  *        
@@ -26,7 +25,6 @@ class SMS extends DataClass {
 	const STATUS_MAX = 4;
 	
 	/**
-	 * @hhp:orm persistentName id
 	 * @hhp:orm var int64
 	 * @hhp:orm autoIncrement true
 	 *
@@ -36,15 +34,12 @@ class SMS extends DataClass {
 	
 	/**
 	 * 手机号码，用英文逗号(,)分隔，最大100个号码。
-	 * @hhp:orm persistentName receiver
-	 * @hhp:orm var string
 	 *
 	 * @var string
 	 */
 	protected $receiver;
 	
 	/**
-	 * @hhp:orm persistentName status
 	 * @hhp:orm var int16
 	 *
 	 * @var integer
@@ -52,7 +47,6 @@ class SMS extends DataClass {
 	protected $status = self::STATUS_SENDING;
 	
 	/**
-	 * @hhp:orm persistentName contentId
 	 * @hhp:orm var int64
 	 *
 	 * @var integer
@@ -71,7 +65,6 @@ class SMS extends DataClass {
 	protected $content;
 	
 	/**
-	 * @hhp:orm persistentName createTime
 	 * @hhp:orm var DateTime
 	 *
 	 * @var \DateTime

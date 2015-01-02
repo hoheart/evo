@@ -7,37 +7,32 @@ use orm\DataClass;
 /**
  * 客户相关的配置，比如该客户的价格，以后可扩展每个客户选择一个通道。
  *
- * @hhp:orm persistentName ClientInfo
+ * @hhp:orm entity
  * @hhp:orm primaryKey clientId
  *
  * @author Jejim
- *        
  */
 class ClientInfo extends DataClass {
 	
 	/**
-	 * @hhp:orm persistentName userId
 	 *
 	 * @var integer
 	 */
 	protected $userId;
 	
 	/**
-	 * @hhp:orm persistentName price
 	 *
 	 * @var integer
 	 */
 	protected $price;
 	
 	/**
-	 * @hhp:orm persistentName clientId
 	 *
 	 * @var string
 	 */
 	protected $clientId;
 	
 	/**
-	 * @hhp:orm persistentName encodedPassword
 	 *
 	 * @var string
 	 */

@@ -3,10 +3,9 @@
 namespace user\entity;
 
 /**
- * @hhp:orm persistentName User
- * @hhp:orm primaryKey id
- * 
- * @author Hoheart
+ * @hhp:orm entity
+ *
+ * @author Jejim
  *        
  */
 class User {
@@ -30,8 +29,8 @@ class User {
 	}
 	
 	/**
-	 * @hhp:orm persistentName id
-	 * 
+	 * @hhp:orm autoIncreament true
+	 *
 	 * @var integer
 	 */
 	protected $id;
@@ -39,8 +38,6 @@ class User {
 	/**
 	 * 用户名
 	 *
-	 * @hhp:orm persistentName name
-	 * 
 	 * @var string
 	 */
 	protected $name;

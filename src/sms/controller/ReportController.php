@@ -23,9 +23,9 @@ class ReportController extends Controller {
 		}
 		
 		$rm = new ReportManager();
-		$reportArr = $rm->readReport();
+		$reportArr = $rm->readReport($client->userId);
 		
-		$view = new View('sms/SMSSender/send');
+		$view = new View('sms/report/read');
 		$view->assign('reportArr', $reportArr);
 		
 		return $view;

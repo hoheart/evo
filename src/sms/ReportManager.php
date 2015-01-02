@@ -33,6 +33,12 @@ class ReportManager {
 		$c->add('readStatus', '=', '0');
 		
 		$orm = App::Instance()->getService('orm');
-		return $orm->where('sms\entity\Report', $c);
+		$reportArr = $orm->where('sms\entity\Report', $c);
+		foreach ($reportArr as $report) {
+			$report->readStatus = Report::READ_STATUS_READ;
+			$orm->save($report);
+		}
+		
+		return $reportArr;
 	}
 }

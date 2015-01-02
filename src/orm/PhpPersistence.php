@@ -129,7 +129,7 @@ class PhpPersistence extends AbstractPersistence {
 			$clsDesc = $descFactory->getDesc(get_class($dataObj)); // clsDesc再怎么着也会返回一个默认的值
 		}
 		
-		$oldMap = self::Read2Map($clsDesc->persistentName, $this->mSaveDir);
+		$oldMap = self::Read2Map($clsDesc->saveName, $this->mSaveDir);
 		if (null == $oldMap) {
 			$oldMap = array();
 		}
@@ -179,7 +179,7 @@ class PhpPersistence extends AbstractPersistence {
 			throw new \Exception('can not found class desc on delete. class: ' . $className);
 		}
 		
-		$oldMap = self::read2Map($clsDesc->persistentName, $this->mSaveDir);
+		$oldMap = self::read2Map($clsDesc->saveName, $this->mSaveDir);
 		if (! is_array($oldMap)) {
 			return;
 		}
@@ -199,7 +199,7 @@ class PhpPersistence extends AbstractPersistence {
 	 * @param ClassDesc $clsDesc        	
 	 */
 	protected function write2File (array $map, ClassDesc $clsDesc) {
-		$filePath = $clsDesc->persistentName;
+		$filePath = $clsDesc->saveName;
 		
 		// 清空文件，不考虑
 		$fp = fopen($this->mSaveDir . $filePath . '.php', 'w+');
@@ -254,7 +254,7 @@ class PhpPersistence extends AbstractPersistence {
 		
 		$keyArr = array();
 		foreach ($classDesc->primaryKey as $key) {
-			$keyArr[$classDesc->attribute[$key]->persistentName] = $obj->$key;
+			$keyArr[$classDesc->attribute[$key]->saveName] = $obj->$key;
 		}
 		
 		$i = 0;
@@ -291,8 +291,8 @@ class PhpPersistence extends AbstractPersistence {
 		$map = array();
 		
 		foreach ($classDesc->attribute as $attr) {
-			$persistentName = $attr->persistentName; // 注意，empty不会调用__get方法
-			if (empty($persistentName) && ! $isSaveSub) {
+			$saveName = $attr->saveName; // 注意，empty不会调用__get方法
+			if (empty($saveName) && ! $isSaveSub) {
 				continue;
 			}
 			
@@ -317,11 +317,11 @@ class PhpPersistence extends AbstractPersistence {
 				
 				// 保存完，在map里就不需要再保留了。
 				continue;
-			} else if (empty($attr->persistentName)) {
+			} else if (empty($attr->saveName)) {
 				continue;
 			} else {
 				if (null === $val && $attr->autoIncrement) {
-					$val = $this->autoIncrement($classDesc->persistentName);
+					$val = $this->autoIncrement($classDesc->saveName);
 					$dataObj->$name = $val;
 				} else {
 					switch ($attr->var) {
@@ -338,7 +338,7 @@ class PhpPersistence extends AbstractPersistence {
 				}
 			}
 			
-			$map[$attr->persistentName] = $val;
+			$map[$attr->saveName] = $val;
 		}
 		
 		return $map;

@@ -3,11 +3,9 @@
 namespace sms\entity;
 
 use orm\DataClass;
-use user\entity\User;
 
 /**
- * @hhp:orm persistentName SMSContent
- * @hhp:orm primaryKey id
+ * @hhp:orm entity
  *
  * @author Hoheart
  *        
@@ -18,7 +16,6 @@ class SMSContent extends DataClass {
 	}
 	
 	/**
-	 * @hhp:orm persistentName id
 	 * @hhp:orm var int64
 	 * @hhp:orm autoIncrement true
 	 *
@@ -27,7 +24,6 @@ class SMSContent extends DataClass {
 	protected $id;
 	
 	/**
-	 * @hhp:orm persistentName userId
 	 * @hhp:orm var int32
 	 *
 	 * @var integer
@@ -35,13 +31,6 @@ class SMSContent extends DataClass {
 	protected $userId;
 	
 	/**
-	 *
-	 * @var User
-	 */
-	protected $sender;
-	
-	/**
-	 * @hhp:orm persistentName msg
 	 * @hhp:orm var string
 	 *
 	 * @var string
@@ -49,7 +38,6 @@ class SMSContent extends DataClass {
 	protected $msg;
 	
 	/**
-	 * @hhp:orm persistentName subPort
 	 * @hhp:orm var string
 	 *
 	 * @var string
@@ -57,7 +45,6 @@ class SMSContent extends DataClass {
 	protected $subPort;
 	
 	/**
-	 * @hhp:orm persistentName userMsgId
 	 * @hhp:orm var string
 	 *
 	 * @var string
@@ -74,10 +61,6 @@ class SMSContent extends DataClass {
 
 	public function getUserId () {
 		return $this->userId;
-	}
-
-	public function getSender () {
-		return $this->user;
 	}
 
 	public function setMsg ($msg) {
