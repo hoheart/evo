@@ -6,6 +6,7 @@ use hhp\Controller;
 use hhp\view\View;
 use sms\ClientManager;
 use sms\ReportManager;
+use hhp\IRequest;
 
 /**
  * 状态报告controller
@@ -15,11 +16,11 @@ use sms\ReportManager;
  */
 class ReportController extends Controller {
 
-	public function readAction ($argv) {
+	public function readAction (IRequest $req) {
 		$clientManager = new ClientManager();
 		$client = $clientManager->getOnlieClient();
 		if (null == $client) {
-			$client = $clientManager->checkClient($argv['userName'], $argv['password']);
+			$client = $clientManager->checkClient($req->get('userName'), $req->get('password'));
 		}
 		
 		$rm = new ReportManager();
@@ -31,7 +32,10 @@ class ReportController extends Controller {
 		return $view;
 	}
 
-	public function readGatewayReport () {
+	/**
+	 * 读取网关的状态报告
+	 */
+	public function readGatewayAction () {
 		if (! $this->mRequest->isCli()) {
 			exit(); // 禁止非命令行访问
 		}

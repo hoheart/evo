@@ -137,9 +137,10 @@ namespace hhp {
 		public function run () {
 			// 1.取得系统配置文件
 			$this->mAppConf = $this->mClassLoader->loadFile('config' . DIRECTORY_SEPARATOR . 'Config.php');
+			$request = $this->generateRequest();
 			
 			// 2.根据请求，取得请求模块的配置文件。
-			list ($moduleAlias, $ctrlName, $actionName) = $this->getRedirection();
+			list ($moduleAlias, $ctrlName, $actionName) = $this->getRedirection($request);
 			if (empty($moduleAlias)) {
 				$moduleAlias = $this->mAppConf['default_module'];
 			}
@@ -172,7 +173,7 @@ namespace hhp {
 			}
 			
 			$this->mBootController = new $ctrlClassName($this->generateRequest());
-			$dataObj = $this->mBootController->$actionMethodName($_REQUEST);
+			$dataObj = $this->mBootController->$actionMethodName($request);
 			
 			foreach ($confExecutorArr['later_executor'] as $class) {
 				$executor = $class::Instance();
@@ -184,21 +185,22 @@ namespace hhp {
 			if ('cli' == PHP_SAPI) {
 				return new CliRequest();
 			} else {
-				return new HttpRequest();
+				return new HttpRequest(true);
 			}
 		}
 
 		/**
 		 * 根据请求的url，取得重定向相关信息。
 		 *
-		 * @return array
+		 * @param IRequest $request        	
+		 * @return multitype:
 		 */
-		protected function getRedirection () {
+		protected function getRedirection (IRequest $request) {
 			if (! empty($this->mRedirection)) {
 				return $this->mRedirection;
 			}
 			
-			$uri = $_SERVER['REQUEST_URI'];
+			$uri = $request->getResource();
 			$uriLen = strlen($uri);
 			
 			$actionName = '';

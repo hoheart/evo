@@ -7,31 +7,32 @@ use sms\SMSSender;
 use hfc\exception\ParameterErrorException;
 use hhp\view\View;
 use sms\ClientManager;
+use hhp\IRequest;
 
 class SMSSenderController extends Controller {
 
-	public function sendAction ($argv) {
+	public function sendAction (IRequest $req) {
 		$clientManager = new ClientManager();
 		$client = $clientManager->getOnlieClient();
 		if (null == $client) {
-			$client = $clientManager->checkClient($argv['userName'], $argv['password']);
+			$client = $clientManager->checkClient($req->get('userName'), $req->get('password'));
 		}
 		
-		$phonenums = $argv['phonenums'];
+		$phonenums = $req->get('phonenums');
 		$phonenumsLen = strlen($phonenums);
 		if ($phonenumsLen <= 0 || $phonenumsLen > 1100) { // 最多100个手机号
 			throw new ParameterErrorException('phonenums');
 		}
-		$msg = $argv['msg'];
+		$msg = $req->get('msg');
 		$msgLen = strlen($msg);
 		if ($msgLen <= 0 || $msgLen > 350) {
 			throw new ParameterErrorException('msg');
 		}
-		$subPort = $argv['subPort'];
+		$subPort = $req->get('subPort');
 		if (strlen($subPort) > 6) {
 			throw new ParameterErrorException('subPort');
 		}
-		$msgId = $argv['msgId'];
+		$msgId = $req->get('msgId');
 		if (! empty($msgId) && ! is_numeric($msgId)) {
 			throw new ParameterErrorException('msgid');
 		}

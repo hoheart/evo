@@ -11,9 +11,18 @@ use orm\DataClass;
  *        
  */
 class SMSContent extends DataClass {
-
-	public function __construct () {
-	}
+	
+	/**
+	 * 状态取值定义
+	 *
+	 * @var integer
+	 */
+	const STATUS_MIN = 1;
+	const STATUS_SEND_OK = self::STATUS_MIN;
+	const STATUS_NO_MONEY = 2;
+	const STATUS_GATEWAY_ERROR = 3;
+	const STATUS_SENDING = 4;
+	const STATUS_MAX = 4;
 	
 	/**
 	 * @hhp:orm var int64
@@ -50,6 +59,18 @@ class SMSContent extends DataClass {
 	 * @var string
 	 */
 	protected $userMsgId;
+	
+	/**
+	 *
+	 * @var integer
+	 */
+	protected $status = self::STATUS_SENDING;
+	
+	/**
+	 *
+	 * @var DateTime
+	 */
+	protected $createTime;
 
 	public function getId () {
 		return $this->id;
@@ -85,5 +106,21 @@ class SMSContent extends DataClass {
 
 	public function getUserMsgId () {
 		return $this->userMsgId;
+	}
+
+	public function setStatus ($status) {
+		$this->status = $status;
+	}
+
+	public function getStatus () {
+		return $this->status;
+	}
+
+	public function setCreateTime (\DateTime $time) {
+		$this->createTime = $time;
+	}
+
+	public function getCreateTime () {
+		return $this->createTime;
 	}
 }

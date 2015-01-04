@@ -77,7 +77,7 @@ class MongateSMSGateway implements ISMSGateway {
 
 	protected function parseSendRet ($re) {
 		$pos1 = strrpos($re, '</string>');
-		$pos = strrpos($re, '>', $pos1 - strlen($re));
+		$pos = strrpos($re, '>', $pos1 - strlen($re)) + 1;
 		
 		$ret = false;
 		$msgId = substr($re, $pos, $pos1 - $pos);
@@ -162,5 +162,7 @@ class MongateSMSGateway implements ISMSGateway {
 			
 			$pos = $pos1 + strlen('</string>');
 		}
+		
+		return $arr;
 	}
 }

@@ -51,7 +51,7 @@ class SMSSender {
 			$phonenumArr[] = $one;
 		}
 		
-		$status = SMS::STATUS_SENDING;
+		$status = SMSContent::STATUS_SENDING;
 		
 		try {
 			// 进行扣款
@@ -59,7 +59,7 @@ class SMSSender {
 			$amount = count($phonenumArr) * $client->price;
 			$accountManager->deduct($client->userId, $amount, 'send ' . count($phonenumArr) . ' sms.');
 		} catch (\Exception $e) {
-			$status = SMS::STATUS_NO_MONEY;
+			$status = SMSContent::STATUS_NO_MONEY;
 		}
 		
 		try {
@@ -67,32 +67,34 @@ class SMSSender {
 			$g = $gf->getDefaultGateway();
 			list ($ret, $gatewayMsgId) = $g->send($phonenumArr, $msg, $subPort, $msgId);
 		} catch (\Exception $e) {
-			$status = SMS::STATUS_GATEWAY_ERROR;
+			$status = SMSContent::STATUS_GATEWAY_ERROR;
 		}
 		
-		$status = $ret ? SMS::STATUS_SEND_OK : SMS::STATUS_GATEWAY_ERROR;
+		$status = $ret ? SMSContent::STATUS_SEND_OK : SMSContent::STATUS_GATEWAY_ERROR;
 		
-		$this->log($client->getUserId(), $phonenumArr, $msg, $subPort, $msgId, $status);
+		$this->log($client->getUserId(), $phonenumArr, $msg, $subPort, $msgId, $gatewayMsgId, $status);
 		
 		if (! $ret) {
 			throw new CallGatewayErrorException();
 		}
 	}
 
-	public function log ($userId, $phonenumArr, $msg, $subPort, $msgId, $status) {
+	public function log ($userId, $phonenumArr, $msg, $subPort, $userMsgId, $gatewayMsgId, $status) {
 		$smsContent = new SMSContent();
 		$smsContent->userId = $userId;
 		$smsContent->msg = $msg;
 		$smsContent->subPort = $subPort;
-		$smsContent->userMsgId = $msgId;
+		$smsContent->userMsgId = $userMsgId;
+		$smsContent->status = $status;
+		$smsContent->createTime = new \DateTime();
 		
 		$orm = App::Instance()->getService('orm');
 		foreach ($phonenumArr as $phonenum) {
 			$sms = new SMS();
 			$sms->receiver = $phonenum;
 			$sms->content = $smsContent;
-			$sms->status = $status;
-			$sms->createTime = new \DateTime();
+			$sms->msgId = $gatewayMsgId;
+			$sms->userId = $userId;
 			
 			$orm->save($sms);
 		}

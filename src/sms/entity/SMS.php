@@ -13,41 +13,79 @@ use orm\DataClass;
 class SMS extends DataClass {
 	
 	/**
-	 * 状态取值定义
+	 * 读取状态值
 	 *
 	 * @var integer
 	 */
-	const STATUS_MIN = 1;
-	const STATUS_SEND_OK = self::STATUS_MIN;
-	const STATUS_NO_MONEY = 2;
-	const STATUS_GATEWAY_ERROR = 3;
-	const STATUS_SENDING = 4;
-	const STATUS_MAX = 4;
+	const READ_STATUS_UNREAD = 0;
+	const READ_STATUS_READ = 1;
 	
 	/**
-	 * @hhp:orm var int64
 	 * @hhp:orm autoIncrement true
+	 * @hhp:orm var int64
 	 *
 	 * @var integer
 	 */
 	protected $id;
 	
 	/**
-	 * 手机号码，用英文逗号(,)分隔，最大100个号码。
+	 *
+	 * @var DateTime
+	 */
+	protected $reportTime;
+	
+	/**
+	 * 网关消息id
+	 *
+	 * @var string
+	 */
+	protected $msgId;
+	
+	/**
+	 *
+	 * @var string
+	 */
+	protected $longnum;
+	
+	/**
+	 * @hhp:orm var int64
+	 *
+	 * @var integer
+	 */
+	protected $userId;
+	
+	/**
+	 * 接收者的手机号
 	 *
 	 * @var string
 	 */
 	protected $receiver;
 	
 	/**
-	 * @hhp:orm var int16
+	 *
+	 * @var string
+	 */
+	protected $userMsgId;
+	
+	/**
 	 *
 	 * @var integer
 	 */
-	protected $status = self::STATUS_SENDING;
+	protected $status;
 	
 	/**
-	 * @hhp:orm var int64
+	 *
+	 * @var string
+	 */
+	protected $errstr;
+	
+	/**
+	 *
+	 * @var integer
+	 */
+	protected $reportReadStatus = self::READ_STATUS_UNREAD;
+	
+	/**
 	 *
 	 * @var integer
 	 */
@@ -63,24 +101,87 @@ class SMS extends DataClass {
 	 * @var SMSContent
 	 */
 	protected $content;
-	
-	/**
-	 * @hhp:orm var DateTime
-	 *
-	 * @var \DateTime
-	 */
-	protected $createTime;
 
 	public function getId () {
 		return $this->id;
 	}
 
-	public function setReceiver ($receiver) {
-		$this->receiver = $receiver;
+	public function setReportTime (\DateTime $t) {
+		$this->reportTime = $t;
+	}
+
+	public function getReportTime () {
+		return $this->reportTime;
+	}
+
+	public function setMsgId ($id) {
+		$this->msgId = $id;
+	}
+
+	public function getMsgId () {
+		return $this->msgId;
+	}
+
+	public function setLongnum ($num) {
+		if (is_numeric($num)) {
+			$this->longnum = $num;
+		}
+	}
+
+	public function getLongnum () {
+		return $this->longnum;
+	}
+
+	public function setUserId ($id) {
+		$this->userId = $id;
+	}
+
+	public function getUserId () {
+		return $this->userId;
+	}
+
+	public function setReceiver ($num) {
+		if (is_numeric($num)) {
+			$this->receiver = $num;
+		}
 	}
 
 	public function getReceiver () {
 		return $this->receiver;
+	}
+
+	public function setUserMsgId ($id) {
+		$this->userMsgId = $id;
+	}
+
+	public function getUserMsgId () {
+		return $this->userMsgId;
+	}
+
+	public function setStatus ($status) {
+		if (is_numeric($status)) {
+			$this->status = $status;
+		}
+	}
+
+	public function getStatus () {
+		return $this->status;
+	}
+
+	public function setErrstr ($str) {
+		$this->errstr = $str;
+	}
+
+	public function getErrstr () {
+		return $this->errstr;
+	}
+
+	public function setReportReadStatus ($status) {
+		$this->reportReadStatus = $status;
+	}
+
+	public function getReportReadStatus () {
+		return $this->reportReadStatus;
 	}
 
 	public function setContentId ($id) {
@@ -91,29 +192,11 @@ class SMS extends DataClass {
 		return $this->contentId;
 	}
 
-	public function setStatus ($status) {
-		if ($status >= self::STATUS_MIN && $status <= self::STATUS_MAX) {
-			$this->status = $status;
-		}
-	}
-
-	public function getStatus () {
-		return $this->status;
-	}
-
 	public function setContent (SMSContent $content) {
 		$this->content = $content;
 	}
 
 	public function getContent () {
 		return $this->content;
-	}
-
-	public function setCreateTime (\DateTime $t) {
-		$this->createTime = $t;
-	}
-
-	public function getCreateTime () {
-		return $this->createTime;
 	}
 }

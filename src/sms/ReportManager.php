@@ -16,13 +16,16 @@ class ReportManager {
 		
 		$orm = App::Instance()->getService('orm');
 		foreach ($ret as $row) {
-			$r = new Report();
-			$r->time = $row['time'];
-			$r->msgId = $row['msgId'];
+			$cond = new Condition('msgId=' . $row['msgId']);
+			$cond->add('receiver', '=', $row['phonenum']);
+			$smsArr = $orm->where('sms\entity\SMS', $cond);
+			$r = $smsArr[0];
+			
+			$r->reportTime = $row['time'];
 			$r->longnum = $row['longnum'];
-			$r->userId = $row['userMsgId'];
 			$r->status = $row['status'];
 			$r->errstr = $row['errstr'];
+			$r->phonenum = $row['phonenum'];
 			
 			$orm->save($r);
 		}
