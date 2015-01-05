@@ -73,6 +73,14 @@ class DataClass {
 	}
 
 	protected function setAttribute ($name, $value, $isSaveName = false) {
+		if (null === $value) {
+			if (property_exists($this, $name)) {
+				$this->$name = $value;
+				
+				return $this;
+			}
+		}
+		
 		$clsDesc = DescFactory::Instance()->getDesc(get_class($this));
 		
 		$methodName = 'set' . ucfirst($name);

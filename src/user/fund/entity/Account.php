@@ -5,6 +5,7 @@ namespace user\fund\entity;
 use orm\DataClass;
 
 /**
+ * @hhp:orm entity
  * @hhp:orm primaryKey userId
  */
 class Account extends DataClass {
@@ -42,5 +43,13 @@ class Account extends DataClass {
 
 	public function getAmount () {
 		return $this->amount;
+	}
+
+	public function setCreateTime (\DateTime $t) {
+		$this->createTime = $t;
+	}
+
+	public function getCreateTime () {
+		return $this->createTime;
 	}
 }

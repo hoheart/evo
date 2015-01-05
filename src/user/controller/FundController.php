@@ -13,11 +13,11 @@ class FundController {
 	public function __construct () {
 	}
 
-	public function balanceAction ($argv) {
+	public function balanceAction ($req) {
 		$clientManager = new ClientManager();
 		$client = $clientManager->getOnlieClient();
 		if (null == $client) {
-			$client = $clientManager->checkClient($argv['userName'], $argv['password']);
+			$client = $clientManager->checkClient($req->get('userName'), $req->get('password'));
 		}
 		
 		$am = new AccountManager();

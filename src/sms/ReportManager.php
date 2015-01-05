@@ -25,7 +25,7 @@ class ReportManager {
 			$r->longnum = $row['longnum'];
 			$r->status = $row['status'];
 			$r->errstr = $row['errstr'];
-			$r->phonenum = $row['phonenum'];
+			$r->receiver = $row['phonenum'];
 			
 			$orm->save($r);
 		}
