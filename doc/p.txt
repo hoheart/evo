@@ -9,3 +9,6 @@ root
 youjiejinY123
 
 ssh port 59110
+
+mysql:
+root 98&Ad#123

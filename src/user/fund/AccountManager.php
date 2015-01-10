@@ -28,7 +28,7 @@ class AccountManager {
 			throw new NotSufficientFundsException();
 		}
 		
-		$sql = "UPDATE account SET amount = amount-$amount WHERE userId = $accountId AND amount >= $amount";
+		$sql = "UPDATE Account SET amount = amount-$amount WHERE userId = $accountId AND amount >= $amount";
 		$db = App::Instance()->getService('db');
 		if (1 != $db->exec($sql)) { // 成功执行SQL语句确一行也没有更改，肯定是没钱了
 			throw new NotSufficientFundsException();
