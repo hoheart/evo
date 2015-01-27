@@ -30,7 +30,7 @@ return array(
 	 * 本模块提供的Controller
 	 */
 	'controller' => array(
-		'sms\controller\SMSSenderController' => array(
+		'user\controller\UserController' => array(
 			'enable' => true
 		),
 		'user\controller\FundController' => array(

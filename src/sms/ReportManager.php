@@ -2,9 +2,9 @@
 
 namespace sms;
 
-use sms\entity\Report;
 use hhp\App;
 use orm\Condition;
+use sms\entity\SMS;
 
 class ReportManager {
 
@@ -38,7 +38,7 @@ class ReportManager {
 		$orm = App::Instance()->getService('orm');
 		$reportArr = $orm->where('sms\entity\Report', $c);
 		foreach ($reportArr as $report) {
-			$report->readStatus = Report::READ_STATUS_READ;
+			$report->readStatus = SMS::READ_STATUS_READ;
 			$orm->save($report);
 		}
 		

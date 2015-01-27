@@ -3,7 +3,9 @@
 namespace sms;
 
 use sms\ISMSGateway;
-use sms\MongateSMSGateway;
+use sms\gateway\MongateSMSGateway;
+use sms\entity\ClientInfo;
+use sms\gateway\EMASMSGateway;
 
 /**
  * table
@@ -15,35 +17,29 @@ class SMSGatewayFactory {
 	
 	/**
 	 *
-	 * @var ISMSGateway
+	 * @var array
 	 */
-	protected $mDefaultGateway;
-	
-	/**
-	 *
-	 * @var ISMSGateway
-	 */
-	protected $mSecondGateway;
+	protected $mGatewayMap = array();
 
 	/**
 	 *
 	 * @return ISMSGateway
 	 */
-	public function getDefaultGateway () {
-		if (null == $this->mDefaultGateway) {
-			$this->mDefaultGateway = new MongateSMSGateway();
+	public function getGateway (ClientInfo $clientInfo) {
+		$gateway = $this->mGatewayMap[$clientInfo->gateway];
+		if (null == $gateway) {
+			switch ($clientInfo->gateway) {
+				case 'ema':
+					$gateway = new EMASMSGateway();
+					break;
+				case 'mongate':
+					$gateway = new MongateSMSGateway();
+					break;
+			}
+			
+			$this->mGatewayMap[$clientInfo->gateway] = $gateway;
 		}
 		
-		return $this->mDefaultGateway;
-	}
-
-	/**
-	 *
-	 * @return ISMSGateway
-	 *
-	 */
-	public function getSecondGateway () {
-		// TODO implement here
-		return null;
+		return $gateway;
 	}
 }
