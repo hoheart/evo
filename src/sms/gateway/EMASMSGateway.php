@@ -11,7 +11,7 @@ class EMASMSGateway implements ISMSGateway {
 	 *
 	 * @var string
 	 */
-	const SEND_URL = 'http://202.85.221.42:9883/c123/';
+	const SEND_URL = 'http://202.85.221.42:9885/c123/';
 	
 	/**
 	 * 配置。格式：参见接口说明
@@ -27,7 +27,9 @@ class EMASMSGateway implements ISMSGateway {
 	 */
 	protected $mCurl = null;
 
-	public function __construct () {
+	public function __construct ($conf) {
+		$this->mConf = $conf;
+		
 		$this->mCurl = curl_init();
 		curl_setopt($this->mCurl, CURLOPT_POST, true);
 		curl_setopt($this->mCurl, CURLOPT_RETURNTRANSFER, true);
@@ -50,16 +52,14 @@ class EMASMSGateway implements ISMSGateway {
 	public function send ($phonenumArr, $content, $subPort, $msgId) {
 		curl_setopt($this->mCurl, CURLOPT_URL, self::SEND_URL . 'sendsms');
 		
-		$conf = App::Instance()->getConfigValue('monGateway');
 		$data = array(
-			'uid' => $conf['userId'],
-			'pwd' => $conf['password'],
+			'uid' => $this->mConf['userId'],
+			'pwd' => md5($this->mConf['password']),
 			'encode' => 'utf8',
 			'taskId' => $msgId,
 			'extnum' => $subPort,
 			'mobile' => implode(',', $phonenumArr),
-			'content' => $content,
-			'iMobiCount' => count($phonenumArr)
+			'content' => urlencode($content)
 		);
 		
 		$strData = http_build_query($data);

@@ -12,3 +12,7 @@ ssh port 59110
 
 mysql:
 root 98&Ad#123
+
+
+ema短信后台的密码：
+ywok   EvoEmasms2015

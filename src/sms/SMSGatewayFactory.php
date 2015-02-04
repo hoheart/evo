@@ -6,6 +6,7 @@ use sms\ISMSGateway;
 use sms\gateway\MongateSMSGateway;
 use sms\entity\ClientInfo;
 use sms\gateway\EMASMSGateway;
+use hhp\App;
 
 /**
  * table
@@ -30,10 +31,12 @@ class SMSGatewayFactory {
 		if (null == $gateway) {
 			switch ($clientInfo->gateway) {
 				case 'ema':
-					$gateway = new EMASMSGateway();
+					$conf = App::Instance()->getConfigValue('ema');
+					$gateway = new EMASMSGateway($conf);
 					break;
 				case 'mongate':
-					$gateway = new MongateSMSGateway();
+					$conf = App::Instance()->getConfigValue('mongate');
+					$gateway = new MongateSMSGateway($conf);
 					break;
 			}
 			

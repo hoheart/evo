@@ -36,9 +36,13 @@ return array(
 		'user' => array(),
 		'orm' => array()
 	),
-	'monGateway' => array(
+	'mongateGateway' => array(
 		'userId' => 'JC2492',
 		'password' => '566320'
+	),
+	'ema' => array(
+		'userId' => '800033',
+		'password' => 'ywok123456'
 	)
 );
 ?>

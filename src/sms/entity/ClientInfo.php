@@ -37,6 +37,12 @@ class ClientInfo extends DataClass {
 	 * @var string
 	 */
 	protected $encodedPassword;
+	
+	/**
+	 *
+	 * @var string
+	 */
+	protected $gateway;
 
 	public function setUserId ($id) {
 		$this->userId = (int) $id;
@@ -68,5 +74,13 @@ class ClientInfo extends DataClass {
 
 	public function getEncodedPassword () {
 		return $this->encodedPassword;
+	}
+
+	public function setGateway ($gateway) {
+		$this->gateway = $gateway;
+	}
+
+	public function getGateway () {
+		return $this->gateway;
 	}
 }
