@@ -283,7 +283,7 @@ namespace hhp {
 			if (empty($conf)) {
 				$appConfigModuleArr = $this->getConfigValue('module');
 				$appConfigModule = $appConfigModuleArr[$moduleAlias];
-				$configFilePath = $appConfigModule['dir'] . 'config' . DIRECTORY_SEPARATOR . 'config.php';
+				$configFilePath = $appConfigModule['dir'] . 'config' . DIRECTORY_SEPARATOR . 'Config.php';
 				$conf = $this->mClassLoader->loadFile($configFilePath);
 				$this->mModuleConfMap[$moduleAlias] = $conf;
 			}

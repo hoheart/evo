@@ -76,8 +76,8 @@ return array(
 			'method' => 'create',
 			'config' => array(
 				'dbms' => 'mysql',
-				'user' => 'hoheart',
-				'password' => 'hoheart',
+				'user' => 'vosms',
+				'password' => 'vosms',
 				'server' => '127.0.0.1',
 				'port' => 3306,
 				'name' => 'evo',

@@ -7,7 +7,7 @@ namespace user\exception;
  * @author Jejim
  *        
  */
-class LoginFailedException {
+class LoginFailedException extends \Exception{
 
 	public function __construct ($msg) {
 		$this->code = UserErrcode::LoginError;

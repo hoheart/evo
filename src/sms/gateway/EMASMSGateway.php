@@ -55,11 +55,11 @@ class EMASMSGateway implements ISMSGateway {
 		$data = array(
 			'uid' => $this->mConf['userId'],
 			'pwd' => md5($this->mConf['password']),
-			'encode' => 'utf8',
+			'encode' => 'gbk',
 			'taskId' => $msgId,
 			'extnum' => $subPort,
 			'mobile' => implode(',', $phonenumArr),
-			'content' => urlencode($content)
+			'content' => iconv('UTF-8','GBK',$content)
 		);
 		
 		$strData = http_build_query($data);
@@ -68,7 +68,7 @@ class EMASMSGateway implements ISMSGateway {
 		// $ret = '<?xml version="1.0" encoding="utf-8"? ><string
 		// xmlns="http://tempuri.org/">-3648468475435350319</string>aa';
 		$ret = curl_exec($this->mCurl);
-		
+	//print_r( $ret );exit;	
 		$retInfo = $this->parseSendRet($ret);
 		
 		return $retInfo;

@@ -23,6 +23,9 @@ return array(
 		),
 		'user\fund\AccountManager' => array(
 			'enable' => true
+		),
+		'user\exception\LoginFailedException' => array(
+			'enable' => true
 		)
 	),
 	

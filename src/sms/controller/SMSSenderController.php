@@ -15,7 +15,7 @@ class SMSSenderController extends Controller {
 		$clientManager = new ClientManager();
 		$client = $clientManager->getOnlieClient();
 		if (null == $client) {
-			$client = $clientManager->checkClient($req->get('userName'), $req->get('password'));
+			$client = $clientManager->checkClient($req->get('username'), $req->get('password'));
 		}
 		
 		$phonenums = $req->get('phonenums');

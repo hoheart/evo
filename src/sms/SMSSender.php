@@ -65,6 +65,7 @@ class SMSSender {
 		try {
 			$gf = new SMSGatewayFactory();
 			$g = $gf->getGateway($client);
+			$msg = '【车快快】' . $msg;
 			list ($ret, $gatewayMsgId) = $g->send($phonenumArr, $msg, $subPort, $msgId);
 		} catch (\Exception $e) {
 			$status = SMSContent::STATUS_GATEWAY_ERROR;
