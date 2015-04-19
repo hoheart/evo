@@ -6,9 +6,16 @@ use orm\DataClass;
 
 /**
  * @hhp:orm entity
- * @hhp:orm primaryKey userId
+ * @hhp:orm primaryKey id
  */
 class Account extends DataClass {
+	
+	/**
+	 * @hhp:orm autoIncrement true
+	 *
+	 * @var integer
+	 */
+	protected $id;
 	
 	/**
 	 *
@@ -17,17 +24,15 @@ class Account extends DataClass {
 	protected $userId;
 	
 	/**
-	 * 用户账户的总金额，单位为分。
+	 * 用户账户的总金额，单位为厘。
 	 *
 	 * @var integer
 	 */
 	protected $amount;
-	
-	/**
-	 *
-	 * @var DateTime
-	 */
-	protected $createTime;
+
+	public function getId () {
+		return $this->id;
+	}
 
 	public function setUserId ($id) {
 		$this->userId = $id;
@@ -43,13 +48,5 @@ class Account extends DataClass {
 
 	public function getAmount () {
 		return $this->amount;
-	}
-
-	public function setCreateTime (\DateTime $t) {
-		$this->createTime = $t;
-	}
-
-	public function getCreateTime () {
-		return $this->createTime;
 	}
 }

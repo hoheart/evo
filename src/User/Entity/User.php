@@ -2,36 +2,29 @@
 
 namespace user\entity;
 
+use orm\DataClass;
+
 /**
+ * 用户数据类
  * @hhp:orm entity
+ * @hhp:orm saveName User
  *
  * @author Jejim
  *        
  */
-class User {
+class User extends DataClass {
 	
 	/**
-	 * 性别
+	 * 性别取值
+	 * @hhp:orm autoIncrement true
 	 *
 	 * @var integer
 	 */
-	const GENDER_UNKNOWN = 0;
+	const GENDER_UNKNOW = 0;
 	const GENDER_FEMALE = 1;
 	const GENDER_MALE = 2;
-	const GENDER_MIN = 0;
-	const GENDER_MAX = 2;
-	const STATUS_NORMAL = 0;
-	const STATUS_DISABLED = 1;
-	const STATUS_MIN = 0;
-	const STATUS_MAX = 1;
-
-	public function __construct () {
-	}
 	
 	/**
-	 * @hhp:orm autoIncreament true
-	 *
-	 * @var integer
 	 */
 	protected $id;
 	
@@ -43,30 +36,19 @@ class User {
 	protected $name;
 	
 	/**
-	 * 保存密码用的随机字符串
+	 */
+	protected $phonenum;
+	
+	/**
+	 * 加密用户密码的混淆码
 	 *
 	 * @var string
 	 */
 	protected $salt;
 	
 	/**
-	 *
-	 * @var string
 	 */
 	protected $password;
-	
-	/**
-	 *
-	 * @var string
-	 */
-	protected $phonenum;
-	
-	/**
-	 * 昵称
-	 *
-	 * @var string
-	 */
-	protected $nickName;
 	
 	/**
 	 * 真实姓名
@@ -76,75 +58,28 @@ class User {
 	protected $realName;
 	
 	/**
-	 *
-	 * @var integer
 	 */
 	protected $gender;
 	
 	/**
-	 * 头像文件id
+	 * 文件id
 	 */
 	protected $avatar = 1;
 	
 	/**
-	 * 邮件地址
-	 *
-	 * @var string
 	 */
 	protected $email;
 	
 	/**
-	 * 状态
-	 *
-	 * @var integer
+	 * 1：正常、2：禁用、3：异常
 	 */
 	protected $status;
 	
 	/**
-	 * 最后一次登陆的IP
-	 *
-	 * @var string
-	 */
-	protected $lastLoginIP;
-	
-	/**
-	 * 推荐的用户
-	 *
-	 * @var integer
 	 */
 	protected $recommendUserId;
 	
 	/**
-	 *
-	 * @var DateTime
 	 */
-	protected $createTime;
-
-	public function getId () {
-		return $this->id;
-	}
-
-	public function setName ($name) {
-		$this->name = $name;
-	}
-
-	public function getName () {
-		return $this->name;
-	}
-
-	private function encodePassword ($salt, $password) {
-		return md5(md5($salt . $password) . $salt);
-	}
-
-	public function setPassword ($password) {
-		for ($i = 0; $i < 6; ++ $i) {
-			$this->salt .= chr(mt_rand(32, 126));
-		}
-		
-		$this->password = $this->encodePassword($this->salt, $password);
-	}
-
-	public function checkPassword ($password) {
-		return $this->password === $this->encodePassword($this->salt, $password);
-	}
+	protected $lastLoginIP;
 }

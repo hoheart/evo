@@ -1,32 +1,68 @@
 <?php
 
 namespace user\fund\entity;
+
+use orm\DataClass;
+
 /**
- * table
+ * @hhp:orm primaryKey id
+ * @hhp:orm entity
+ *
+ * @author Hoheart
+ *        
  */
-class ChargeRecord {
+class ChargeRecord extends DataClass {
+	
+	/**
+	 * @hhp:orm autoIncrement true
+	 *
+	 * @var integer
+	 */
+	protected $id;
+	
+	/**
+	 *
+	 * @var integer
+	 */
+	protected $accountId;
+	
+	/**
+	 *
+	 * @var integer
+	 */
+	protected $amount;
+	
+	/**
+	 *
+	 * @var string
+	 */
+	protected $desc;
 
-    public  function __construct() {
-    }
+	public function getId () {
+		return $this->id;
+	}
 
-    /**
-     * @var integer
-     */
-    protected $accountId;
+	public function setAccountId ($accountId) {
+		$this->accountId = $accountId;
+	}
 
-    /**
-     * @var integer
-     */
-    protected $amount;
+	public function getAccountId () {
+		return $this->accountId;
+	}
 
-    /**
-     * @var string
-     */
-    protected $desc;
+	public function setAmount ($amount) {
+		$this->amount = $amount;
+	}
 
-    /**
-     * @var DateTime
-     */
-    protected $createTime;
+	public function getAmount () {
+		return $this->amount;
+	}
 
+	public function setDesc ($desc) {
+		$this->desc = $desc;
+	}
+
+	public function getDesc () {
+		return $this->desc;
+	}
 }
