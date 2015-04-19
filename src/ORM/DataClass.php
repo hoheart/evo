@@ -3,6 +3,7 @@
 namespace orm;
 
 use orm\exception\NoPropertyException;
+use hfc\exception\ParameterErrorException;
 
 /**
  * 数据类。对于私有的属性，调用__get和__set魔术方法获取和设置值，并构建对象属性的对象。
@@ -30,6 +31,17 @@ class DataClass {
 	 * @var integer
 	 */
 	protected $mDataObjectExistingStatus = self::DATA_OBJECT_EXISTING_STATUS_NEW;
+	
+	/**
+	 * 该对象的创建时间。
+	 *
+	 * @var \DateTime
+	 */
+	protected $createTime = null;
+
+	public function __construct ($t = null) {
+		$this->setCreateTime($t);
+	}
 
 	public function __get ($name) {
 		return $this->getAttribute($name);
@@ -107,7 +119,6 @@ class DataClass {
 
 	/**
 	 * 根据变量类型，对变量进行过滤
-	 * 因为考虑select会比update多，所以，把值的过滤放这个函数里。
 	 *
 	 * @param object $val        	
 	 * @param string $type        	
@@ -164,6 +175,28 @@ class DataClass {
 			}
 		}
 		return $v;
+	}
+
+	protected function setCreateTime ($t) {
+		if (null == $t) {
+			$this->createTime = new \DateTime();
+		} else {
+			if (is_string($t)) {
+				try {
+					$this->createTime = \DateTime::createFromFormat('Y-m-d H:i:s', $t);
+				} catch (\Exception $e) {
+					throw new ParameterErrorException('DateTime format error.');
+				}
+			} else if ($t instanceof \DateTime) {
+				$this->createTime = $t;
+			} else {
+				throw new ParameterErrorException('DateTime format error.');
+			}
+		}
+	}
+
+	public function getCreateTime () {
+		return $this->createTime;
 	}
 }
 ?>

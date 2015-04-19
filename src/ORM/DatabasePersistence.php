@@ -136,7 +136,11 @@ class DatabasePersistence extends AbstractPersistence {
 	}
 
 	protected function insertIntoDB ($tbName, $keyArr, $valArr) {
-		$sql = 'INSERT INTO ' . $tbName . '( ' . implode(',', $keyArr) . ' ) VALUES( ' . implode(',', $valArr) . ')';
+		$keySql = "`$keyArr[0]`";
+		for ($i = 1; $i < count($keyArr); ++ $i) {
+			$keySql .= ",`$keyArr[$i]`";
+		}
+		$sql = 'INSERT INTO `' . $tbName . '` ( ' . $keySql . ' ) VALUES( ' . implode(',', $valArr) . ')';
 		$statment = $this->mDatabaseClient->query($sql);
 		$id = $statment->lastInsertId();
 		
@@ -181,10 +185,10 @@ class DatabasePersistence extends AbstractPersistence {
 		}
 		
 		$tbName = $clsDesc->saveName;
-		$sql = "UPDATE $tbName SET {$keyArr[0]} = {$valArr[0]} ";
+		$sql = "UPDATE `$tbName` SET `{$keyArr[0]}` = {$valArr[0]} ";
 		for ($i = 1; $i < count($keyArr); ++ $i) {
 			$sql .= ',';
-			$sql .= $keyArr[$i] . '=' . $valArr[$i];
+			$sql .= "`$keyArr[$i]`=$valArr[$i]";
 		}
 		
 		$condArr = array();

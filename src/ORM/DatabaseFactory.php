@@ -107,7 +107,8 @@ class DatabaseFactory extends AbstractDataFactory {
 		// 本来想用PDO::FETCH_CLASS，但如果类的属性值与表的键相同，则不会执行__set函数。
 		$ret = $this->mDatabaseClient->select($sql, $start, $num);
 		foreach ($ret as $row) {
-			$obj = new $className();
+			$createTime = $row['createTime'];
+			$obj = new $className($createTime);
 			
 			foreach ($clsDesc->attribute as $attrName => $attr) {
 				if (empty($attr->saveName)) {
@@ -142,11 +143,11 @@ class DatabaseFactory extends AbstractDataFactory {
 				continue;
 			}
 			
-			$sql .= $name . ',';
+			$sql .= "`$name`,";
 		}
 		$sql[strlen($sql) - 1] = ' ';
 		
-		$sql .= 'FROM ' . $clsDesc->saveName . ' ';
+		$sql .= 'FROM `' . $clsDesc->saveName . '` ';
 		
 		return $sql;
 	}
