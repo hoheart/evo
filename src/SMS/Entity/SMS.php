@@ -5,6 +5,7 @@ namespace sms\entity;
 use orm\DataClass;
 
 /**
+ * 因为很可能状态报告没有，而用户要对发送记录按手机号码进行查询，所以，每条短信一个记录可以方便查询。
  * @hhp:orm entity
  *
  * @author Hoheart

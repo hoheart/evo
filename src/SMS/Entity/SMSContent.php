@@ -65,12 +65,6 @@ class SMSContent extends DataClass {
 	 * @var integer
 	 */
 	protected $status = self::STATUS_SENDING;
-	
-	/**
-	 *
-	 * @var DateTime
-	 */
-	protected $createTime;
 
 	public function getId () {
 		return $this->id;
@@ -114,13 +108,5 @@ class SMSContent extends DataClass {
 
 	public function getStatus () {
 		return $this->status;
-	}
-
-	public function setCreateTime (\DateTime $time) {
-		$this->createTime = $time;
-	}
-
-	public function getCreateTime () {
-		return $this->createTime;
 	}
 }

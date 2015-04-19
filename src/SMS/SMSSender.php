@@ -9,13 +9,14 @@ use sms\entity\SMSContent;
 use hhp\App;
 use sms\entity\ClientInfo;
 use sms\entity\SMS;
+use hhp\Singleton;
 
 /**
  *
  * @author Jejim
  *        
  */
-class SMSSender {
+class SMSSender extends Singleton {
 	
 	/**
 	 * 一次群发的最大消息条数
@@ -87,7 +88,6 @@ class SMSSender {
 		$smsContent->subPort = $subPort;
 		$smsContent->userMsgId = $userMsgId;
 		$smsContent->status = $status;
-		$smsContent->createTime = new \DateTime();
 		
 		$orm = App::Instance()->getService('orm');
 		foreach ($phonenumArr as $phonenum) {

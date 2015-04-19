@@ -5,7 +5,7 @@ namespace sms\entity;
 use orm\DataClass;
 
 /**
- * 客户相关的配置，比如该客户的价格，以后可扩展每个客户选择一个通道。
+ * 客户相关的信息，比如该客户的价格，采用的通道等。一个公司（用户）可能对应多个产品，每个产品申请的通道。
  *
  * @hhp:orm entity
  * @hhp:orm primaryKey clientId
@@ -13,6 +13,13 @@ use orm\DataClass;
  * @author Jejim
  */
 class ClientInfo extends DataClass {
+	
+	/**
+	 * @hhp:orm autoIncrement true
+	 *
+	 * @var integer
+	 */
+	protected $id;
 	
 	/**
 	 *
@@ -30,19 +37,18 @@ class ClientInfo extends DataClass {
 	 *
 	 * @var string
 	 */
-	protected $clientId;
-	
-	/**
-	 *
-	 * @var string
-	 */
-	protected $encodedPassword;
-	
-	/**
-	 *
-	 * @var string
-	 */
 	protected $gateway;
+	
+	/**
+	 * 签名
+	 *
+	 * @var string
+	 */
+	protected $sign;
+
+	public function getId () {
+		return $this->id;
+	}
 
 	public function setUserId ($id) {
 		$this->userId = (int) $id;
@@ -60,27 +66,19 @@ class ClientInfo extends DataClass {
 		return $this->price;
 	}
 
-	public function setClientId ($id) {
-		$this->clientId = $id;
-	}
-
-	public function getClientId () {
-		return $this->clientId;
-	}
-
-	public function setEncodedPassword ($password) {
-		$this->encodedPassword = $password;
-	}
-
-	public function getEncodedPassword () {
-		return $this->encodedPassword;
-	}
-
 	public function setGateway ($gateway) {
 		$this->gateway = $gateway;
 	}
 
 	public function getGateway () {
 		return $this->gateway;
+	}
+
+	public function setSign ($sign) {
+		$this->sign = $sign;
+	}
+
+	public function getSign () {
+		return $this->sign;
 	}
 }

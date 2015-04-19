@@ -8,15 +8,18 @@ use hfc\exception\ParameterErrorException;
 use hhp\view\View;
 use sms\ClientManager;
 use hhp\IRequest;
+use user\Login;
 
 class SMSSenderController extends Controller {
 
 	public function sendAction (IRequest $req) {
+		list ($userName, $clientId) = explode('|', $req->get('userName'));
+		
+		$login = new Login();
+		$login->login($userName, $req->get('password'));
+		
 		$clientManager = new ClientManager();
-		$client = $clientManager->getOnlieClient();
-		if (null == $client) {
-			$client = $clientManager->checkClient($req->get('username'), $req->get('password'));
-		}
+		$client = $clientManager->get($clientId);
 		
 		$phonenums = $req->get('phonenums');
 		$phonenumsLen = strlen($phonenums);
