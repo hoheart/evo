@@ -1,8 +1,8 @@
 <?php
 
-namespace hhp\view;
+namespace HHP\View;
 
-use hhp\App;
+use HHP\App;
 
 /**
  * 视图类。

@@ -1,9 +1,9 @@
 <?php
 
-namespace hhp;
+namespace HHP;
 
-use hhp\view\JsonRender;
-use hhp\exception\UserErrcode;
+use HHP\View\JsonRender;
+use HHP\Exception\UserErrcode;
 
 class ErrorHandler {
 

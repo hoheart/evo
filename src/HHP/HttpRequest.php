@@ -1,8 +1,8 @@
 <?php
 
-namespace hhp;
+namespace HHP;
 
-use hhp\IRequest;
+use HHP\IRequest;
 
 class HttpRequest implements IRequest {
 	
@@ -42,6 +42,10 @@ class HttpRequest implements IRequest {
 	public function getResource () {
 		$uri = urldecode($_SERVER['REQUEST_URI']);
 		return $uri;
+	}
+
+	public function getScriptName () {
+		return $_SERVER['PHP_SELF'];
 	}
 
 	public function isHttp () {

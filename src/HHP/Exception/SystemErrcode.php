@@ -1,8 +1,8 @@
 <?php
 
-namespace hhp\exception;
+namespace HHP\Exception;
 
-class SystemErrcode extends \hfc\exception\SystemErrcode {
+class SystemErrcode {
 	const ModuleNotEnable = 5101;
 	const ConfigError = 5102;
 	const APINotAvailable = 5103;

@@ -1,8 +1,8 @@
 <?php
 
-namespace hhp;
+namespace HHP;
 
-use hhp\view\View;
+use HHP\View\View;
 
 abstract class Controller {
 	

@@ -1,12 +1,12 @@
 <?php
 
-namespace user;
+namespace User;
 
-use hhp\Session;
-use user\exception\LoginFailedException;
-use util\captcha\GraphicCaptcha;
-use user\entity\User;
-use hhp\Singleton;
+use HHP\Session;
+use User\Exception\LoginFailedException;
+use Util\Captcha\GraphicCaptcha;
+use User\Entity\User;
+use HHP\Singleton;
 
 /**
  *

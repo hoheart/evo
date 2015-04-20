@@ -1,6 +1,6 @@
 <?php
 
-namespace hfc\exception;
+namespace HFC\Exception;
 
 class ParameterErrorException extends \Exception {
 

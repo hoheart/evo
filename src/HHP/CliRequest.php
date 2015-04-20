@@ -30,6 +30,12 @@ class CliRequest implements IRequest {
 		return true;
 	}
 
+	public function getScriptName () {
+		global $argv;
+		
+		return $argv[1];
+	}
+
 	public function getResource () {
 		global $argv;
 		

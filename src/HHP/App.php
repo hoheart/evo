@@ -1,11 +1,10 @@
 <?php
 
-namespace hhp {
+namespace HHP {
 
-	use hhp\app\ClassLoader;
-	use hfc\util\Util;
-	use hhp\ErrorHandler;
-	use hhp\exception\RequestErrorException;
+	use HHP\App\ClassLoader;
+	use HFC\Util\Util;
+	use HHP\Exception\RequestErrorException;
 
 	/**
 	 * 框架核心类，完成路由执行控制器和Action，并集成了常用方法。
@@ -49,21 +48,21 @@ namespace hhp {
 		 * 本来ServiceManager也是一个IServer实例，但还没ServiceManager实例时，只能是放这儿了，
 		 * 其他的可以通过ServiceManager来保存。
 		 *
-		 * @var \hhp\ServiceManager
+		 * @var \HHP\ServiceManager
 		 */
 		protected $mServiceManager = null;
 		
 		/**
 		 * 存放ClassLoader。
 		 *
-		 * @var \hhp\App\ClassLoader
+		 * @var \HHP\App\ClassLoader
 		 */
 		protected $mClassLoader = null;
 		
 		/**
 		 * 启动的Controller，即url中指定要访问的Controller。
 		 *
-		 * @var \hhp\Controller
+		 * @var \HHP\Controller
 		 */
 		protected $mBootController = null;
 		
@@ -100,7 +99,7 @@ namespace hhp {
 		/**
 		 * 取得唯一实例。
 		 *
-		 * @return \hhp\App
+		 * @return \HHP\App
 		 */
 		static public function Instance () {
 			static $me = null;
@@ -118,7 +117,7 @@ namespace hhp {
 		/**
 		 * 返回启动的Controller。
 		 *
-		 * @return \hhp\Controller
+		 * @return \HHP\Controller
 		 */
 		public function getCurrentController () {
 			return $this->mBootController;
@@ -136,7 +135,7 @@ namespace hhp {
 		 */
 		public function run () {
 			// 1.取得系统配置文件
-			$this->mAppConf = $this->mClassLoader->loadFile('config' . DIRECTORY_SEPARATOR . 'Config.php');
+			$this->mAppConf = $this->mClassLoader->loadFile('Config' . DIRECTORY_SEPARATOR . 'Config.php');
 			$request = $this->generateRequest();
 			
 			// 2.根据请求，取得请求模块的配置文件。
@@ -196,44 +195,12 @@ namespace hhp {
 		 * @return multitype:
 		 */
 		protected function getRedirection (IRequest $request) {
-			if (! empty($this->mRedirection)) {
-				return $this->mRedirection;
+			$routerCls = $this->mAppConf['router'];
+			if (empty($routerCls)) {
+				$routerCls = '\HHP\PathParseRouter';
 			}
-			
-			$uri = $request->getResource();
-			$uriLen = strlen($uri);
-			
-			$actionName = '';
-			$pos = strrpos($uri, '?');
-			if ($pos > 0) {
-				$pos -= 1;
-			} else {
-				$pos = $uriLen - 1;
-			}
-			$pos1 = strrpos($uri, '/', $pos - $uriLen);
-			$actionName = substr($uri, $pos1 + 1, $pos - $pos1);
-			
-			$ctrlName = '';
-			while ($pos1 > 0) {
-				$pos = $pos1 - 1;
-				$pos1 = strrpos($uri, '/', $pos - $uriLen);
-				$ctrlName = substr($uri, $pos1 + 1, $pos - $pos1);
-				if (empty($ctrlName)) {
-					continue;
-				}
-				
-				break;
-			}
-			
-			$moduleAlias = substr($uri, 1, $pos1 - $uriLen);
-			
-			$this->mRedirection = array(
-				$moduleAlias,
-				$ctrlName,
-				$actionName
-			);
-			
-			return $this->mRedirection;
+			$router = $routerCls::Instance();
+			return $router->getRoute($request);
 		}
 
 		protected function combinActionConf ($ctrlClassName, $oldConf, $action) {
@@ -250,7 +217,7 @@ namespace hhp {
 		 * 先检查mServiceManager是否已经设置，如果没有，new一个。再调用其getServer方法。
 		 *
 		 * @param string $name        	
-		 * @return \hhp\IService
+		 * @return \HHP\IService
 		 */
 		public function getService ($name) {
 			if (null == $this->mServiceManager) {
@@ -287,7 +254,7 @@ namespace hhp {
 					return array();
 				}
 				
-				$configFilePath = $appConfigModule['dir'] . 'config' . DIRECTORY_SEPARATOR . 'Config.php';
+				$configFilePath = $appConfigModule['dir'] . 'Config' . DIRECTORY_SEPARATOR . 'Config.php';
 				$conf = $this->mClassLoader->loadFile($configFilePath);
 				$this->mModuleConfMap[$moduleAlias] = $conf;
 			}
@@ -317,13 +284,13 @@ namespace hhp {
 	App::$ROOT_DIR = dirname(__DIR__) . DIRECTORY_SEPARATOR;
 }
 
-namespace hhp\App {
+namespace HHP\App {
 
-	use hhp\exception\ModuleNotAvailableException;
-	use hhp\App;
-	use hhp\exception\APINotAvailableException;
-	use hhp\exception\ConfigErrorException;
-	use hhp\exception\RequestErrorException;
+	use HHP\Exception\ModuleNotAvailableException;
+	use HHP\App;
+	use HHP\Exception\APINotAvailableException;
+	use HHP\Exception\ConfigErrorException;
+	use HHP\Exception\RequestErrorException;
 
 	/**
 	 * 根据名字空间，include类的定义。此类的目的就是封装include函数。
@@ -345,8 +312,8 @@ namespace hhp\App {
 
 		public function __construct () {
 			$this->mModuleDirIndex = array(
-				'hhp' . DIRECTORY_SEPARATOR => 'hhp',
-				'hhp' . DIRECTORY_SEPARATOR . 'hfc' . DIRECTORY_SEPARATOR
+				'HHP' . DIRECTORY_SEPARATOR => 'HHP',
+				'HHP' . DIRECTORY_SEPARATOR . 'HFC' . DIRECTORY_SEPARATOR
 			);
 		}
 
@@ -373,10 +340,10 @@ namespace hhp\App {
 			
 			$moduleName = $moduleAlias;
 			$moduleDir = null;
-			// 任何模块都可以调用hhp和hfc
-			if ('hhp' == $moduleAlias) {
+			// 任何模块都可以调用HHP和HFC
+			if ('HHP' == $moduleAlias) {
 				$moduleDir = self::$HHP_DIR;
-			} else if ('hfc' == $moduleAlias) {
+			} else if ('HFC' == $moduleAlias) {
 				$moduleDir = self::$HFC_DIR;
 			} else {
 				list ($callerAlias, $callerName) = $this->getCallerModule();
@@ -392,9 +359,9 @@ namespace hhp\App {
 				}
 				
 				// 优先处理自己模块的调用关系。
-				// hhp和hfc可以调用任何模块
-				if ($callerName == $moduleAlias || 'hhp' == $callerAlias || 'hfc' == $callerAlias ||
-						 'orm' == $callerAlias) {
+				// HHP和HFC可以调用任何模块
+				if ($callerName == $moduleAlias || 'HHP' == $callerAlias || 'HFC' == $callerAlias ||
+						 'ORM' == $callerAlias) {
 					// 是自己调用自己，就取调用者的模块路径。
 					$moduleDir = $appConfModule['dir'];
 				} else {
@@ -453,7 +420,7 @@ namespace hhp\App {
 				
 				$moduleDir = substr($moduleDir, 0, $posEnd + 1);
 				$callerModuleAlias = $this->mModuleDirIndex[$moduleDir];
-				if ('hhp' == $callerModuleAlias || 'hfc' == $callerModuleAlias) {
+				if ('HHP' == $callerModuleAlias || 'HFC' == $callerModuleAlias) {
 					$callerModuleName = $callerModuleAlias;
 				} else if (! empty($callerModuleAlias)) {
 					$callerModuleName = App::Instance()->getConfigValue('module')[$callerModuleAlias]['name'];
@@ -586,7 +553,7 @@ namespace hhp\App {
 		}
 	}
 	
-	ClassLoader::$HHP_DIR = 'hhp' . DIRECTORY_SEPARATOR;
-	ClassLoader::$HFC_DIR = ClassLoader::$HHP_DIR . 'hfc' . DIRECTORY_SEPARATOR;
+	ClassLoader::$HHP_DIR = 'HHP' . DIRECTORY_SEPARATOR;
+	ClassLoader::$HFC_DIR = ClassLoader::$HHP_DIR . 'HFC' . DIRECTORY_SEPARATOR;
 }
 ?>
