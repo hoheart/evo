@@ -13,7 +13,7 @@ return array(
 	/**
 	 * 默认的模块。
 	 */
-	'default_module' => 'sms',
+	'default_module' => 'SMS',
 	
 	/**
 	 * 是否是调试模式，该模式下，会向页面输出错误信息。
@@ -38,36 +38,36 @@ return array(
 		/**
 		 * key表示模块在整个应用程序中唯一的名字。
 		 */
-		'orm' => array(
+		'ORM' => array(
 			
 			/**
 			 * 模块的名字。
 			 */
-			'name' => 'orm',
+			'name' => 'ORM',
 			
 			/**
 			 * 模块根目录的路径。
 			 */
-			'dir' => 'orm' . DIRECTORY_SEPARATOR,
+			'dir' => 'ORM' . DIRECTORY_SEPARATOR,
 			
 			/**
 			 * 是否开启该模块。
 			 */
 			'enable' => true
 		),
-		'user' => array(
-			'name' => 'user',
-			'dir' => 'user' . DIRECTORY_SEPARATOR,
+		'User' => array(
+			'name' => 'User',
+			'dir' => 'User' . DIRECTORY_SEPARATOR,
 			'enable' => true
 		),
-		'admin' => array(
-			'name' => 'admin',
-			'dir' => 'admin' . DIRECTORY_SEPARATOR,
+		'Admin' => array(
+			'name' => 'Admin',
+			'dir' => 'Admin' . DIRECTORY_SEPARATOR,
 			'enable' => true
 		),
-		'sms' => array(
-			'name' => 'sms',
-			'dir' => 'sms' . DIRECTORY_SEPARATOR,
+		'SMS' => array(
+			'name' => 'SMS',
+			'dir' => 'SMS' . DIRECTORY_SEPARATOR,
 			'enable' => true
 		)
 	),
