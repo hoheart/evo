@@ -1,6 +1,6 @@
 <?php
 
-namespace util\captcha;
+namespace Util\Captcha;
 
 class GraphicCaptcha extends BaseCaptcha {
 	
@@ -13,7 +13,7 @@ class GraphicCaptcha extends BaseCaptcha {
 	
 	/**
 	 * 验证码长度
-	 * 
+	 *
 	 * @var integer
 	 */
 	protected $mLength = 4;
@@ -28,7 +28,7 @@ class GraphicCaptcha extends BaseCaptcha {
 		
 		$srcCaptcha = parent::getCaptcha($op, $addition, $debug);
 		
-		require_once __DIR__ . '/captcha.ru/kcaptcha.php';
+		require_once __DIR__ . '/Captcha.ru/kcaptcha.php';
 		
 		$ru = new \KCAPTCHA($srcCaptcha, $this->mLength);
 		

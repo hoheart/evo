@@ -125,7 +125,7 @@ class UserManager extends Singleton implements ISmsContentCreator {
 	 * @return string
 	 */
 	protected function encryptPassword ($salt, $srcPwd) {
-		return md5(md5($salt . $srcPwd) . $salt);
+		return sha1(sha1($salt . $srcPwd) . $salt);
 	}
 
 	/**

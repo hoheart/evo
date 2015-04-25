@@ -1,30 +1,28 @@
 <?php
 return array(
 	
-	'controller_dir' => 'controller' . DIRECTORY_SEPARATOR,
-	
-	'default_controller' => array(
-		'controller_name' => '',
-		'action_name' => ''
-	),
+	'controller_dir' => 'Controller' . DIRECTORY_SEPARATOR,
 	
 	/**
 	 * 本模块提供的API，以类的形式给出。数组中的key代表类名，值是另外一个数组，其中enbale表示是否允许这个接口开放，这样方便以后对接口进行更加详细的控制。
 	 */
 	'API' => array(
-		'user\User' => array(
+		'User\User' => array(
 			'enable' => true
 		),
-		'user\Login' => array(
+		'User\Login' => array(
 			'enable' => true
 		),
-		'user\UserManager' => array(
+		'User\UserManager' => array(
 			'enable' => true
 		),
-		'user\fund\AccountManager' => array(
+		'User\Account\AccountManager' => array(
 			'enable' => true
 		),
-		'user\exception\LoginFailedException' => array(
+		'User\Exception\LoginFailedException' => array(
+			'enable' => true
+		),
+		'User\Controller\LoginController' => array(
 			'enable' => true
 		)
 	),
@@ -33,10 +31,10 @@ return array(
 	 * 本模块提供的Controller
 	 */
 	'controller' => array(
-		'user\controller\UserController' => array(
+		'User\Controller\UserController' => array(
 			'enable' => true
 		),
-		'user\controller\FundController' => array(
+		'User\Controller\FundController' => array(
 			'enable' => true
 		)
 	),
@@ -46,7 +44,8 @@ return array(
 	 */
 	'depends' => array(
 		'orm' => array(),
-		'sms' => array()
+		'sms' => array(),
+		'util' => array()
 	)
 );
 ?>

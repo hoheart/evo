@@ -79,7 +79,7 @@ class Login extends Singleton {
 
 	public function setLoginSession (User $u) {
 		$cls = get_called_class();
-		Session::set($cls::SESSION_PREFIX, 
+		Session::Instance()->set($cls::SESSION_PREFIX, 
 				array(
 					'userId' => $u->id,
 					'loginTime' => time(),
@@ -89,14 +89,14 @@ class Login extends Singleton {
 
 	protected function getLoginSession () {
 		$self = get_called_class();
-		return Session::get($self::SESSION_PREFIX);
+		return Session::Instance()->get($self::SESSION_PREFIX);
 	}
 
 	/**
 	 */
 	public function logout () {
 		$self = get_called_class();
-		Session::forget($self::SESSION_PREFIX);
+		Session::Instance()->forget($self::SESSION_PREFIX);
 	}
 
 	static public function IsLogin () {
@@ -110,7 +110,7 @@ class Login extends Singleton {
 	 */
 	static public function GetLoginedUserId () {
 		$self = get_called_class();
-		$session = Session::get($self::SESSION_PREFIX);
+		$session = Session::Instance()->get($self::SESSION_PREFIX);
 		if (! empty($session)) {
 			return $session['userId'];
 		} else {
@@ -128,7 +128,7 @@ class Login extends Singleton {
 		if (null == $u) {
 			$um = new UserManager();
 			$self = get_called_class();
-			$u = $um->get(Session::get($self::SESSION_PREFIX));
+			$u = $um->get(Session::Instance()->get($self::SESSION_PREFIX));
 		}
 		
 		return $u;

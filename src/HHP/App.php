@@ -139,7 +139,7 @@ namespace HHP {
 			$request = $this->generateRequest();
 			
 			// 2.根据请求，取得请求模块的配置文件。
-			list ($moduleAlias, $ctrlName, $actionName) = $this->getRedirection($request);
+			list ($moduleAlias, $ctrlClassName, $actionName) = $this->getRedirection($request, $this->mClassLoader);
 			if (empty($moduleAlias)) {
 				$moduleAlias = $this->mAppConf['default_module'];
 			}
@@ -147,20 +147,6 @@ namespace HHP {
 			$this->mBootModuleConf = Util::mergeArray($this->mAppConf, $moduleConf);
 			
 			// 3.根据配置，加载controller类，合并新的配置
-			if (empty($ctrlName)) {
-				$ctrlName = $this->mBootModuleConf['default_controller']['controller_name'];
-				$actionName = $this->mBootModuleConf['default_controller']['action_name'];
-			}
-			if (empty($actionName)) {
-				$actionName = $this->mBootModuleConf['default_controller']['action_name'];
-			}
-			$actionMethodName = $actionName . 'Action';
-			
-			$ctrlClassName = $this->mClassLoader->loadController($moduleAlias, $ctrlName);
-			if (! method_exists($ctrlClassName, $actionMethodName)) {
-				throw new RequestErrorException('Request resource is not available.');
-			}
-			
 			$this->mBootModuleConf = $this->combinActionConf($ctrlClassName, $this->mBootModuleConf, $actionName);
 			
 			// 4.这时，就可以根据配置，创建controller和action了
@@ -172,6 +158,7 @@ namespace HHP {
 			}
 			
 			$this->mBootController = new $ctrlClassName($this->generateRequest());
+			$actionMethodName = $actionName . 'Action';
 			$dataObj = $this->mBootController->$actionMethodName($request);
 			
 			foreach ($confExecutorArr['later_executor'] as $class) {
@@ -200,7 +187,7 @@ namespace HHP {
 				$routerCls = '\HHP\PathParseRouter';
 			}
 			$router = $routerCls::Instance();
-			return $router->getRoute($request);
+			return $router->getRoute($request, $this->mClassLoader);
 		}
 
 		protected function combinActionConf ($ctrlClassName, $oldConf, $action) {
@@ -335,7 +322,7 @@ namespace HHP\App {
 		 * @param string $className        	
 		 */
 		public function autoload ($className) {
-			// 确定要载入的类所在的模块别名。（要引用别的模块，用模块别名打头）
+			// 确定要载入的类所在的模块别名。
 			list ($moduleAlias, $relativeClassName) = $this->getClassModule($className);
 			
 			$moduleName = $moduleAlias;
@@ -347,6 +334,9 @@ namespace HHP\App {
 				$moduleDir = self::$HFC_DIR;
 			} else {
 				list ($callerAlias, $callerName) = $this->getCallerModule();
+				// 一般模块的alias都为小写
+				$moduleAlias = strtolower($moduleAlias);
+				$callerName = strtolower($callerName);
 				
 				$app = App::Instance();
 				$appConfModuleArr = $app->getConfigValue('module');
@@ -479,9 +469,11 @@ namespace HHP\App {
 		 * @param string $moduleAlias        	
 		 * @param string $controllerName
 		 *        	请求的controller名称，不带Controller字样，不带名字空间。
+		 * @param string $subDir
+		 *        	controller目录下的子目录
 		 * @throws RequestErrorException
 		 */
-		public function loadController ($moduleAlias, $controllerName) {
+		public function loadController ($moduleAlias, $controllerName = '', $subDir = '') {
 			$app = App::Instance();
 			$appConfModule = $app->getConfigValue('module')[$moduleAlias];
 			if (! $appConfModule['enable']) {
@@ -490,7 +482,9 @@ namespace HHP\App {
 			$moduleConf = $app->getModuleConf($moduleAlias);
 			
 			$moduleDir = $appConfModule['dir'];
-			$ctrlDir = $moduleConf['controller_dir'];
+			$ctrlDir = array_key_exists('controller_dir', $moduleConf) ? $moduleConf['controller_dir'] : 'Controller' .
+					 DIRECTORY_SEPARATOR;
+			$ctrlDir = $ctrlDir . $subDir;
 			
 			$relativeClassName = ucfirst($controllerName) . 'Controller';
 			$ctrlClassName = $appConfModule['name'] . '\\';
@@ -545,10 +539,20 @@ namespace HHP\App {
 		 * @return array 数组中的第一个值是模块的别名（如果是模块内部调用，就是模块名），第二个值是去掉模块别名剩下的字符串。
 		 */
 		protected function getClassModule ($className) {
+			$moduleAlias = '';
+			$relativeClassName = '';
 			$pos = strpos($className, '\\');
+			if (false === $pos) {
+				$moduleAlias = '\\';
+				$relativeClassName = $className;
+			} else {
+				$moduleAlias = substr($className, 0, $pos);
+				$relativeClassName = substr($className, $pos + 1);
+			}
+			
 			return array(
-				substr($className, 0, $pos),
-				substr($className, $pos + 1)
+				$moduleAlias,
+				$relativeClassName
 			);
 		}
 	}

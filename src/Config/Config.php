@@ -26,7 +26,7 @@ return array(
 	'executor' => array(
 		'pre_executor' => array(),
 		'later_executor' => array(
-			'hhp\view\JsonRender'
+			'HHP\View\JsonRender'
 		)
 	),
 	
@@ -36,9 +36,9 @@ return array(
 	'module' => array(
 		
 		/**
-		 * key表示模块在整个应用程序中唯一的名字。
+		 * key表示模块在整个应用程序中唯一的名字。为方便书写，并和url（url一般为小写）中controller对应的模块一致，规定都为小写。
 		 */
-		'ORM' => array(
+		'orm' => array(
 			
 			/**
 			 * 模块的名字。
@@ -55,17 +55,22 @@ return array(
 			 */
 			'enable' => true
 		),
-		'User' => array(
+		'util' => array(
+			'name' => 'Util',
+			'dir' => 'Util' . DIRECTORY_SEPARATOR,
+			'enable' => true
+		),
+		'user' => array(
 			'name' => 'User',
 			'dir' => 'User' . DIRECTORY_SEPARATOR,
 			'enable' => true
 		),
-		'Admin' => array(
+		'admin' => array(
 			'name' => 'Admin',
 			'dir' => 'Admin' . DIRECTORY_SEPARATOR,
 			'enable' => true
 		),
-		'SMS' => array(
+		'sms' => array(
 			'name' => 'SMS',
 			'dir' => 'SMS' . DIRECTORY_SEPARATOR,
 			'enable' => true
@@ -132,11 +137,12 @@ return array(
 			)
 		)
 	),
+	'staticUrl' => 'http://static.levo.com/',
 	/**
 	 * 整个系统存放数据的目录，包括日志的存放。所以，不需要对日志进行单独的目录配置。
 	 * 通过调用系统提供的日志
 	 */
 	'data_dir' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data',
-	'default_layout' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'view' .
+	'default_layout' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Common' . DIRECTORY_SEPARATOR . 'View' .
 			 DIRECTORY_SEPARATOR . 'layout.php'
 );

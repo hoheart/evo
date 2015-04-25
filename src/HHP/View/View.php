@@ -41,9 +41,10 @@ class View {
 		
 		list ($moduleName, $ctrlName, $actionName) = explode('/', $name);
 		$confModuleArr = App::Instance()->getConfigValue('module');
+		$moduleName = strtolower($moduleName);
 		$moduleDir = $confModuleArr[$moduleName]['dir'];
 		
-		$path = $moduleDir . 'view' . DIRECTORY_SEPARATOR . $ctrlName . DIRECTORY_SEPARATOR . $actionName . '.php';
+		$path = $moduleDir . 'View' . DIRECTORY_SEPARATOR . $ctrlName . DIRECTORY_SEPARATOR . $actionName . '.php';
 		$this->mTemplatePath = $path;
 	}
 

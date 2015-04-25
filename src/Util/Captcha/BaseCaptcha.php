@@ -1,9 +1,9 @@
 <?php
 
-namespace util\captcha;
+namespace Util\Captcha;
 
-use hhp\Session;
-use util\exception\CaptchaException;
+use HHP\Session;
+use Util\Exception\CaptchaException;
 
 class BaseCaptcha {
 	
@@ -74,15 +74,15 @@ class BaseCaptcha {
 				'addition' => $addition,
 				'createTime' => time()
 			);
-			Session::set(self::SESSION_PREFIX . $op, $row);
+			Session::Instance()->set(self::SESSION_PREFIX . $op, $row);
 		}
 		
 		return $row['captcha'];
 	}
 
 	protected function getExistsCaptcha ($op, $addition) {
-		if (Session::has(self::SESSION_PREFIX . $op)) {
-			$row = Session::get(self::SESSION_PREFIX . $op);
+		if (Session::Instance()->has(self::SESSION_PREFIX . $op)) {
+			$row = Session::Instance()->get(self::SESSION_PREFIX . $op);
 			if ($row['createTime'] + self::EXPIRE_TIME >= time() && $row['op'] == $op && $row['addition'] == $addition) {
 				return $row;
 			} else {
@@ -92,7 +92,7 @@ class BaseCaptcha {
 	}
 
 	protected function deleteExistsCaptcha ($op) {
-		Session::forget(self::SESSION_PREFIX . $op);
+		Session::Instance()->forget(self::SESSION_PREFIX . $op);
 	}
 
 	/**

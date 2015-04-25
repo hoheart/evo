@@ -9,13 +9,28 @@ use HFC\Exception\ParameterErrorException;
 use User\Login;
 
 class LoginController extends Controller {
+	
+	/**
+	 * 试图文件的位置
+	 *
+	 * @var string
+	 */
+	protected $mViewDir = 'User/Login/';
 
 	/**
 	 */
 	public function loginAction_get () {
-		$v = new View('user/user/login_get');
+		$v = new View($this->mViewDir . 'login');
 		
 		return $v;
+	}
+
+	public function indexAction () {
+		return $this->loginAction_get();
+	}
+
+	protected function getLoginObject () {
+		return new Login();
 	}
 
 	/**
@@ -34,12 +49,12 @@ class LoginController extends Controller {
 			throw new ParameterErrorException('captcha');
 		}
 		
-		$login = Login::Instance();
+		$login = $this->getLoginObject();
 		$login->login($userName, $password, $captcha);
 	}
 
-	public function getLoginCaptcha () {
-		$l = new Login();
+	public function getLoginCaptchaAction () {
+		$l = $this->getLoginObject();
 		$l->getLoginCaptcha();
 	}
 }

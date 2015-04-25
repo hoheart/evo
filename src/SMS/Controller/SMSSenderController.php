@@ -2,13 +2,13 @@
 
 namespace sms\controller;
 
-use hhp\Controller;
-use sms\SMSSender;
-use hfc\exception\ParameterErrorException;
-use hhp\view\View;
-use sms\ClientManager;
-use hhp\IRequest;
-use user\Login;
+use HHP\Controller;
+use SMS\SMSSender;
+use HFC\Exception\ParameterErrorException;
+use HHP\View\View;
+use SMS\ClientManager;
+use HHP\IRequest;
+use User\Login;
 
 class SMSSenderController extends Controller {
 
@@ -16,7 +16,7 @@ class SMSSenderController extends Controller {
 		list ($userName, $clientId) = explode('|', $req->get('userName'));
 		
 		$login = new Login();
-		$login->login($userName, $req->get('password'));
+		$login->loginWithoutCaptcha($userName, $req->get('password'));
 		
 		$clientManager = new ClientManager();
 		$client = $clientManager->get($clientId);

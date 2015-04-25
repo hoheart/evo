@@ -1,8 +1,8 @@
 <?php
 
-namespace hhp\view;
+namespace HHP\View;
 
-use hhp\IExecutor;
+use HHP\IExecutor;
 
 class JsonRender implements IExecutor {
 
