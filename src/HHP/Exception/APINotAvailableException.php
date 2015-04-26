@@ -1,8 +1,8 @@
 <?php
 
-namespace hhp\exception;
+namespace HHP\Exception;
 
-use hhp\exception\SystemErrcode;
+use HHP\Exception\SystemErrcode;
 
 class APINotAvailableException extends \Exception {
 

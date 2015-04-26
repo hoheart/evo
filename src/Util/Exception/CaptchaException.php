@@ -1,6 +1,6 @@
 <?php
 
-namespace util\exception;
+namespace Util\Exception;
 
 class CaptchaException extends \Exception {
 

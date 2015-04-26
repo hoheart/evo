@@ -9,8 +9,8 @@ interface IRequest {
 	public function isCli ();
 
 	public function getResource ();
-	
-	public function getScriptName();
+
+	public function getScriptName ();
 
 	/**
 	 * 根据键值取得请求内容的值

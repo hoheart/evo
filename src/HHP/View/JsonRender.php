@@ -2,9 +2,7 @@
 
 namespace HHP\View;
 
-use HHP\IExecutor;
-
-class JsonRender implements IExecutor {
+class JsonRender {
 
 	static public function Instance () {
 		static $me = null;
@@ -13,12 +11,6 @@ class JsonRender implements IExecutor {
 		}
 		
 		return $me;
-	}
-
-	public function run ($do = null) {
-		if (null != $do && $do instanceof View) {
-			$this->render($do);
-		}
 	}
 
 	/**

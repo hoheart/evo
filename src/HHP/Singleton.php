@@ -1,6 +1,6 @@
 <?php
 
-namespace hhp;
+namespace HHP;
 
 class Singleton {
 

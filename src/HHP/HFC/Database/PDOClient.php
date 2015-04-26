@@ -1,8 +1,8 @@
 <?php
 
-namespace hfc\database;
+namespace HFC\Database;
 
-use hfc\exception\NotImplementedException;
+use HFC\Exception\NotImplementedException;
 
 abstract class PDOClient extends DatabaseClient {
 	

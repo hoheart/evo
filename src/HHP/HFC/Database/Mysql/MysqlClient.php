@@ -2,8 +2,8 @@
 
 namespace hfc\database\Mysql;
 
-use hfc\database\PDOClient;
-use hfc\exception\NotImplementedException;
+use HFC\Database\PDOClient;
+use HFC\Exception\NotImplementedException;
 
 class MysqlClient extends PDOClient {
 

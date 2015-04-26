@@ -1,8 +1,8 @@
 <?php
 
-namespace orm;
+namespace ORM;
 
-use orm\exception\ParseClassDescErrorException;
+use ORM\Exception\ParseClassDescErrorException;
 
 /**
  * 产生各种数据类的描述（即产生数据类的ClassDesc类）的工厂类。

@@ -65,6 +65,13 @@ class PathParseRouter implements IRouter {
 			list ($moduleAlias, $ctrlName, $actionName) = $this->getRouteByMany($arr, $clsLoader);
 		}
 		
+		if ('POST' == $_SERVER['REQUEST_METHOD']) {
+			$postActionName = $actionName . '_post';
+			if (method_exists($ctrlName, $postActionName)) {
+				$actionName = $postActionName;
+			}
+		}
+		
 		return array(
 			$moduleAlias,
 			$ctrlName,

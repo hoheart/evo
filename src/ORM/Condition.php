@@ -1,8 +1,8 @@
 <?php
 
-namespace orm {
+namespace ORM {
 
-	use orm\Condition\Item;
+	use ORM\Condition\Item;
 
 	/**
 	 * 条件类，存放key=>value形式的条件元素，key和value之间的比较关系有=、!=、<>、>、<、LIKE，
@@ -60,16 +60,25 @@ namespace orm {
 		 *
 		 * @var array
 		 */
-		protected static $SupportOperation = array(self::OPERATION_INEQUAL,		// 注意，一定要把两种不等号放前面，因为后面有=、<或者>是不等号的子集，会分析出错。
-		self::OPERATION_INEQUAL1,self::OPERATION_EQUAL,self::OPERATION_GREATER,self::OPERATION_LESS,self::OPERATION_LIKE,
-			self::OPERATION_IN);
+		protected static $SupportOperation = array(
+			self::OPERATION_INEQUAL, // 注意，一定要把两种不等号放前面，因为后面有=、<或者>是不等号的子集，会分析出错。
+			self::OPERATION_INEQUAL1,
+			self::OPERATION_EQUAL,
+			self::OPERATION_GREATER,
+			self::OPERATION_LESS,
+			self::OPERATION_LIKE,
+			self::OPERATION_IN
+		);
 		
 		/**
 		 * 支持的子条件之间的关系。
 		 *
 		 * @var array
 		 */
-		protected static $SupportRelationship = array(self::RELATIONSHIP_AND,self::RELATIONSHIP_OR);
+		protected static $SupportRelationship = array(
+			self::RELATIONSHIP_AND,
+			self::RELATIONSHIP_OR
+		);
 
 		public function __construct ($str = null) {
 			if (! empty($str)) {
@@ -182,7 +191,7 @@ namespace orm {
 	}
 }
 
-namespace orm\Condition {
+namespace ORM\Condition {
 
 	class Item {
 		

@@ -26,7 +26,7 @@ class Login extends Singleton {
 	 *
 	 * @var string
 	 */
-	const CAPTCHA_OP_LOGIN = 'login';
+	const CAPTCHA_OP_LOGIN = 'Login';
 
 	public function __construct () {
 	}

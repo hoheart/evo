@@ -26,7 +26,7 @@ return array(
 	'executor' => array(
 		'pre_executor' => array(),
 		'later_executor' => array(
-			'HHP\View\JsonRender'
+			'HHP\View\ViewRender'
 		)
 	),
 	
@@ -82,7 +82,7 @@ return array(
 	 */
 	'service' => array(
 		'db' => array(
-			'class' => 'hfc\database\DatabaseClientFactory',
+			'class' => 'HFC\Database\DatabaseClientFactory',
 			'method' => 'create',
 			'config' => array(
 				'dbms' => 'mysql',
@@ -98,11 +98,11 @@ return array(
 			'class' => 'orm\ORMService',
 			'config' => array(
 				'factory' => array(
-					'class' => 'orm\DatabaseFactoryCreator',
+					'class' => 'ORM\DatabaseFactoryCreator',
 					'method' => 'create'
 				),
 				'persistence' => array(
-					'class' => 'orm\DatabasePersistenceCreator',
+					'class' => 'ORM\DatabasePersistenceCreator',
 					'method' => 'create'
 				)
 			)
@@ -144,5 +144,5 @@ return array(
 	 */
 	'data_dir' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data',
 	'default_layout' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Common' . DIRECTORY_SEPARATOR . 'View' .
-			 DIRECTORY_SEPARATOR . 'layout.php'
+			 DIRECTORY_SEPARATOR . 'BaseLayout.php'
 );

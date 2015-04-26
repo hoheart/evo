@@ -19,14 +19,14 @@ class LoginController extends Controller {
 
 	/**
 	 */
-	public function loginAction_get () {
+	public function login () {
 		$v = new View($this->mViewDir . 'login');
 		
 		return $v;
 	}
 
-	public function indexAction () {
-		return $this->loginAction_get();
+	public function index () {
+		return $this->login();
 	}
 
 	protected function getLoginObject () {
@@ -35,7 +35,7 @@ class LoginController extends Controller {
 
 	/**
 	 */
-	public function loginAction_post (IRequest $req) {
+	public function login_post (IRequest $req) {
 		$userName = $req->get('userName');
 		if (empty($userName)) {
 			throw new ParameterErrorException('userName');
@@ -53,7 +53,7 @@ class LoginController extends Controller {
 		$login->login($userName, $password, $captcha);
 	}
 
-	public function getLoginCaptchaAction () {
+	public function getLoginCaptcha () {
 		$l = $this->getLoginObject();
 		$l->getLoginCaptcha();
 	}

@@ -1,25 +1,21 @@
 <?php
 
-namespace user;
+namespace User;
 
-use user\entity\User;
-use util\captcha\SMSCaptcha;
-use util\captcha\ISmsContentCreator;
-use Illuminate\Database\QueryException;
-use user\exception\PhonenumExistingException;
-use user\exception\OldPasswordErrorException;
-use util\captcha\BaseCaptcha;
-use user\exception\ModifySamePhonenumErrorException;
-use common\SMSTemplate\models\SMSTemplateManager;
-use user\InvitationManager;
-use hfc\database\DatabaseQueryException;
-use util\SMS\SMSService;
-use hhp\App;
-use hhp\Singleton;
+use HHP\Singleton;
+use HHP\App;
+use ORM\Condition;
+use User\Entity\User;
 
 /**
  */
-class UserManager extends Singleton implements ISmsContentCreator {
+class UserManager extends Singleton {
+	
+	/**
+	 *
+	 * @var string
+	 */
+	protected $mUserClassName = '\User\Entity\User';
 	
 	/**
 	 * 验证码操作类型：修改手机号
@@ -38,6 +34,28 @@ class UserManager extends Singleton implements ISmsContentCreator {
 		}
 		
 		return $me;
+	}
+
+	/**
+	 * 通过关键信息（用户名、手机、邮箱）取得唯一用户
+	 *
+	 * @param string $phonenum        	
+	 * @return User
+	 */
+	public function getUserByKeyInfo ($key) {
+		$orm = App::Instance()->getService('orm');
+		$cond = new Condition();
+		$cond->setRelationship(Condition::RELATIONSHIP_OR);
+		$cond->add('name', '=', $key);
+		$cond->add('phonenum', '=', $key);
+		$cond->add('email', '=', $key);
+		$ret = $orm->where($this->mUserClassName, $cond);
+		
+		if (count($ret) >= 1) {
+			return $ret[0];
+		}
+		
+		return null;
 	}
 
 	/**
@@ -186,20 +204,6 @@ class UserManager extends Singleton implements ISmsContentCreator {
 		}
 		
 		return User::find($id);
-	}
-
-	/**
-	 * 通过关键信息（用户名、手机、邮箱）取得唯一用户
-	 *
-	 * @param string $phonenum        	
-	 * @return User
-	 */
-	public function getUserByKeyInfo ($key) {
-		return User::whereRaw("phonenum=? OR name=? OR email=?", array(
-			$key,
-			$key,
-			$key
-		))->first();
 	}
 
 	/**

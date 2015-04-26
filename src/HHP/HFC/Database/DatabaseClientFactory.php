@@ -2,8 +2,8 @@
 
 namespace hfc\Database;
 
-use hfc\database\mysql\MysqlClient;
-use hfc\exception\NotImplementedException;
+use HFC\Database\Mysql\MysqlClient;
+use HFC\Exception\NotImplementedException;
 
 class DatabaseClientFactory {
 

@@ -1,10 +1,8 @@
 <?php
 
-namespace hhp\view;
+namespace HHP\View;
 
-use hhp\IExecutor;
-
-class HTMLRender implements IExecutor {
+class HTMLRender {
 
 	static public function Instance () {
 		static $me = null;
@@ -15,37 +13,25 @@ class HTMLRender implements IExecutor {
 		return $me;
 	}
 
-	public function run ($do = null) {
-		if (null != $do && $do instanceof View) {
-			$this->render($do);
-		}
-	}
-
 	/**
 	 * 渲染试图
 	 *
 	 * @param View $view        	
 	 */
-	public function render ($view, $e = null) {
-		$data = $this->renderTemplate($view->getDataMap(), $view->getTemplatePath());
-		$errcode = null == $e ? 0 : $e->getCode();
-		$errstr = null == $e ? '' : $e->getMessage();
+	public function render ($view) {
+		extract($view->getDataMap());
 		
-		$this->renderLayout($data, $view->getLayoutPath(), $errcode, $errstr);
-	}
-
-	public function renderLayout ($data, $layoutPath, $errcode, $errstr) {
+		ob_start();
+		include $view->getTemplatePath();
+		
+		$mainBody = ob_get_clean();
+		
+		$layoutPath = $view->getLayoutPath();
 		if (file_exists($layoutPath)) {
-			$jsonObj = include ($layoutPath);
-			echo json_encode($jsonObj);
+			include ($layoutPath);
 		} else {
-			echo $data;
+			echo $mainBody;
 		}
-	}
-
-	protected function renderTemplate ($data, $templatePath) {
-		extract($data);
-		return include $templatePath;
 	}
 }
 

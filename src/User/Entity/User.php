@@ -1,8 +1,8 @@
 <?php
 
-namespace user\entity;
+namespace User\Entity;
 
-use orm\DataClass;
+use ORM\DataClass;
 
 /**
  * 用户数据类
@@ -74,10 +74,6 @@ class User extends DataClass {
 	 * 1：正常、2：禁用、3：异常
 	 */
 	protected $status;
-	
-	/**
-	 */
-	protected $recommendUserId;
 	
 	/**
 	 */

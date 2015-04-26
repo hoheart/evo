@@ -3,6 +3,7 @@
 namespace HHP\View;
 
 use HHP\App;
+use HFC\Exception\ParameterErrorException;
 
 /**
  * 视图类。
@@ -12,6 +13,15 @@ use HHP\App;
  *        
  */
 class View {
+	
+	/**
+	 *
+	 * @var integer
+	 */
+	const VIEW_TYPE_UNKNOWN = 0;
+	const VIEW_TYPE_HTML = 1;
+	const VIEW_TYPE_JSON = 2;
+	
 	/**
 	 * 数据map，存放controller assign的键值对数据。
 	 *
@@ -32,6 +42,12 @@ class View {
 	 * @var string
 	 */
 	protected $mLayoutPath = '';
+	
+	/**
+	 *
+	 * @var integer
+	 */
+	protected $mViewType = self::VIEW_TYPE_UNKNOWN;
 
 	public function __construct ($name, $layoutPath = null) {
 		if (null === $layoutPath) {
@@ -81,6 +97,18 @@ class View {
 
 	public function getDataMap () {
 		return $this->mDataMap;
+	}
+
+	public function setType ($type) {
+		if (self::VIEW_TYPE_HTML == $type || self::VIEW_TYPE_JSON == $type) {
+			$this->mViewType = $type;
+		} else {
+			throw new ParameterErrorException();
+		}
+	}
+
+	public function getType () {
+		return $this->mViewType;
 	}
 }
 

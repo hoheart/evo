@@ -1,8 +1,8 @@
 <?php
 
-namespace hfc\database;
+namespace HFC\Database;
 
-use hfc\exception\SystemErrcode;
+use HFC\Exception\SystemErrcode;
 
 class DatabaseQueryException extends \Exception {
 	

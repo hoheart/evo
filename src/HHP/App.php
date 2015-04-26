@@ -4,7 +4,6 @@ namespace HHP {
 
 	use HHP\App\ClassLoader;
 	use HFC\Util\Util;
-	use HHP\Exception\RequestErrorException;
 
 	/**
 	 * 框架核心类，完成路由执行控制器和Action，并集成了常用方法。
@@ -158,7 +157,7 @@ namespace HHP {
 			}
 			
 			$this->mBootController = new $ctrlClassName($this->generateRequest());
-			$actionMethodName = $actionName . 'Action';
+			$actionMethodName = $actionName;
 			$dataObj = $this->mBootController->$actionMethodName($request);
 			
 			foreach ($confExecutorArr['later_executor'] as $class) {
@@ -337,6 +336,7 @@ namespace HHP\App {
 				// 一般模块的alias都为小写
 				$moduleAlias = strtolower($moduleAlias);
 				$callerName = strtolower($callerName);
+				$callerAlias = strtolower($callerAlias);
 				
 				$app = App::Instance();
 				$appConfModuleArr = $app->getConfigValue('module');
@@ -350,8 +350,8 @@ namespace HHP\App {
 				
 				// 优先处理自己模块的调用关系。
 				// HHP和HFC可以调用任何模块
-				if ($callerName == $moduleAlias || 'HHP' == $callerAlias || 'HFC' == $callerAlias ||
-						 'ORM' == $callerAlias) {
+				if ($callerName == $moduleAlias || 'hhp' == $callerAlias || 'hfc' == $callerAlias ||
+						 'orm' == $callerAlias) {
 					// 是自己调用自己，就取调用者的模块路径。
 					$moduleDir = $appConfModule['dir'];
 				} else {
@@ -452,7 +452,7 @@ namespace HHP\App {
 			}
 			
 			// 2.检查调用者有没有依赖这个模块
-			if (! key_exists($moduleAlias, $callerModuleConf['depends'])) {
+			if (! array_key_exists($moduleAlias, $callerModuleConf['depends'])) {
 				throw new ConfigErrorException("no depends on module: $moduleAlias");
 			}
 			

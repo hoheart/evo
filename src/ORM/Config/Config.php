@@ -12,43 +12,43 @@ return array(
 	 * 本模块提供的API，以类的形式给出。数组中的key代表类名，值是另外一个数组，其中enbale表示是否允许这个接口开放，这样方便以后对接口进行更加详细的控制。
 	 */
 	'API' => array(
-		'orm\DataClass' => array(
+		'ORM\DataClass' => array(
 			'enable' => true
 		),
-		'orm\ClassDesc' => array(
+		'ORM\ClassDesc' => array(
 			'enable' => true
 		),
-		'orm\ClassAttribute' => array(
+		'ORM\ClassAttribute' => array(
 			'enable' => true
 		),
-		'orm\DescFactory' => array(
+		'ORM\DescFactory' => array(
 			'enable' => true
 		),
-		'orm\AbstractPersistence' => array(
+		'ORM\AbstractPersistence' => array(
 			'enable' => true
 		),
-		'orm\PhpPersistence' => array(
+		'ORM\PhpPersistence' => array(
 			'enable' => true
 		),
-		'orm\Condition' => array(
+		'ORM\Condition' => array(
 			'enable' => true
 		),
-		'orm\PhpFactory' => array(
+		'ORM\PhpFactory' => array(
 			'enable' => true
 		),
-		'orm\AbstractDataFactory' => array(
+		'ORM\AbstractDataFactory' => array(
 			'enable' => true
 		),
-		'orm\DatabaseFactory' => array(
+		'ORM\DatabaseFactory' => array(
 			'enable' => true
 		),
-		'orm\DatabasePersistence' => array(
+		'ORM\DatabasePersistence' => array(
 			'enable' => true
 		),
-		'orm\DatabasePersistenceCreator' => array(
+		'ORM\DatabasePersistenceCreator' => array(
 			'enable' => true
 		),
-		'orm\DatabaseFactoryCreator' => array(
+		'ORM\DatabaseFactoryCreator' => array(
 			'enable' => true
 		)
 	),
