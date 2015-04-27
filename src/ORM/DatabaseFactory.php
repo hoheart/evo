@@ -1,9 +1,9 @@
 <?php
 
-namespace orm;
+namespace ORM;
 
-use hfc\database\DatabaseClient;
-use hfc\exception\MethodCallErrorException;
+use HFC\Database\DatabaseClient;
+use HFC\Exception\MethodCallErrorException;
 
 /**
  * 从数据库中取出各种数据类的工厂类。

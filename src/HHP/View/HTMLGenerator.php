@@ -31,10 +31,12 @@ class HTMLGenerator {
 	}
 
 	public function css ($relativeUrl) {
-		echo '<link rel="stylesheet" href="' . $this->mStaticUrl . $relativeUrl . '" type="text/css" />';
+		return '<link rel="stylesheet" href="' . $this->mStaticUrl . $relativeUrl .
+				 '" type="text/css" />' . "\n";
 	}
 
 	public function script ($relativeUrl) {
-		echo '<script type="text/javascript" src="' . $this->mStaticUrl . $relativeUrl . '"></script>';
+		return '<script type="text/javascript" src="' . $this->mStaticUrl . $relativeUrl .
+				 '"></script>' . "\n";
 	}
 }

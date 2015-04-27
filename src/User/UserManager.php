@@ -30,7 +30,8 @@ class UserManager extends Singleton {
 	static public function Instance () {
 		static $me = null;
 		if (null == $me) {
-			$me = new self();
+			$clsName = get_called_class();
+			$me = new $clsName();
 		}
 		
 		return $me;

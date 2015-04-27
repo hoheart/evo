@@ -1,9 +1,9 @@
 <?php
 
-namespace orm;
+namespace ORM;
 
-use orm\DatabasePersistence;
-use hhp\App;
+use ORM\DatabasePersistence;
+use HHP\App;
 
 class DatabasePersistenceCreator {
 

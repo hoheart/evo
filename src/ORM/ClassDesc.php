@@ -1,6 +1,6 @@
 <?php
 
-namespace orm;
+namespace ORM;
 
 /**
  * 对数据类进行描述的类。
@@ -26,7 +26,7 @@ class ClassDesc {
 	
 	/**
 	 * 存储名作索引的属性列表
-	 * 
+	 *
 	 * @var array
 	 */
 	public $saveNameIndexAttr;

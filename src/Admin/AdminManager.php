@@ -10,5 +10,5 @@ class AdminManager extends UserManager {
 	 *
 	 * @var string
 	 */
-	protected $mUserClassName = '/Admin/Entity/Admin';
+	protected $mUserClassName = '\Admin\Entity\Admin';
 }

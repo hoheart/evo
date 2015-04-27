@@ -1,8 +1,8 @@
 <?php
 
-namespace orm\exception;
+namespace ORM\Exception;
 
-class SystemErrcode extends \hhp\exception\SystemErrcode {
+class SystemErrcode {
 	const ParseClassDescError = 5200;
 	const NoPropertyError = 5201;
 }

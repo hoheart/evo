@@ -1,6 +1,6 @@
 <?php
 
-namespace orm;
+namespace ORM;
 
 /**
  * 抽象的数据工厂

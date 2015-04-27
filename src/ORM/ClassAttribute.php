@@ -1,6 +1,6 @@
 <?php
 
-namespace orm;
+namespace ORM;
 
 /**
  * 对数据类的属性进行描述的类

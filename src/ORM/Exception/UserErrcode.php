@@ -1,8 +1,7 @@
 <?php
 
-namespace orm\exception;
+namespace ORM\Exception;
 
-class UserErrcode extends \hhp\exception\UserErrcode {
-	
+class UserErrcode {
 }
 ?>

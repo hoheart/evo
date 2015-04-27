@@ -37,6 +37,10 @@ class Login extends Singleton {
 		$gc->getCaptcha($self::CAPTCHA_OP_LOGIN);
 	}
 
+	public function getManager () {
+		return UserManager::Instance();
+	}
+
 	/**
 	 *
 	 * @param string $key
@@ -52,7 +56,7 @@ class Login extends Singleton {
 	}
 
 	public function loginWithoutCaptcha ($key, $password) {
-		$um = UserManager::Instance();
+		$um = $this->getManager();
 		$u = $um->getUserByKeyInfo($key);
 		if (null == $u || ! $um->checkPassword($u, $password)) {
 			throw new LoginFailedException();
@@ -68,7 +72,7 @@ class Login extends Singleton {
 	 * @throws LoginFailedException
 	 */
 	public function loginWithoutPassword ($key) {
-		$um = UserManager::Instance();
+		$um = $this->getManager();
 		$u = $um->getUserByKeyInfo($key);
 		if (null == $u) {
 			throw new LoginFailedException();

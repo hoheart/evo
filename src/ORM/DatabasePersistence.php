@@ -1,8 +1,8 @@
 <?php
 
-namespace orm;
+namespace ORM;
 
-use hfc\database\DatabaseClient;
+use HFC\Database\DatabaseClient;
 
 /**
  * 根据AtrributeMap把数据对象持久化到数据库中。

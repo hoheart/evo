@@ -26,11 +26,14 @@ if (is_array($head)) {
 <?php echo $mainBody;?>
 </body>
 <?php
-$html->script('js/jquery-1.11.2.min.js');
+echo $html->script('js/jquery-1.11.2.min.js');
+echo $html->script('js/HHPJquery.js');
 if (is_array($footer)) {
 	foreach ($footer as $item) {
 		echo $item;
 	}
+} else {
+	echo $footer;
 }
 ?>
 </html>

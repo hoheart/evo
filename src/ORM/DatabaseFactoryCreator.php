@@ -1,9 +1,9 @@
 <?php
 
-namespace orm;
+namespace ORM;
 
-use orm\DatabaseFactory;
-use hhp\App;
+use ORM\DatabaseFactory;
+use HHP\App;
 
 class DatabaseFactoryCreator {
 

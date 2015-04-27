@@ -26,7 +26,7 @@ class JsonRender {
 		$this->renderLayout($data, $view->getLayoutPath(), $errcode, $errstr);
 	}
 
-	public function renderLayout ($data, $layoutPath, $errcode, $errstr) {
+	public function renderLayout ($data, $layoutPath, $errcode, $errstr, \Exception $e = null) {
 		if (file_exists($layoutPath)) {
 			$jsonObj = include ($layoutPath);
 			echo json_encode($jsonObj);

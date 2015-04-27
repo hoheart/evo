@@ -52,38 +52,53 @@ class ErrorHandler {
 			return;
 		}
 		
-		if (App::Instance()->getConfigValue('debug')) {
-			echo "Error:$errno:$errstr.";
-			echo '<br>';
-			echo "In file:$errfile:$errline.";
-			echo '<br>';
-			echo '<pre>';
-			print_r($e);
-			echo '</pre>';
-		} else {
-			try {
-				// echo $errno;
-				// Log::e("Error:$errno:$errstr.\nIn file:$errfile:$errline.");
-			} catch (\Exception $e) {
-			}
-			
-			header('Nothing', '', 200); // 因为到这儿说明脚本出现了致命错误，虽然handle了，但还是会抛出http错误码500，所以这儿手动改一下。
-			
-			$render = new JsonRender();
-			
-			$outErrcode = 0;
-			if ($errno > 0 && ($errno < 400000 || $errno >= 500000)) {
-				// 一旦出现致命错误，之前的chdir就没用了。
-				$render->renderLayout(null, App::$ROOT_DIR . 'common/view/layout.php', 50000, 
-						'System error, the Administrator has informed, looking for other pages.');
+		if (HttpRequest::isAjaxRequest()) {
+			if (App::Instance()->getConfigValue('debug')) {
+				$this->rendJson($errno, $errstr, $e);
 			} else {
-				$outErrcode = $errno;
-				$outErrstr = $errstr;
-				$render->renderLayout(null, App::$ROOT_DIR . 'common/view/layout.php', $outErrcode, $outErrstr);
+				$this->rendJson($errno, $errstr);
+			}
+		} else {
+			if (App::Instance()->getConfigValue('debug')) {
+				echo "Error:$errno:$errstr.";
+				echo '<br>';
+				echo "In file:$errfile:$errline.";
+				echo '<br>';
+				echo '<pre>';
+				print_r($e);
+				echo '</pre>';
+			} else {
+				try {
+					// echo $errno;
+					// Log::e("Error:$errno:$errstr.\nIn
+					// file:$errfile:$errline.");
+				} catch (\Exception $e) {
+				}
+				
+				$this->rendJson($errno, $errstr, $e);
 			}
 		}
 		
 		exit(0);
+	}
+
+	protected function rendJson ($errno, $errstr, \Exception $e = null) {
+		$render = new JsonRender();
+		
+		header('Nothing', '', 200); // 因为到这儿有可能脚本出现了致命错误，虽然handle了，但还是会抛出http错误码500，所以这儿手动改一下。
+		header('Content-Type: application/json; charset=utf-8');
+		
+		$outErrcode = 0;
+		if ($errno > 0 && ($errno < 400000 || $errno >= 500000)) {
+			// 一旦出现致命错误，之前的chdir就没用了。
+			$render->renderLayout(null, App::$ROOT_DIR . 'Common/View/JsonLayout.php', 50000, 
+					'System error, the Administrator has informed, looking for other pages.', $e);
+		} else {
+			$outErrcode = $errno;
+			$outErrstr = $errstr;
+			$render->renderLayout(null, App::$ROOT_DIR . 'Common/View/JsonLayout.php', $outErrcode, 
+					$outErrstr, $e);
+		}
 	}
 }
 ?>

@@ -10,9 +10,11 @@ class Login extends \User\Login {
 	 * @var string
 	 */
 	const CAPTCHA_OP_LOGIN = 'AdminLogin';
-	protected $mManager = null;
 
 	public function __construct () {
-		$this->mManager = new AdminManager();
+	}
+
+	public function getManager () {
+		return AdminManager::Instance();
 	}
 }

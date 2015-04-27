@@ -1,6 +1,6 @@
 <?php
 
-namespace orm\exception;
+namespace ORM\Exception;
 
 class ParseClassDescErrorException extends \Exception {
 
