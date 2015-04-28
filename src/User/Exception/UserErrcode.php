@@ -1,6 +1,6 @@
 <?php
 
-namespace user\exception;
+namespace User\Exception;
 
 class UserErrcode {
 	const PhonenumExisting = 402000; // 手机号码已经存在

@@ -49,19 +49,16 @@ class View {
 	 */
 	protected $mViewType = self::VIEW_TYPE_UNKNOWN;
 
-	public function __construct ($name, $layoutPath = null) {
-		if (null === $layoutPath) {
-			$layoutPath = App::Instance()->getConfigValue('default_layout');
-			$this->mLayoutPath = $layoutPath;
+	public function __construct ($name = '', $layoutPath = null) {
+		if (! empty($name)) {
+			list ($moduleName, $ctrlName, $actionName) = explode('/', $name);
+			$confModuleArr = App::Instance()->getConfigValue('module');
+			$moduleName = strtolower($moduleName);
+			$moduleDir = $confModuleArr[$moduleName]['dir'];
+			
+			$path = $moduleDir . 'View' . DIRECTORY_SEPARATOR . $ctrlName . DIRECTORY_SEPARATOR . $actionName . '.php';
+			$this->mTemplatePath = $path;
 		}
-		
-		list ($moduleName, $ctrlName, $actionName) = explode('/', $name);
-		$confModuleArr = App::Instance()->getConfigValue('module');
-		$moduleName = strtolower($moduleName);
-		$moduleDir = $confModuleArr[$moduleName]['dir'];
-		
-		$path = $moduleDir . 'View' . DIRECTORY_SEPARATOR . $ctrlName . DIRECTORY_SEPARATOR . $actionName . '.php';
-		$this->mTemplatePath = $path;
 	}
 
 	/**
@@ -84,7 +81,17 @@ class View {
 	}
 
 	public function getLayoutPath () {
-		return $this->mLayoutPath;
+		if (! empty($this->mLayoutPath)) {
+			return $this->mLayoutPath;
+		} else {
+			$layoutDir = App::Instance()->getConfigValue('default_layout_dir');
+			
+			if (self::VIEW_TYPE_JSON == $this->mViewType) {
+				return $layoutDir . 'JsonLayout.php';
+			} else {
+				return $layoutDir . 'BaseLayout.php';
+			}
+		}
 	}
 
 	public function setTemplatePath ($path) {

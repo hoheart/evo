@@ -54,7 +54,12 @@ class ErrorHandler {
 		
 		if (HttpRequest::isAjaxRequest()) {
 			if (App::Instance()->getConfigValue('debug')) {
-				$this->rendJson($errno, $errstr, $e);
+				if (is_array($e)) {
+					$e[] = $errstr;
+					$this->rendJson($errno, $errstr, $e);
+				} else {
+					$this->rendJson($errno, $errstr, $e);
+				}
 			} else {
 				$this->rendJson($errno, $errstr);
 			}
@@ -82,11 +87,8 @@ class ErrorHandler {
 		exit(0);
 	}
 
-	protected function rendJson ($errno, $errstr, \Exception $e = null) {
+	protected function rendJson ($errno, $errstr, $e = null) {
 		$render = new JsonRender();
-		
-		header('Nothing', '', 200); // 因为到这儿有可能脚本出现了致命错误，虽然handle了，但还是会抛出http错误码500，所以这儿手动改一下。
-		header('Content-Type: application/json; charset=utf-8');
 		
 		$outErrcode = 0;
 		if ($errno > 0 && ($errno < 400000 || $errno >= 500000)) {
@@ -96,8 +98,7 @@ class ErrorHandler {
 		} else {
 			$outErrcode = $errno;
 			$outErrstr = $errstr;
-			$render->renderLayout(null, App::$ROOT_DIR . 'Common/View/JsonLayout.php', $outErrcode, 
-					$outErrstr, $e);
+			$render->renderLayout(null, App::$ROOT_DIR . 'Common/View/JsonLayout.php', $outErrcode, $outErrstr, $e);
 		}
 	}
 }

@@ -143,6 +143,6 @@ return array(
 	 * 通过调用系统提供的日志
 	 */
 	'data_dir' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data',
-	'default_layout' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Common' . DIRECTORY_SEPARATOR . 'View' .
-			 DIRECTORY_SEPARATOR . 'BaseLayout.php'
+	'default_layout_dir' => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'Common' . DIRECTORY_SEPARATOR . 'View' .
+			 DIRECTORY_SEPARATOR
 );

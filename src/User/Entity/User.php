@@ -16,15 +16,17 @@ class User extends DataClass {
 	
 	/**
 	 * 性别取值
-	 * @hhp:orm autoIncrement true
-	 *
-	 * @var integer
 	 */
 	const GENDER_UNKNOW = 0;
 	const GENDER_FEMALE = 1;
 	const GENDER_MALE = 2;
 	
 	/**
+	 * 用户ID
+	 *
+	 * @hhp:orm autoIncrement true
+	 *
+	 * @var integer
 	 */
 	protected $id;
 	
@@ -78,18 +80,90 @@ class User extends DataClass {
 	/**
 	 */
 	protected $lastLoginIP;
-
-	public function getId () {
-		return $this->id;
-	}
-
-	public function setName ($name) {
-		$this->name = $name;
-		
-		return $this;
-	}
-
-	public function getName () {
-		return $this->name;
-	}
+	
+	// public function getId () {
+	// return $this->id;
+	// }
+	
+	// public function setName ($name) {
+	// $this->name = $name;
+	
+	// return $this;
+	// }
+	
+	// public function getName () {
+	// return $this->name;
+	// }
+	
+	// public function setPhonenum ($phonenum) {
+	// $this->phonenum = $phonenum;
+	// }
+	
+	// public function getPhonenum () {
+	// return $this->phonenum;
+	// }
+	
+	// public function setSalt ($salt) {
+	// $this->salt = $salt;
+	// }
+	
+	// public function getSalt () {
+	// return $this->salt;
+	// }
+	
+	// public function setPassword ($password) {
+	// $this->password = $password;
+	// }
+	
+	// public function getPassword () {
+	// return $this->password;
+	// }
+	
+	// public function setRealName ($name) {
+	// $this->realName = $name;
+	// }
+	
+	// public function getRealName () {
+	// return $this->realName;
+	// }
+	
+	// public function setGender ($gender) {
+	// $this->gender = $gender;
+	// }
+	
+	// public function getGender () {
+	// return $this->gender;
+	// }
+	
+	// public function setAvatar ($id) {
+	// $this->avatar = $id;
+	// }
+	
+	// public function getAvatar () {
+	// return $this->avatar;
+	// }
+	
+	// public function setEmail ($email) {
+	// $this->email = $email;
+	// }
+	
+	// public function getEmail () {
+	// return $this->email;
+	// }
+	
+	// public function setStatus ($status) {
+	// $this->status = $status;
+	// }
+	
+	// public function getStatus () {
+	// return $this->status;
+	// }
+	
+	// public function setLastLoginIP ($ip) {
+	// $this->lastLoginIP = $ip;
+	// }
+	
+	// public function getLastLoginIP () {
+	// return $this->lastLoginIP;
+	// }
 }

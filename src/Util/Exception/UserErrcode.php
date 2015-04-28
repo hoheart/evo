@@ -2,6 +2,6 @@
 
 namespace Util\Exception;
 
-class UserErrorCode {
-	const CaptchaError = 416000; // 验证码错误
+class UserErrcode {
+	const CaptchaError = 401000; // 验证码错误
 }

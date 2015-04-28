@@ -11,11 +11,15 @@ function Login() {
 		$('#formLogin').needCheckForm(conf);
 		$('#formLogin').submit(function() {
 			if ($('#formLogin').checkForm()) {
-				$('#formLogin').ajaxSubmit();
+				$('#formLogin').ajaxSubmit(me.onLoginSuccess);
 			}
 
 			return false;
 		});
+	}
+
+	this.onLoginSuccess = function() {
+		window.location = '/admin';
 	}
 
 	this.onChangeCaptchaImg = function() {
@@ -26,12 +30,18 @@ function Login() {
 	}
 
 	this.onServerError = function(errcode, errstr) {
-		if (416000 == errcode) {
+		switch (errcode) {
+		case 401000:
+		case 402001:
 			me.onChangeCaptchaImg();
 
-			return true;
+			break;
+		default:
+			return false;
+
+			break;
 		}
 
-		return false;
+		return true;
 	}
 }

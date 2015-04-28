@@ -21,10 +21,14 @@ class HTMLRender {
 	public function render ($view) {
 		extract($view->getDataMap());
 		
-		ob_start();
-		include $view->getTemplatePath();
+		$mainBody = '';
 		
-		$mainBody = ob_get_clean();
+		$tmpl = $view->getTemplatePath();
+		if (! empty($tmpl)) {
+			ob_start();
+			include $view->getTemplatePath();
+			$mainBody = ob_get_clean();
+		}
 		
 		$layoutPath = $view->getLayoutPath();
 		if (file_exists($layoutPath)) {

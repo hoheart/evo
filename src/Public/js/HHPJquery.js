@@ -22,7 +22,7 @@ var Jquery = new function() {
 
 			if (typeof (page.onServerError) == "function") {
 				if (!page.onServerError(data.errcode, data.errstr)) {
-					me.procError(data, textStatus, jqXHR);
+					// 此处应该是接着处理该错误 me.procError(data, textStatus, jqXHR);
 				}
 			}
 		} else if (data.errcode == 0) {
@@ -32,9 +32,13 @@ var Jquery = new function() {
 				// 说明是调试模式
 				alert(data.exception);
 			} else {
-				window.location = '/error';
+				me.httpError();
 			}
 		}
+	}
+
+	this.httpError = function() {
+		alert('似乎出了点问题，管理员已经知道了，要不你再逛逛别的？');
 	}
 
 	this.init = function() {
@@ -44,8 +48,7 @@ var Jquery = new function() {
 			if ('object' == typeof (url) && 'function' == typeof (url.success)) {
 				me.oldSuccessBack = url.success;
 				url.success = me.ajaxBack;
-
-				me.errorBack = url.error;
+				url.error = me.httpError;
 			} else if ('object' == typeof (options)
 					&& 'function' == typeof (options.success)) {
 				me.oldSuccessBack = options.success;

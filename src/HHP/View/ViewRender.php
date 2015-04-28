@@ -3,6 +3,7 @@
 namespace HHP\View;
 
 use HHP\IExecutor;
+use HHP\HttpRequest;
 
 class ViewRender implements IExecutor {
 	
@@ -23,7 +24,12 @@ class ViewRender implements IExecutor {
 
 	public function run ($v = null) {
 		if (null == $v) {
-			return;
+			if (HttpRequest::isAjaxRequest()) {
+				$v = new View();
+				$v->setType(View::VIEW_TYPE_JSON);
+			} else {
+				return;
+			}
 		}
 		
 		$viewType = View::VIEW_TYPE_UNKNOWN;
@@ -49,7 +55,7 @@ class ViewRender implements IExecutor {
 			case View::VIEW_TYPE_JSON:
 				$render = $this->mRenderList[$viewType];
 				if (null == $render) {
-					$render = HTMLRender::Instance();
+					$render = JsonRender::Instance();
 					$this->mRenderList[$viewType] = $render;
 				}
 				

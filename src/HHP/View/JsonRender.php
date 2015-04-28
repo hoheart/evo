@@ -19,14 +19,20 @@ class JsonRender {
 	 * @param View $view        	
 	 */
 	public function render ($view, $e = null) {
-		$data = $this->renderTemplate($view->getDataMap(), $view->getTemplatePath());
+		$tmpl = $view->getTemplatePath();
+		if (! empty($tmpl)) {
+			$data = $this->renderTemplate($view->getDataMap(), $view->getTemplatePath());
+		}
 		$errcode = null == $e ? 0 : $e->getCode();
 		$errstr = null == $e ? '' : $e->getMessage();
 		
 		$this->renderLayout($data, $view->getLayoutPath(), $errcode, $errstr);
 	}
 
-	public function renderLayout ($data, $layoutPath, $errcode, $errstr, \Exception $e = null) {
+	public function renderLayout ($data, $layoutPath, $errcode, $errstr, $e = null) {
+		header('Nothing', '', 200); // 因为到这儿有可能脚本出现了致命错误，虽然handle了，但还是会抛出http错误码500，所以这儿手动改一下。
+		header('Content-Type: application/json; charset=utf-8');
+		
 		if (file_exists($layoutPath)) {
 			$jsonObj = include ($layoutPath);
 			echo json_encode($jsonObj);

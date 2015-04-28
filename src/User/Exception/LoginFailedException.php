@@ -1,16 +1,16 @@
 <?php
 
-namespace user\exception;
+namespace User\Exception;
 
 /**
  *
  * @author Jejim
  *        
  */
-class LoginFailedException extends \Exception{
+class LoginFailedException extends \Exception {
 
-	public function __construct ($msg) {
-		$this->code = UserErrcode::LoginError;
+	public function __construct ($msg = 'User name or password incorrect.') {
+		$this->code = UserErrcode::LoginFailed;
 		$this->message = $msg;
 	}
 }

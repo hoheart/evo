@@ -79,8 +79,12 @@ class DataClass {
 		if (method_exists($this, $methodName)) {
 			return $this->$methodName();
 		} else {
-			throw new NoPropertyException(
-					'Property:' . $name . ' not exists in class: ' . get_class($this) . ' or no get mutator defined.');
+			if (property_exists($this, $name)) {
+				return $this->$name;
+			} else {
+				throw new NoPropertyException(
+						'Property:' . $name . ' not exists in class: ' . get_class($this) . ' or no get mutator defined.');
+			}
 		}
 	}
 
@@ -94,25 +98,29 @@ class DataClass {
 		}
 		
 		$clsDesc = DescFactory::Instance()->getDesc(get_class($this));
+		$val = $this->filterValue($value, $clsDesc->attribute[$name]->var);
 		
 		$methodName = 'set' . ucfirst($name);
 		if (method_exists($this, $methodName)) {
-			$val = $this->filterValue($value, $clsDesc->attribute[$name]->var);
 			$this->$methodName($val);
-			
-			$this->mDataObjectExistingStatus = self::DATA_OBJECT_EXISTING_STATUS_NEW == $this->mDataObjectExistingStatus ? self::DATA_OBJECT_EXISTING_STATUS_NEW : self::DATA_OBJECT_EXISTING_STATUS_DIRTY;
 		} else {
-			// 有可能是saveName
-			// if (! $isSaveName) {
-			// $attr = $clsDesc->saveNameIndexAttr[$name];
-			// if (! empty($attr)) {
-			// $name = $attr->name;
-			// return $this->setAttribute($name, $value, true);
-			// }
-			// }
-			throw new NoPropertyException(
-					'Property:' . $name . ' not exists in class: ' . get_class($this) . ' or no set mutator defined.');
+			if (property_exists($this, $name)) {
+				$this->$name = $val;
+			} else {
+				// 有可能是saveName
+				// if (! $isSaveName) {
+				// $attr = $clsDesc->saveNameIndexAttr[$name];
+				// if (! empty($attr)) {
+				// $name = $attr->name;
+				// return $this->setAttribute($name, $value, true);
+				// }
+				// }
+				throw new NoPropertyException(
+						'Property:' . $name . ' not exists in class: ' . get_class($this) . ' or no set mutator defined.');
+			}
 		}
+		
+		$this->mDataObjectExistingStatus = self::DATA_OBJECT_EXISTING_STATUS_NEW == $this->mDataObjectExistingStatus ? self::DATA_OBJECT_EXISTING_STATUS_NEW : self::DATA_OBJECT_EXISTING_STATUS_DIRTY;
 		
 		return $this;
 	}

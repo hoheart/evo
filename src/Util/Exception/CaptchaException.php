@@ -6,6 +6,6 @@ class CaptchaException extends \Exception {
 
 	public function __construct ($message = 'Captcha is not correct.') {
 		$this->message = $message;
-		$this->code = UserErrorCode::CaptchaError;
+		$this->code = UserErrcode::CaptchaError;
 	}
 }
