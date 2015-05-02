@@ -1,15 +1,15 @@
 <?php
 
-namespace sms;
+namespace SMS;
 
-use hfc\exception\ParameterErrorException;
-use sms\exception\CallGatewayErrorException;
-use user\fund\AccountManager;
-use sms\entity\SMSContent;
-use hhp\App;
-use sms\entity\ClientInfo;
-use sms\entity\SMS;
-use hhp\Singleton;
+use HFC\Exception\ParameterErrorException;
+use SMS\Exception\CallGatewayErrorException;
+use User\Fund\AccountManager;
+use SMS\Entity\SMSContent;
+use HHP\App;
+use SMS\Entity\ClientInfo;
+use SMS\Entity\SMS;
+use HHP\Singleton;
 
 /**
  *
@@ -36,7 +36,7 @@ class SMSSender extends Singleton {
 	 * @param string $subPort        	
 	 * @param string $msgId        	
 	 */
-	public function send (ClientInfo $client, $phonenums, $msg, $subPort, $msgId) {
+	public function send (ClientInfo $client, $phonenums, $msg, $subPort = '', $msgId = '') {
 		$ret = explode(',', $phonenums);
 		$phonenumArr = array();
 		foreach ($ret as $phonenum) {
@@ -66,7 +66,7 @@ class SMSSender extends Singleton {
 		try {
 			$gf = new SMSGatewayFactory();
 			$g = $gf->getGateway($client);
-			$msg = '【车快快】' . $msg;
+			$msg = '【' . $client->getSign() . '】' . $msg;
 			list ($ret, $gatewayMsgId) = $g->send($phonenumArr, $msg, $subPort, $msgId);
 		} catch (\Exception $e) {
 			$status = SMSContent::STATUS_GATEWAY_ERROR;

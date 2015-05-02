@@ -204,7 +204,9 @@ class UserManager extends Singleton {
 			return null;
 		}
 		
-		return User::find($id);
+		$orm = App::Instance()->getService('orm');
+		$u = $orm->get('\User\Entity\User', $id);
+		return $u;
 	}
 
 	/**

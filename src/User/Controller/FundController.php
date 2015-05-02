@@ -1,32 +1,24 @@
 <?php
 
-namespace user\controller;
+namespace User\Controller;
 
-use sms\ClientManager;
-use user\fund\AccountManager;
-use hhp\view\View;
+use User\Fund\AccountManager;
+use User\Login;
 
 /**
  */
-class FundController {
+class FundController extends UserBaseController {
 
 	public function __construct () {
 	}
 
-	public function balanceAction ($req) {
-		$clientManager = new ClientManager();
-		$client = $clientManager->getOnlieClient();
-		if (null == $client) {
-			$client = $clientManager->checkClient($req->get('userName'), $req->get('password'));
-		}
+	public function chargeRecord () {
+		$am = AccountManager::Instance();
+		$account = $am->getOneAccount(Login::GetLoginedUserId());
+		$record = $am->getChargeRecord($account->id);
 		
-		$am = new AccountManager();
-		$balance = $am->getBalance($client->userId);
-		$balance = $balance / 10; // 取出来的是厘
-		
-		$view = new View('user/fund/balance');
-		$view->assign('balance', $balance);
-		
-		return $view;
+		$this->setView('User/Fund/chargeRecord');
+		$this->assign('account', $account);
+		$this->assign('chargeRecord', $record);
 	}
 }

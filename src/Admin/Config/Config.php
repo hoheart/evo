@@ -14,6 +14,9 @@ return array(
 	 * 本模块提供的Controller
 	 */
 	'controller' => array(
+		'Admin\Controller\AdminController' => array(
+			'enable' => true
+		),
 		'Admin\Controller\ChargeController' => array(
 			'enable' => true
 		),

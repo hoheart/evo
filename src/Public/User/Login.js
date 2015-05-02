@@ -19,7 +19,7 @@ function Login() {
 	}
 
 	this.onLoginSuccess = function() {
-		window.location = '/admin';
+		window.location = '/user';
 	}
 
 	this.onChangeCaptchaImg = function() {

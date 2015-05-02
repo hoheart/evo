@@ -1,8 +1,8 @@
 <?php
 
-namespace user\fund\entity;
+namespace User\Fund\Entity;
 
-use orm\DataClass;
+use ORM\DataClass;
 
 /**
  * @hhp:orm primaryKey id
@@ -37,6 +37,12 @@ class ChargeRecord extends DataClass {
 	 * @var string
 	 */
 	protected $desc;
+	
+	/**
+	 *
+	 * @var integer
+	 */
+	protected $balance;
 
 	public function getId () {
 		return $this->id;

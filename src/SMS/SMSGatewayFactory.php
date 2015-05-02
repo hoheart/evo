@@ -1,12 +1,12 @@
 <?php
 
-namespace sms;
+namespace SMS;
 
-use sms\ISMSGateway;
-use sms\gateway\MongateSMSGateway;
-use sms\entity\ClientInfo;
-use sms\gateway\EMASMSGateway;
-use hhp\App;
+use SMS\ISMSGateway;
+use SMS\Gateway\MongateSMSGateway;
+use SMS\Entity\ClientInfo;
+use SMS\Gateway\EMASMSGateway;
+use HHP\App;
 
 /**
  * table

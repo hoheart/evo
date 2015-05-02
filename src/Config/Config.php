@@ -74,6 +74,11 @@ return array(
 			'name' => 'SMS',
 			'dir' => 'SMS' . DIRECTORY_SEPARATOR,
 			'enable' => true
+		),
+		'crm' => array(
+			'name' => 'CRM',
+			'dir' => 'CRM' . DIRECTORY_SEPARATOR,
+			'enable' => true
 		)
 	),
 	
@@ -136,6 +141,14 @@ return array(
 				'enable' => true
 			)
 		)
+	),
+	'mongateGateway' => array(
+		'userId' => 'JC2492',
+		'password' => '566320'
+	),
+	'ema' => array(
+		'userId' => '800033',
+		'password' => 'ywok123456'
 	),
 	'staticUrl' => 'http://static.levo.com/',
 	/**

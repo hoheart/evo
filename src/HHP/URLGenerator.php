@@ -15,12 +15,16 @@ class URLGenerator {
 		array_pop($arr);
 		$url = '';
 		foreach ($arr as $item) {
+			if (empty($item)) {
+				continue;
+			}
+			
 			$url .= lcfirst($item) . '/';
 		}
 		$url .= lcfirst(str_replace('Controller', '', $ctrlName));
 		$url .= '/' . $action;
 		
 		$host = $_SERVER['SERVER_NAME'];
-		return 'http://' . $host . $url;
+		return 'http://' . $host . '/' . $url;
 	}
 }

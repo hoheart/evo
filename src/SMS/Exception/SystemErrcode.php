@@ -1,8 +1,8 @@
 <?php
 
-namespace sms\exception;
+namespace SMS\Exception;
 
-class SystemErrcode extends \hfc\exception\SystemErrcode {
+class SystemErrcode {
 	const CallGatewayError = 502000;
 }
 ?>

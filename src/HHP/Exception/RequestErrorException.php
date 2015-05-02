@@ -1,11 +1,12 @@
 <?php
 
-namespace hhp\exception;
+namespace HHP\Exception;
 
-use hhp\exception\UserErrcode;
+use HHP\Exception\UserErrcode;
 
 class RequestErrorException extends \Exception {
-	public function __construct($msg) {
+
+	public function __construct ($msg = '') {
 		$this->code = UserErrcode::RequestError;
 		$this->message = $msg;
 	}

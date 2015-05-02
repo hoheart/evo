@@ -30,8 +30,7 @@ class JsonRender {
 	}
 
 	public function renderLayout ($data, $layoutPath, $errcode, $errstr, $e = null) {
-		header('Nothing', '', 200); // 因为到这儿有可能脚本出现了致命错误，虽然handle了，但还是会抛出http错误码500，所以这儿手动改一下。
-		header('Content-Type: application/json; charset=utf-8');
+		header('Content-Type: application/json; charset=utf-8', true, 200); // 因为到这儿有可能脚本出现了致命错误，虽然handle了，但还是会抛出http错误码500，所以这儿手动改一下。
 		
 		if (file_exists($layoutPath)) {
 			$jsonObj = include ($layoutPath);

@@ -3,7 +3,6 @@
 namespace User\Controller;
 
 use HHP\Controller;
-use HHP\View\View;
 use HHP\IRequest;
 use HFC\Exception\ParameterErrorException;
 use User\Login;
@@ -20,9 +19,7 @@ class LoginController extends Controller {
 	/**
 	 */
 	public function login () {
-		$v = new View($this->mViewDir . 'login');
-		
-		return $v;
+		$this->setView($this->mViewDir . 'login');
 	}
 
 	public function index () {

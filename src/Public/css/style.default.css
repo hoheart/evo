@@ -6,6 +6,7 @@ Created by: Mienard Lumaad (@themepixels)
 @import url('animate.delay.css');
 
 
+.formHead{ font-weight: bolder;}
 /***** RESET BROWSER STYLE *****/
 /*******************************/
 
@@ -76,7 +77,7 @@ h1,h2,h3,h4,h5 { font-weight: normal; line-height: normal; }
 
 /*** HEADER ***/
 
-.header { background: #0866c6; clear: both; height: 110px; }
+.header { background: #0866c6; clear: both; padding: 5pt}
 .headerinner { margin-left: 260px; }
 .header .logo { width: 260px; text-align: center; padding-top: 40px; float: left; }
 
@@ -132,29 +133,30 @@ h1,h2,h3,h4,h5 { font-weight: normal; line-height: normal; }
 .leftpanel { width: 260px; color: #fff; float: left; }
 
 .leftmenu .nav-header {
-	font-weight: normal; font-size: 11px; padding: 5px 20px; text-shadow: none; background: #232323;
+	font-weight: normal; font-size: 11px; padding: 5px 5px 6px 4pt; text-shadow: none; background: #232323;
 	border-bottom: 1px solid #222; }
-.leftmenu .nav-tabs.nav-stacked a { color: #999; padding: 10px 20px; font-size: 14px; }
+.leftmenu .nav-tabs.nav-stacked a { color: white; padding: 10px 20px; font-size: 14px; }
 .leftmenu .nav-tabs.nav-stacked a span { margin-right: 10px; }
 .leftmenu .nav-tabs.nav-stacked > li > a { border: 0; border-bottom: 1px solid #232323; }
 .leftmenu .nav-tabs.nav-stacked > li > a:hover,
-.leftmenu .nav-tabs.nav-stacked > li > a:focus { background-color: #2c2c2c; color: #fff; border-bottom-color: #232323; }
+.leftmenu .nav-tabs.nav-stacked > li > a:focus { background-color: #0866c6; color: #fff; border-bottom-color: #232323; }
 .leftmenu .nav-tabs.nav-stacked > li.active > a { background-color: #0866c6; color: #fff; border-bottom-color: rgba(0,0,0,0.2); }
 .leftmenu .nav-tabs.nav-stacked > li.active > a:hover { background-color: #0866c6; }
 .leftmenu .nav-tabs > li { margin-bottom: 0; }
 
 
-.leftmenu .nav-tabs.nav-stacked > li.dropdown ul { background: #eee; display: none; }
-.leftmenu .nav-tabs.nav-stacked > li.dropdown ul li { border-bottom: 1px solid #ddd; border-right: 1px solid #ddd; }
+.leftmenu .nav-tabs.nav-stacked > li.dropdown ul { }
+.leftmenu .nav-tabs.nav-stacked > li.dropdown ul li { border-bottom: 1px solid #232323; border-right: 1px solid #232323; }
 .leftmenu .nav-tabs.nav-stacked > li.dropdown > a {
 	background-image: url(../images/droparrow.png); background-repeat: no-repeat; background-position: right 19px; }
 
 .leftmenu .nav-tabs.nav-stacked .dropdown ul li a  {
-	display: block; font-size: 13px; padding: 7px 10px 7px 50px; color: #333; background-position: 25px 12px;
-	background-image: url(../images/menuarrow.png); background-repeat: no-repeat;  
+	display: block; font-size: 13px; padding: 7px 10px 7px 50px; color: #999; background-position: 25px 12px;
+	  
 }
+.leftmenu .nav-tabs.nav-stacked > li.dropdown ul li.active { border-right: 1px solid #fff; }
 .leftmenu .nav-tabs.nav-stacked .dropdown ul li.active a { background-color: #fff; }
-.leftmenu .nav-tabs.nav-stacked .dropdown ul li a:hover { text-decoration: none; background-color: #fff; }
+.leftmenu .nav-tabs.nav-stacked .dropdown ul li a:hover { text-decoration: none; background-color: #0866c6; }
 .leftmenu .nav-tabs.nav-stacked .dropdown ul ul li { border-right: 0; }
 .leftmenu .nav-tabs.nav-stacked .dropdown ul ul li a { padding-left: 70px; background-position: 50px 12px; }
 .leftmenu .nav-tabs.nav-stacked .dropdown ul ul li:first-child a { border-top: 1px solid #ddd; } 
@@ -1382,7 +1384,7 @@ input[type="search"], input[type="tel"], input[type="color"], .uneditable-input,
 
 .alert .close { right: -25px; top: 1px; }
 
-.table th { font-weight: normal; text-transform: uppercase; font-size: 12px; border-top: 0; background: #333; color: #fff; }
+.table th { font-weight: normal; text-transform: uppercase; font-size: 12px; border-top: 0; background: #0866c6; color: #fff; }
 .table th.centeralign, .table td.centeralign { text-align: center; }
 .table.table-bordered { border-top: 0; border-right: 0; }
 .table.table-bordered th { border-color: #444; }

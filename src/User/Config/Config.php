@@ -16,7 +16,7 @@ return array(
 		'User\UserManager' => array(
 			'enable' => true
 		),
-		'User\Account\AccountManager' => array(
+		'User\Fund\AccountManager' => array(
 			'enable' => true
 		),
 		'User\Exception\LoginFailedException' => array(
@@ -31,10 +31,16 @@ return array(
 	 * 本模块提供的Controller
 	 */
 	'controller' => array(
+		'User\Controller\LoginController' => array(
+			'enable' => true
+		),
 		'User\Controller\UserController' => array(
 			'enable' => true
 		),
 		'User\Controller\FundController' => array(
+			'enable' => true
+		),
+		'User\Controller\DeliverNoticeController' => array(
 			'enable' => true
 		)
 	),
@@ -45,7 +51,8 @@ return array(
 	'depends' => array(
 		'orm' => array(),
 		'sms' => array(),
-		'util' => array()
+		'util' => array(),
+		'crm' => array()
 	)
 );
 ?>

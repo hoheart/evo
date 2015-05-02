@@ -52,7 +52,7 @@ function FormChecker() {
 
 		me.mItemConfig = config;
 
-//		$(me.formObj).submit(me.checkForm);
+		// $(me.formObj).submit(me.checkForm);
 	};
 
 	this.setConfig = function(config) {
@@ -100,8 +100,13 @@ function FormChecker() {
 			me.showErrstrView(formItem);
 		}
 
-		formItem.unbind('keyup', me.checkFormItem);
-		formItem.keyup(me.checkFormItem);
+		if ('file' == formItem.attr('type')) {
+			formItem.unbind('change', me.checkFormItem);
+			formItem.change(me.checkFormItem);
+		} else {
+			formItem.unbind('keyup', me.checkFormItem);
+			formItem.keyup(me.checkFormItem);
+		}
 
 		return ret;
 	}

@@ -4,6 +4,7 @@ namespace HHP\View;
 
 use HHP\IExecutor;
 use HHP\HttpRequest;
+use HHP\App;
 
 class ViewRender implements IExecutor {
 	
@@ -23,6 +24,9 @@ class ViewRender implements IExecutor {
 	}
 
 	public function run ($v = null) {
+		// Controller一般不会返回任何数据
+		$ctrl = App::Instance()->getCurrentController();
+		$v = $ctrl->getView();
 		if (null == $v) {
 			if (HttpRequest::isAjaxRequest()) {
 				$v = new View();

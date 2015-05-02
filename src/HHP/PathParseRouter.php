@@ -3,7 +3,7 @@
 namespace HHP;
 
 use HHP\App\ClassLoader;
-use hhp\exception\RequestErrorException;
+use HHP\Exception\RequestErrorException;
 
 /**
  * 直接解析请求路径的路由器
@@ -116,12 +116,20 @@ class PathParseRouter implements IRouter {
 		$actionName = $arr[1];
 		try {
 			$clsName = $clsLoader->loadController($moduleAlias, $ctrlName, $subDir);
+			
+			if (! method_exists($clsName, $actionName)) {
+				throw new RequestErrorException();
+			}
 		} catch (RequestErrorException $e) {
 			$ctrlName = $arr[1];
 			$actionName = 'index';
 			
 			try {
 				$clsName = $clsLoader->loadController($moduleAlias, $ctrlName, $subDir);
+				
+				if (! method_exists($clsName, $actionName)) {
+					throw new RequestErrorException();
+				}
 			} catch (RequestErrorException $e) {
 				$subDir = $arr[1];
 				

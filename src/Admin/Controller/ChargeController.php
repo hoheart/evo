@@ -1,11 +1,11 @@
 <?php
 
-namespace admin\controller;
+namespace Admin\Controller;
 
-use hhp\Controller;
-use user\fund\AccountManager;
-use hhp\IRequest;
-use hfc\exception\ParameterErrorException;
+use HHP\Controller;
+use User\Account\AccountManager;
+use HHP\IRequest;
+use HFC\Exception\ParameterErrorException;
 
 class ChargeController extends Controller {
 

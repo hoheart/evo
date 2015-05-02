@@ -1,6 +1,6 @@
 <?php
 
-namespace sms\exception;
+namespace SMS\Exception;
 
 /**
  * table

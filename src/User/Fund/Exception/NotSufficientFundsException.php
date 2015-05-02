@@ -1,8 +1,8 @@
 <?php
 
-namespace user\fund\exception;
+namespace User\Fund\Exception;
 
-use user\exception\UserErrcode;
+use User\Exception\UserErrcode;
 
 /**
  */

@@ -3,6 +3,7 @@
 namespace HHP;
 
 use HHP\View\View;
+use HFC\Exception\ParameterErrorException;
 
 abstract class Controller {
 	
@@ -24,13 +25,17 @@ abstract class Controller {
 		$this->mRequest = $request;
 	}
 
+	public function setView ($name) {
+		$this->mView = new View($name);
+	}
+
 	public function getView () {
 		return $this->mView;
 	}
 
 	protected function assign ($key, $val) {
 		if (null == $this->mView) {
-			$this->mView = new View();
+			throw new ParameterErrorException('call setView first.');
 		}
 		
 		$this->mView->assign($key, $val);

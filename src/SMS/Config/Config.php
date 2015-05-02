@@ -9,6 +9,9 @@ return array(
 	'API' => array(
 		'SMS\ClientManager' => array(
 			'enable' => true
+		),
+		'SMS\SMSSender' => array(
+			'enable' => true
 		)
 	),
 	
@@ -30,14 +33,6 @@ return array(
 	'depends' => array(
 		'user' => array(),
 		'orm' => array()
-	),
-	'mongateGateway' => array(
-		'userId' => 'JC2492',
-		'password' => '566320'
-	),
-	'ema' => array(
-		'userId' => '800033',
-		'password' => 'ywok123456'
 	)
 );
 ?>

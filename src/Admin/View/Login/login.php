@@ -64,7 +64,8 @@ ob_start();
 echo $html->script('js/jquery.form.js');
 echo $html->script('js/FormChecker.js');
 ?>
-<script type="text/javascript">var conf = { 
+<script type="text/javascript">
+var conf = { 
 		'userName': {
 			'dataType': /.{1,40}/,
 			'require' : true,

@@ -105,7 +105,7 @@ class Login extends Singleton {
 
 	static public function IsLogin () {
 		$self = get_called_class();
-		return Session::has($self::SESSION_PREFIX);
+		return Session::Instance()->has($self::SESSION_PREFIX);
 	}
 
 	/**
@@ -132,7 +132,7 @@ class Login extends Singleton {
 		if (null == $u) {
 			$um = new UserManager();
 			$self = get_called_class();
-			$u = $um->get(Session::Instance()->get($self::SESSION_PREFIX));
+			$u = $um->get(Session::Instance()->get($self::SESSION_PREFIX)['userId']);
 		}
 		
 		return $u;

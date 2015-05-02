@@ -1,59 +1,30 @@
 <?php
 
-namespace user\controller;
+namespace User\Controller;
 
-use hhp\view\View;
-use hhp\IRequest;
-use hfc\exception\ParameterErrorException;
-use user\Login;
+use User\Login;
+use User\Fund\AccountManager;
 
 /**
  * table
  */
-class UserController {
+class UserController extends UserBaseController {
 
 	public function __construct () {
+		parent::__construct();
 	}
 
-	/**
-	 */
-	public function getRegister () {
-		// TODO implement here
+	public function index () {
+		return $this->info();
 	}
 
-	/**
-	 */
-	public function postRegister () {
-		// TODO implement here
-	}
-
-	/**
-	 */
-	public function ajaxGetRegisterCheckCode () {
-		// TODO implement here
-	}
-
-	/**
-	 */
-	public function getForgetPassword () {
-		// TODO implement here
-	}
-
-	/**
-	 */
-	public function postForgetPassword () {
-		// TODO implement here
-	}
-
-	/**
-	 */
-	public function getRsetPasswordCheckCode () {
-		// TODO implement here
-	}
-
-	/**
-	 */
-	public function postRestPassword () {
-		// TODO implement here
+	public function info () {
+		$u = Login::GetLoginedUser();
+		$account = AccountManager::Instance()->getOneAccount($u->id);
+		
+		$this->setView('User/User/info');
+		$this->assign('user', $u);
+		$this->assign('clientArr', array());
+		$this->assign('account', $account);
 	}
 }

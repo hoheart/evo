@@ -1,8 +1,8 @@
 <?php
 
-namespace user\fund\entity;
+namespace User\Fund\Entity;
 
-use orm\DataClass;
+use ORM\DataClass;
 
 /**
  * @hhp:orm entity

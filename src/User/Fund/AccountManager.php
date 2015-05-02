@@ -1,13 +1,14 @@
 <?php
 
-namespace user\fund;
+namespace User\Fund;
 
-use hhp\App;
-use user\fund\exception\NotSufficientFundsException;
-use user\fund\entity\Account;
-use user\fund\entity\ChargeRecord;
-use user\fund\entity\ConsumeLog;
-use hhp\Singleton;
+use HHP\App;
+use User\Fund\Exception\NotSufficientFundsException;
+use User\Fund\Entity\Account;
+use User\Fund\Entity\ChargeRecord;
+use User\Fund\Entity\ConsumeLog;
+use HHP\Singleton;
+use ORM\Condition;
 
 /**
  */
@@ -18,9 +19,21 @@ class AccountManager extends Singleton {
 
 	public function get ($accountId) {
 		$orm = App::Instance()->getService('orm');
-		$account = $orm->get('user\fund\entity\Account', $accountId);
+		$account = $orm->get('User\Fund\Entity\Account', $accountId);
 		
 		return $account;
+	}
+
+	public function getOneAccount ($userId) {
+		$cond = new Condition('userId=' . $userId);
+		$orm = App::Instance()->getService('orm');
+		$ret = $orm->where('\User\Fund\Entity\Account', $cond);
+		
+		if (count($ret) > 0) {
+			return $ret[0];
+		} else {
+			return null;
+		}
 	}
 
 	public function addAccount ($userId) {
@@ -85,7 +98,7 @@ class AccountManager extends Singleton {
 	 */
 	public function charge ($accountId, $amount, $desc) {
 		$orm = App::Instance()->getService('orm');
-		$a = $orm->get('user\fund\entity\Account', $accountId);
+		$a = $orm->get('User\Fund\Entity\Account', $accountId);
 		$a->amount += $amount;
 		$orm->save($a);
 		
@@ -94,5 +107,13 @@ class AccountManager extends Singleton {
 		$cr->amount = $amount;
 		$cr->desc = $desc;
 		$orm->save($cr);
+	}
+
+	public function getChargeRecord ($accountId) {
+		$cond = new Condition('accountId=' . $accountId);
+		$orm = App::Instance()->getService('orm');
+		$ret = $orm->where('\User\Fund\Entity\ChargeRecord', $cond);
+		
+		return $ret;
 	}
 }

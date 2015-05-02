@@ -10,6 +10,13 @@ class Login extends \User\Login {
 	 * @var string
 	 */
 	const CAPTCHA_OP_LOGIN = 'AdminLogin';
+	
+	/**
+	 * 保存登录信息的session名
+	 *
+	 * @var string
+	 */
+	const SESSION_PREFIX = 'ADMIN_LOGIN';
 
 	public function __construct () {
 	}

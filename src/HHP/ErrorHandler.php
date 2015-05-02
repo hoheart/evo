@@ -38,10 +38,10 @@ class ErrorHandler {
 	}
 
 	public function processError ($errno, $errstr, $errfile, $errline, array $errcontext) {
-		$this->handle($errno, $errstr, $errfile, $errline, $errcontext);
+		$this->handle($errno, $errstr, $errfile, $errline, null, $errcontext);
 	}
 
-	public function handle ($errno, $errstr, $errfile, $errline, $e = null) {
+	public function handle ($errno, $errstr, $errfile, $errline, $e = null, $errcontext = array()) {
 		$notProcessError = array(
 			E_NOTICE,
 			E_STRICT
@@ -50,6 +50,14 @@ class ErrorHandler {
 		$errcode = UserErrcode::ErrorOK;
 		if (in_array($errno, $notProcessError)) {
 			return;
+		}
+		
+		$errConf = App::Instance()->getConfigValue('error_processor');
+		if (! empty($errConf)) {
+			$p = new $errConf();
+			$p->handle($errno, $errstr, $errfile, $errline, $e, $errcontext);
+			
+			exit(0);
 		}
 		
 		if (HttpRequest::isAjaxRequest()) {
@@ -70,7 +78,14 @@ class ErrorHandler {
 				echo "In file:$errfile:$errline.";
 				echo '<br>';
 				echo '<pre>';
+				echo '<br>';
+				
 				print_r($e);
+				if ($e instanceof \Exception) {
+					print_r($e->getTrace());
+				} else {
+					debug_print_backtrace();
+				}
 				echo '</pre>';
 			} else {
 				try {
@@ -80,7 +95,7 @@ class ErrorHandler {
 				} catch (\Exception $e) {
 				}
 				
-				$this->rendJson($errno, $errstr, $e);
+				$this->rendJson($errno, $errstr);
 			}
 		}
 		
