@@ -2,12 +2,12 @@
 $arr = array();
 foreach ($reportArr as $obj) {
 	$arr[] = array(
-		'time' => $obj->time,
+		'time' => $obj->reportTime,
 		'msgId' => $obj->msgId,
 		'longnum' => $obj->longnum,
-		'phonenum' => $obj->phonenum,
+		'phonenum' => $obj->receiver,
 		'userMsgId' => $obj->userMsgId,
-		'status' => $obj->status,
+		'status' => $obj->reportReadStatus,
 		'errstr' => $obj->errstr
 	);
 }

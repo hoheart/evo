@@ -1,6 +1,6 @@
 <?php
 
-namespace sms\controller;
+namespace SMS\Controller;
 
 use HHP\Controller;
 use SMS\SMSSender;
@@ -12,7 +12,7 @@ use User\Login;
 
 class SMSSenderController extends Controller {
 
-	public function sendAction (IRequest $req) {
+	public function send (IRequest $req) {
 		list ($userName, $clientId) = explode('|', $req->get('userName'));
 		
 		$login = new Login();
@@ -43,6 +43,6 @@ class SMSSenderController extends Controller {
 		$sender = new SMSSender();
 		$sender->send($client, $phonenums, $msg, $subPort, $msgId);
 		
-		return new View('sms/SMSSender/send');
+		$this->setView('SMS/SMSSender/send', View::VIEW_TYPE_JSON);
 	}
 }

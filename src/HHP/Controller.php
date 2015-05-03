@@ -25,8 +25,9 @@ abstract class Controller {
 		$this->mRequest = $request;
 	}
 
-	public function setView ($name) {
+	public function setView ($name, $viewType = View::VIEW_TYPE_HTML) {
 		$this->mView = new View($name);
+		$this->mView->setType($viewType);
 	}
 
 	public function getView () {

@@ -190,10 +190,14 @@ class DataClass {
 			$this->createTime = new \DateTime();
 		} else {
 			if (is_string($t)) {
-				try {
-					$this->createTime = \DateTime::createFromFormat('Y-m-d H:i:s', $t);
-				} catch (\Exception $e) {
-					throw new ParameterErrorException('DateTime format error.');
+				if ('0000-00-00 00:00:00' == $t) {
+					$this->createTime = new \DateTime();
+				} else {
+					try {
+						$this->createTime = \DateTime::createFromFormat('Y-m-d H:i:s', $t);
+					} catch (\Exception $e) {
+						throw new ParameterErrorException('DateTime format error.');
+					}
 				}
 			} else if ($t instanceof \DateTime) {
 				$this->createTime = $t;

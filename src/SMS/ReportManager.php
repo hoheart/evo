@@ -18,7 +18,7 @@ class ReportManager {
 		foreach ($ret as $row) {
 			$cond = new Condition('msgId=' . $row['msgId']);
 			$cond->add('receiver', '=', $row['phonenum']);
-			$smsArr = $orm->where('sms\entity\SMS', $cond);
+			$smsArr = $orm->where('SMS\Entity\SMS', $cond);
 			$r = $smsArr[0];
 			
 			$r->reportTime = $row['time'];
@@ -33,12 +33,12 @@ class ReportManager {
 
 	public function readReport ($userId) {
 		$c = new Condition('userId=' . $userId);
-		$c->add('readStatus', '=', '0');
+		$c->add('reportReadStatus', '=', '0');
 		
 		$orm = App::Instance()->getService('orm');
-		$reportArr = $orm->where('sms\entity\Report', $c);
+		$reportArr = $orm->where('SMS\Entity\SMS', $c);
 		foreach ($reportArr as $report) {
-			$report->readStatus = SMS::READ_STATUS_READ;
+			$report->reportReadStatus = SMS::READ_STATUS_READ;
 			$orm->save($report);
 		}
 		

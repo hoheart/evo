@@ -16,6 +16,14 @@ class LoginController extends Controller {
 	 */
 	protected $mViewDir = 'User/Login/';
 
+	static public function getConfig ($action) {
+		return array(
+			'executor' => array(
+				'pre_executor' => array()
+			)
+		);
+	}
+
 	/**
 	 */
 	public function login () {

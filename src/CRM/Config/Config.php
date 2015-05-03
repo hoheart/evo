@@ -20,7 +20,8 @@ return array(
 	 */
 	'depends' => array(
 		'sms' => array(),
-		'util' => array()
+		'util' => array(),
+		'user' => array()
 	)
 );
 ?>

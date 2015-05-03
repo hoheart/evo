@@ -1,12 +1,12 @@
 <?php
 
-namespace sms\controller;
+namespace SMS\Controller;
 
-use hhp\Controller;
-use hhp\view\View;
-use sms\ClientManager;
-use sms\ReportManager;
-use hhp\IRequest;
+use HHP\Controller;
+use HHP\View\View;
+use SMS\ReportManager;
+use HHP\IRequest;
+use User\Login;
 
 /**
  * 状态报告controller
@@ -16,26 +16,23 @@ use hhp\IRequest;
  */
 class ReportController extends Controller {
 
-	public function readAction (IRequest $req) {
-		$clientManager = new ClientManager();
-		$client = $clientManager->getOnlieClient();
-		if (null == $client) {
-			$client = $clientManager->checkClient($req->get('userName'), $req->get('password'));
+	public function read (IRequest $req) {
+		if (! Login::IsLogin()) {
+			$l = Login::Instance();
+			$l->loginWithoutCaptcha($req->get('userName'), $req->get('password'));
 		}
 		
 		$rm = new ReportManager();
-		$reportArr = $rm->readReport($client->userId);
+		$reportArr = $rm->readReport($req->get('productId'));
 		
-		$view = new View('sms/report/read');
-		$view->assign('reportArr', $reportArr);
-		
-		return $view;
+		$this->setView('SMS/Report/read', View::VIEW_TYPE_JSON);
+		$this->assign('reportArr', $reportArr);
 	}
 
 	/**
 	 * 读取网关的状态报告
 	 */
-	public function readGatewayAction () {
+	public function readGateway () {
 		if (! $this->mRequest->isCli()) {
 			exit(); // 禁止非命令行访问
 		}

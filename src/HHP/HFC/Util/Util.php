@@ -27,7 +27,8 @@ class Util {
 		
 		$ret = $a;
 		foreach ($b as $key => $val) {
-			if (is_array($val)) {
+			// 如果值是数组，但就是普通数组，即键不是字母，就替换
+			if (is_array($val) && ! array_key_exists(0, $val) && ! empty($val)) {
 				$ret[$key] = self::mergeArray($a[$key], $val);
 			} else {
 				$ret[$key] = $val;

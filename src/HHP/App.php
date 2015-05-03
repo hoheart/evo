@@ -249,7 +249,7 @@ namespace HHP {
 		}
 
 		/**
-		 * 先取得模块的配置，如果没有，再从app的配置里取得。
+		 * 取得配置的值
 		 *
 		 * @param string $name        	
 		 */

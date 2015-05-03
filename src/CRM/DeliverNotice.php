@@ -79,7 +79,6 @@ class DeliverNotice {
 			
 			$cm = ClientManager::Instance();
 			$clientInfo = $cm->getOneClient(Login::GetLoginedUserId());
-			// $clientInfo = $cm->get(1);
 			
 			$sms = SMSSender::Instance();
 			try {

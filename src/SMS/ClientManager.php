@@ -1,9 +1,9 @@
 <?php
 
-namespace sms;
+namespace SMS;
 
-use hhp\App;
-use hhp\Singleton;
+use HHP\App;
+use HHP\Singleton;
 use ORM\Condition;
 
 class ClientManager extends Singleton {
