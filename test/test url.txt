@@ -1,0 +1,11 @@
+http://www.levo.com/user/fund/balance?userName=jnd&password=Jnd@123*&phonenums=13611222499&msg=%E9%AA%8C%E8%AF%81%E7%A0%8112333
+
+
+http://www.levo.com/sms/SMSSender/send?userName=jnd|1&password=Jnd@123*&phonenums=13611222499&msg=%E9%AA%8C%E8%AF%81%E7%A0%8112333
+
+
+http://www.levo.com/sms/report/read?productId=2
+
+
+
+http://120.27.29.83/
