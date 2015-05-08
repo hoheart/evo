@@ -1,4 +1,5 @@
 <?php
+//echo phpinfo();exit;
 /*echo sha1( sha1(':"?>A34$' . 'Jnd@123*') . ':"?>A34$' );exit;*/
 // ini_set ( 'display_errors', 'On' );
 // error_reporting ( E_ALL );

@@ -4,6 +4,7 @@ namespace User\Controller;
 
 use CRM\DeliverNotice;
 use HHP\IRequest;
+use HHP\App;
 
 class DeliverNoticeController extends UserBaseController {
 
@@ -22,7 +23,9 @@ class DeliverNoticeController extends UserBaseController {
 		if (0 == $upload['error'] && $upload['size'] > 0) {
 			$dn = DeliverNotice::Instance();
 			
-			list ($total, $succCnt) = $dn->send($template, $upload['tmp_name']);
+			$filePath = App::$ROOT_DIR . 'data' . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR . uniqid();
+			move_uploaded_file($upload['tmp_name'], $filePath);
+			list ($total, $succCnt) = $dn->send($template, $filePath);
 			
 			$this->setView('User/DeliverNotice/DeliverNoticeRet');
 			$this->assign('total', $total);

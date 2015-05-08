@@ -8,7 +8,7 @@ use orm\DataClass;
  * 客户相关的信息，比如该客户的价格，采用的通道等。一个公司（用户）可能对应多个产品，每个产品申请的通道。
  *
  * @hhp:orm entity
- * @hhp:orm primaryKey clientId
+ * @hhp:orm primaryKey id
  *
  * @author Jejim
  */
