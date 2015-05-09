@@ -23,7 +23,7 @@ class ReportController extends Controller {
 		}
 		
 		$rm = new ReportManager();
-		$reportArr = $rm->readReport($req->get('productId'));
+		$reportArr = $rm->readReport($req->get('clientId'));
 		
 		$this->setView('SMS/Report/read', View::VIEW_TYPE_JSON);
 		$this->assign('reportArr', $reportArr);

@@ -1,8 +1,9 @@
 <?php
 
-namespace HHP;
+namespace HHP\Router;
 
 use HHP\App\ClassLoader;
+use HHP\IRequest;
 
 interface IRouter {
 

@@ -37,7 +37,7 @@ class SMSContent extends DataClass {
 	 *
 	 * @var integer
 	 */
-	protected $userId;
+	protected $clientId;
 	
 	/**
 	 * @hhp:orm var string

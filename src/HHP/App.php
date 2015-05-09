@@ -183,7 +183,7 @@ namespace HHP {
 		protected function getRedirection (IRequest $request) {
 			$routerCls = $this->mAppConf['router'];
 			if (empty($routerCls)) {
-				$routerCls = '\HHP\PathParseRouter';
+				$routerCls = '\HHP\Router\PathParseRouter';
 			}
 			$router = $routerCls::Instance();
 			return $router->getRoute($request, $this->mClassLoader);
@@ -258,7 +258,12 @@ namespace HHP {
 			if (empty($conf)) {
 				$conf = $this->mAppConf;
 			}
-			return $conf[$key];
+			
+			$arr = explode('::', $key);
+			foreach ($arr as $path) {
+				$conf = $conf[$path];
+			}
+			return $conf;
 		}
 
 		static public function create ($className) {

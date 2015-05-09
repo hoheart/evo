@@ -3,7 +3,7 @@
 namespace User;
 
 use HHP\IExecutor;
-use HHP\URLGenerator;
+use HHP\Router\URLGenerator;
 
 class UserAuthorization implements IExecutor {
 

@@ -51,7 +51,11 @@ class View {
 
 	public function __construct ($name = '', $layoutPath = null) {
 		if (! empty($name)) {
-			list ($moduleName, $ctrlName, $actionName) = explode('/', $name);
+			$arr = explode('/', $name);
+			if (empty($arr[0])) {
+				array_shift($arr);
+			}
+			list ($moduleName, $ctrlName, $actionName) = $arr;
 			$confModuleArr = App::Instance()->getConfigValue('module');
 			$moduleName = strtolower($moduleName);
 			$moduleDir = $confModuleArr[$moduleName]['dir'];

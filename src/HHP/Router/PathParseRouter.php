@@ -1,9 +1,10 @@
 <?php
 
-namespace HHP;
+namespace HHP\Router;
 
 use HHP\App\ClassLoader;
 use HHP\Exception\RequestErrorException;
+use HHP\IRequest;
 
 /**
  * 直接解析请求路径的路由器

@@ -1,6 +1,6 @@
 <?php
 use HHP\View\HTMLGenerator;
-use HHP\URLGenerator;
+use HHP\Router\URLGenerator;
 use User\Login;
 
 $html = new HTMLGenerator();
@@ -11,7 +11,7 @@ $url = new URLGenerator();
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title><?php echo $title;?>--佳能达客户关系管理系统V1.0</title>
+<title><?php echo $title;?>--佳能达客户关系管理系统V3.0</title>
 <?php echo $html->css('css/bootstrap.min.css')?>
 <?php echo $html->css('css/style.default.css')?>
 </head>
@@ -22,7 +22,7 @@ $url = new URLGenerator();
 
 		<div class="header">
 			<div style="font-size: 18pt">
-				佳能达客户关系管理系统&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 12pt">V1.0</span>
+				佳能达客户关系管理系统&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 12pt">V3.0</span>
 			</div>
 		</div>
 
@@ -43,16 +43,24 @@ $url = new URLGenerator();
 								<?php if( $action == '\User\Controller\FundController::chargeRecord' ){?>
 								class="active" <?php }?>><a
 								href="<?php echo $url->to( '\User\Controller\FundController::chargeRecord' )?>">充值记录</a></li>
+							<li><a
+								href="<?php echo $url->to( '\User\Controller\LoginController::logout' )?>">退出</a></li>
 						</ul></li>
-					<!-- 
+
 					<li class="dropdown"><a
-						href="<?php echo $url->to( '\User\Controller\UserController::info' )?>"><span
+						href="<?php echo $url->to( '\User\Controller\SMSSenderController::sendRecord' )?>"><span
 							class="iconfa-pencil"></span>短信</a>
 						<ul>
-							<li><a href="">马上发</a></li>
-							<li><a href="forms.html">发送记录</a></li>
+							<li
+								<?php if( $action == '\User\Controller\SMSSenderController::send' ){?>
+								class="active" <?php }?>><a
+								href="<?php echo $url->to( '\User\Controller\SMSSenderController::send' )?>">马上发</a></li>
+							<li
+								<?php if( $action == '\User\Controller\SMSSenderController::sendRecord' ){?>
+								class="active" <?php }?>><a
+								href="<?php echo $url->to( '\User\Controller\SMSSenderController::sendRecord' )?>">发送记录</a></li>
 						</ul></li>
-					-->
+
 						<?php if( 2 == Login::GetLoginedUserId() ){?>
 					<li class="dropdown"><a
 						href="<?php echo $url->to( '\User\Controller\DeliverNoticeController::index' )?>"><span
@@ -64,6 +72,7 @@ $url = new URLGenerator();
 								href="<?php echo $url->to( '\User\Controller\DeliverNoticeController::index' )?>">发货通知</a></li>
 						</ul></li>
 						<?php }?>
+						
 				</ul>
 			</div>
 			<!--leftmenu-->

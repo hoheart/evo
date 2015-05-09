@@ -74,16 +74,16 @@ class SMSSender extends Singleton {
 		
 		$status = $ret ? SMSContent::STATUS_SEND_OK : SMSContent::STATUS_GATEWAY_ERROR;
 		
-		$this->log($client->getUserId(), $phonenumArr, $msg, $subPort, $msgId, $gatewayMsgId, $status);
+		$this->log($client->id, $phonenumArr, $msg, $subPort, $msgId, $gatewayMsgId, $status);
 		
 		if (! $ret) {
 			throw new CallGatewayErrorException();
 		}
 	}
 
-	public function log ($userId, $phonenumArr, $msg, $subPort, $userMsgId, $gatewayMsgId, $status) {
+	public function log ($clientId, $phonenumArr, $msg, $subPort, $userMsgId, $gatewayMsgId, $status) {
 		$smsContent = new SMSContent();
-		$smsContent->userId = $userId;
+		$smsContent->clientId = $clientId;
 		$smsContent->msg = $msg;
 		$smsContent->subPort = $subPort;
 		$smsContent->userMsgId = $userMsgId;
@@ -95,7 +95,7 @@ class SMSSender extends Singleton {
 			$sms->receiver = $phonenum;
 			$sms->content = $smsContent;
 			$sms->msgId = $gatewayMsgId;
-			$sms->userId = $userId;
+			$sms->clientId = $clientId;
 			
 			$orm->save($sms);
 		}

@@ -53,7 +53,7 @@ class SMS extends DataClass {
 	 *
 	 * @var integer
 	 */
-	protected $userId;
+	protected $clientId;
 	
 	/**
 	 * 接收者的手机号

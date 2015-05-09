@@ -46,6 +46,9 @@ return array(
 		),
 		'User\Controller\DeliverNoticeController' => array(
 			'enable' => true
+		),
+		'User\Controller\SMSSenderController' => array(
+			'enable' => true
 		)
 	),
 	
@@ -57,6 +60,9 @@ return array(
 		'sms' => array(),
 		'util' => array(),
 		'crm' => array()
-	)
+	),
+	
+	// 退出登录之后的url
+	'logoutUrl' => 'http://www.levo.com/user'
 );
 ?>

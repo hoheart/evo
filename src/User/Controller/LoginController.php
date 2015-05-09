@@ -6,6 +6,9 @@ use HHP\Controller;
 use HHP\IRequest;
 use HFC\Exception\ParameterErrorException;
 use User\Login;
+use HHP\Router\Redirector;
+use HHP\Router\URLGenerator;
+use HHP\App;
 
 class LoginController extends Controller {
 	
@@ -61,5 +64,16 @@ class LoginController extends Controller {
 	public function getLoginCaptcha () {
 		$l = $this->getLoginObject();
 		$l->getLoginCaptcha();
+	}
+
+	public function logout () {
+		$l = $this->getLoginObject();
+		$l->logout();
+		
+		$app = App::Instance();
+		$url = $app->getConfigValue('logoutUrl');
+		
+		$r = Redirector::Instance();
+		$r->to($url);
 	}
 }

@@ -5,23 +5,23 @@ use HHP\Router\URLGenerator;
 $html = new HTMLGenerator();
 $url = new URLGenerator();
 
-$title = '发货通知';
-$navigate = '客户关系管理-->发货通知';
-$action = '\User\Controller\DeliverNoticeController::index';
+$title = '马上发';
+$navigate = '短息-->马上发';
+$action = '\User\Controller\SMSSenderController::send';
 
 ?>
 <form
-	action="<?php echo $url->to('\User\Controller\DeliverNoticeController::sendSms') ?>"
+	action="<?php echo $url->to('\User\Controller\SMSSenderController::send') ?>"
 	method="post" id="form" enctype="multipart/form-data">
 	<table class="table" style="margin-bottom: 300px">
 		<tr>
-			<td>内容模板</td>
-			<td><textarea name="smsTemplate" id="smsTemplate"
-					style="width: 500px; height: 150px">尊敬的合作伙伴：您在我公司所采购的本批货已出库，货物件数：##货物件数##，货单号：##货单号##，物流公司：##物流公司##，电话：##电话##。预计3天左右到货，请注意查收，到货有异议请及时沟通联系。感谢您对佳能达的信赖与支持！祝您生意兴隆！</textarea></td>
+			<td>接收者</td>
+			<td><input name="receiver" id="receiver" type="text" /></td>
 		</tr>
 		<tr>
-			<td>物流资料</td>
-			<td><input type="file" id="material" name="material" /></td>
+			<td>内容</td>
+			<td><textarea name="content" id="content"
+					style="width: 500px; height: 150px"></textarea></td>
 		</tr>
 		<tr>
 			<td></td>
@@ -50,27 +50,26 @@ $this->section('tailScript');
 ?>
 <?php echo $html->script('js/jquery.form.js');?>
 <?php echo $html->script('js/FormChecker.js');?>
-<?php echo $html->script('User/DeliverNotice.js');?>
+<?php echo $html->script('User/SMSSender.js');?>
 <script type="text/javascript">
 <!--
 var conf = { 
-		'smsTemplate': {
-			'dataType': /.{20,250}/,
+		'receiver': {
+			'dataType': 'Phone',
 			'require' : true,
-			'errmsg' : '短信模板必填，为20～250个字符。'
+			'errmsg' : '接收者手机号必填，为11位数字。'
 		} , 
-		'material' : {
+		'content' : {
 			'dataType' : /.{1,}/,
 			'require' : true,
-			'errmsg' : '必须上传资料文件。'
+			'errmsg' : '短信内容必填。'
 		}
 	};
 
-var dn = new DeliverNotice();
-dn.init();
-//-->
+var dn = new SMSSender();
+dn . init();
+// -->
 </script>
-
 <?php
 $this->endSection();
 ?>

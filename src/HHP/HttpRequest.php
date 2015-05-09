@@ -39,6 +39,10 @@ class HttpRequest implements IRequest {
 		return $this->mBody[$name];
 	}
 
+	public function getURI () {
+		return $this->getResource();
+	}
+
 	public function getResource () {
 		$uri = urldecode($_SERVER['REQUEST_URI']);
 		return $uri;

@@ -1,6 +1,6 @@
 <?php
 use HHP\View\HTMLGenerator;
-use HHP\URLGenerator;
+use HHP\Router\URLGenerator;
 
 $html = new HTMLGenerator();
 $url = new URLGenerator();

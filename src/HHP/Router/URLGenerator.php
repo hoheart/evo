@@ -1,6 +1,6 @@
 <?php
 
-namespace HHP;
+namespace HHP\Router;
 
 class URLGenerator {
 
