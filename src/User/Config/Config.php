@@ -63,6 +63,6 @@ return array(
 	),
 	
 	// 退出登录之后的url
-	'logoutUrl' => 'http://www.levo.com/user'
+	'logoutUrl' => '/user'
 );
 ?>
