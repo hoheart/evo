@@ -7,6 +7,7 @@ use User\Exception\LoginFailedException;
 use Util\Captcha\GraphicCaptcha;
 use User\Entity\User;
 use HHP\Singleton;
+use HHP\App;
 
 /**
  *
@@ -47,20 +48,23 @@ class Login extends Singleton {
 	 *        	登录关键字，可以是用户名，手机号，邮箱
 	 * @param string $password        	
 	 */
-	public function login ($key, $password, $captcha) {
+	public function login ($key, $password, $captcha, $loginIP = '') {
 		$c = new GraphicCaptcha();
 		$self = get_called_class();
 		$c->checkCaptcha($captcha, $self::CAPTCHA_OP_LOGIN);
 		
-		$this->loginWithoutCaptcha($key, $password);
+		$this->loginWithoutCaptcha($key, $password, $loginIP);
 	}
 
-	public function loginWithoutCaptcha ($key, $password) {
+	public function loginWithoutCaptcha ($key, $password, $loginIP = '') {
 		$um = $this->getManager();
 		$u = $um->getUserByKeyInfo($key);
 		if (null == $u || ! $um->checkPassword($u, $password)) {
 			throw new LoginFailedException();
 		}
+		
+		$u->lastLoginIP = $loginIP;
+		$um->update($u);
 		
 		$this->setLoginSession($u);
 	}

@@ -11,7 +11,7 @@ $url = new URLGenerator();
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title><?php echo $title;?>--佳能达客户关系管理系统V3.0</title>
+<title><?php echo $title;?>--<?php echo $systemTitle;?>V3.0</title>
 <?php echo $html->css('css/bootstrap.min.css')?>
 <?php echo $html->css('css/style.default.css')?>
 </head>
@@ -22,7 +22,8 @@ $url = new URLGenerator();
 
 		<div class="header">
 			<div style="font-size: 18pt">
-				佳能达客户关系管理系统&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size: 12pt">V3.0</span>
+				<?php echo $systemTitle;?>&nbsp;&nbsp;&nbsp;&nbsp;<span
+					style="font-size: 12pt">V3.0</span>
 			</div>
 		</div>
 
@@ -39,6 +40,10 @@ $url = new URLGenerator();
 								<?php if( $action == '\User\Controller\UserController::info' ){?>
 								class="active" <?php }?>><a
 								href="<?php echo $url->to( '\User\Controller\UserController::info' )?>">基本信息</a></li>
+							<li
+								<?php if( $action == '\User\Controller\UserController::modifyPassword' ){?>
+								class="active" <?php }?>><a
+								href="<?php echo $url->to( '\User\Controller\UserController::modifyPassword' )?>">修改密码</a></li>
 							<li
 								<?php if( $action == '\User\Controller\FundController::chargeRecord' ){?>
 								class="active" <?php }?>><a

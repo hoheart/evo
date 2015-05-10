@@ -14,6 +14,21 @@ use orm\DataClass;
 class SMS extends DataClass {
 	
 	/**
+	 * 发送状态
+	 *
+	 * @var integer
+	 */
+	const STATUS_MIN = 0;
+	const STATUS_SEND_OK = 0;
+	const STATUS_SENDING = 1;
+	const STATUS_NO_MONEY = 2;
+	const STATUS_RECEIVED = 3;
+	const STATUS_GATEWAY_ERROR = 4;
+	const STATUS_RECEIVE_ERROR = 5;
+	const STATUS_SEND_ERROR = 6;
+	const STATUS_MAX = 6;
+	
+	/**
 	 * 读取状态值
 	 *
 	 * @var integer
@@ -95,7 +110,7 @@ class SMS extends DataClass {
 	/**
 	 * 消息内容
 	 * @hhp:orm var class
-	 * @hhp:orm belongClass sms\entity\SMSContent
+	 * @hhp:orm belongClass SMS\Entity\SMSContent
 	 * @hhp:orm selfAttribute2Relationship contentId
 	 * @hhp:orm anotherAttribute2Relationship id
 	 *

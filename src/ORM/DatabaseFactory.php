@@ -65,7 +65,7 @@ class DatabaseFactory extends AbstractDataFactory {
 		$val = null;
 		if (empty($attr->relationshipName)) { // 空的关系表示:本类的一个属性直接对应另一个累的一个属性。
 			$val = $this->where($attr->belongClass, new Condition($attr->anotherAttribute2Relationship . '=' . $myVal), 
-					null, 0, $amount);
+					0, $amount);
 		} else { // 有关系表记录
 			$sqlMyVal = $this->mDatabaseClient->change2SqlValue($myVal, $clsDesc->attribute[$myProp]->var);
 			$sql = "SELECT {$attr->anotherAttributeInRelationship} FROM {$attr->relationshipName} WHERE {$attr->selfAttributeInRelationship}=$sqlMyVal";

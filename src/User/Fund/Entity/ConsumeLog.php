@@ -6,13 +6,14 @@ use orm\DataClass;
 
 /**
  * 消费记录
+ * @hhp:orm entity
  *
  * @author Jejim
- *        
  */
 class ConsumeLog extends DataClass {
 	
 	/**
+	 * @hhp::orm autoIncrement true
 	 *
 	 * @var integer
 	 */
@@ -29,6 +30,12 @@ class ConsumeLog extends DataClass {
 	 * @var integer
 	 */
 	protected $amount;
+	
+	/**
+	 *
+	 * @var integer
+	 */
+	protected $extId;
 	
 	/**
 	 *

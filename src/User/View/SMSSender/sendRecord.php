@@ -10,15 +10,26 @@ $navigate = '短息-->发送记录';
 $action = '\User\Controller\SMSSenderController::sendRecord';
 
 ?>
+<form
+	action="<?php echo $url->to( '\User\Controller\SMSSenderController::sendRecord' )?>">
+	关键字&nbsp;&nbsp;<input type="text" name="keywords" value="" />&nbsp;&nbsp;
+	<button>搜索</button>
+</form>
 <table class="table">
 	<tr>
-		<th>Column 1 Heading</th>
-		<th>Column 2 Heading</th>
+		<th>接收者</th>
+		<th>消息内容</th>
+		<th>发送时间</th>
+		<th>状态</th>
 	</tr>
+	<?php foreach ( $msgArr as $msg ){?>
 	<tr>
-		<td>Row 1: Col 1</td>
-		<td>Row 1: Col 2</td>
+		<td width="100"><?php echo $msg->receiver;?></td>
+		<td><?php echo $msg->content->msg;?></td>
+		<td width="200"><?php echo $msg->content->createTime->format('Y-m-d H:i:s');?></td>
+		<td width="50"><?php echo $msg->status;?></td>
 	</tr>
+	<?php }?>
 </table>
 
 <?php

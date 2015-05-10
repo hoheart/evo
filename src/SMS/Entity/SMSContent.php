@@ -13,18 +13,6 @@ use orm\DataClass;
 class SMSContent extends DataClass {
 	
 	/**
-	 * 状态取值定义
-	 *
-	 * @var integer
-	 */
-	const STATUS_MIN = 1;
-	const STATUS_SEND_OK = self::STATUS_MIN;
-	const STATUS_NO_MONEY = 2;
-	const STATUS_GATEWAY_ERROR = 3;
-	const STATUS_SENDING = 4;
-	const STATUS_MAX = 4;
-	
-	/**
 	 * @hhp:orm var int64
 	 * @hhp:orm autoIncrement true
 	 *
@@ -64,7 +52,7 @@ class SMSContent extends DataClass {
 	 *
 	 * @var integer
 	 */
-	protected $status = self::STATUS_SENDING;
+	protected $price;
 
 	public function getId () {
 		return $this->id;
@@ -100,13 +88,5 @@ class SMSContent extends DataClass {
 
 	public function getUserMsgId () {
 		return $this->userMsgId;
-	}
-
-	public function setStatus ($status) {
-		$this->status = $status;
-	}
-
-	public function getStatus () {
-		return $this->status;
 	}
 }

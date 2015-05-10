@@ -7,8 +7,8 @@ use HHP\IRequest;
 use HFC\Exception\ParameterErrorException;
 use User\Login;
 use HHP\Router\Redirector;
-use HHP\Router\URLGenerator;
 use HHP\App;
+use HHP\HttpRequest;
 
 class LoginController extends Controller {
 	
@@ -58,7 +58,11 @@ class LoginController extends Controller {
 		}
 		
 		$login = $this->getLoginObject();
-		$login->login($userName, $password, $captcha);
+		$loginIP = '';
+		if ($req instanceof HttpRequest) {
+			$loginIP = $req->getClientIP();
+		}
+		$login->login($userName, $password, $captcha, $loginIP);
 	}
 
 	public function getLoginCaptcha () {

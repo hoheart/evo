@@ -7,6 +7,8 @@ use User\Login;
 use SMS\SMSSender;
 use HFC\Exception\ParameterErrorException;
 use SMS\ClientManager;
+use HHP\App;
+use ORM\Condition;
 
 class SMSSenderController extends UserBaseController {
 
@@ -34,6 +36,13 @@ class SMSSenderController extends UserBaseController {
 	}
 
 	public function sendRecord () {
+		$u = Login::GetLoginedUser();
+		$client = ClientManager::Instance()->getOneClient($u->id);
+		
+		$orm = App::Instance()->getService('orm');
+		$msgArr = $orm->where('\SMS\Entity\SMS', new Condition('clientId=' . $client->id));
+		
 		$this->setView('/User/SMSSender/sendRecord');
+		$this->assign('msgArr', $msgArr);
 	}
 }

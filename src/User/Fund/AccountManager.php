@@ -55,7 +55,7 @@ class AccountManager extends Singleton {
 	 * @param
 	 *        	desc
 	 */
-	public function deduct ($accountId, $amount, $desc) {
+	public function deduct ($accountId, $amount, $desc, $extId = 0) {
 		$balance = $this->getBalance($accountId);
 		if ($balance < $amount) {
 			throw new NotSufficientFundsException();
@@ -71,6 +71,7 @@ class AccountManager extends Singleton {
 		$cl->accountId = $accountId;
 		$cl->amount = $amount;
 		$cl->desc = $desc;
+		$cl->extId = $extId;
 		
 		$orm = App::Instance()->getService('orm');
 		$orm->save($cl);

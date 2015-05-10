@@ -10,6 +10,7 @@ use HHP\App;
 use SMS\Entity\ClientInfo;
 use SMS\Entity\SMS;
 use HHP\Singleton;
+use User\Fund\Exception\NotSufficientFundsException;
 
 /**
  *
@@ -52,42 +53,47 @@ class SMSSender extends Singleton {
 			$phonenumArr[] = $one;
 		}
 		
-		$status = SMSContent::STATUS_SENDING;
+		$status = SMS::STATUS_SENDING;
 		
 		try {
 			// 进行扣款
 			$accountManager = new AccountManager();
 			$amount = count($phonenumArr) * $client->price;
-			$accountManager->deduct($client->userId, $amount, 'send ' . count($phonenumArr) . ' sms.');
-		} catch (\Exception $e) {
-			$status = SMSContent::STATUS_NO_MONEY;
-		}
-		
-		try {
+			// 因为多条消息一起发送，只记录一次消费记录，消费记录里不记录extId
+			$accountManager->deduct($client->userId, $amount, 0, 'send ' . count($phonenumArr) . ' sms.');
+			
 			$gf = new SMSGatewayFactory();
 			$g = $gf->getGateway($client);
 			$msg = '【' . $client->getSign() . '】' . $msg;
 			list ($ret, $gatewayMsgId) = $g->send($phonenumArr, $msg, $subPort, $msgId);
+		} catch (NotSufficientFundsException $e) {
+			$status = SMS::STATUS_NO_MONEY;
 		} catch (\Exception $e) {
-			$status = SMSContent::STATUS_GATEWAY_ERROR;
+			$status = SMS::STATUS_SEND_ERROR;
 		}
 		
-		$status = $ret ? SMSContent::STATUS_SEND_OK : SMSContent::STATUS_GATEWAY_ERROR;
+		$status = $ret ? SMS::STATUS_SEND_OK : SMS::STATUS_GATEWAY_ERROR;
 		
-		$this->log($client->id, $phonenumArr, $msg, $subPort, $msgId, $gatewayMsgId, $status);
+		$this->log($client->id, $phonenumArr, $msg, $subPort, $msgId, $gatewayMsgId, $status, $client->price);
+		
+		if (null != $e) {
+			throw $e;
+		}
 		
 		if (! $ret) {
 			throw new CallGatewayErrorException();
 		}
+		
+		return $ret;
 	}
 
-	public function log ($clientId, $phonenumArr, $msg, $subPort, $userMsgId, $gatewayMsgId, $status) {
+	public function log ($clientId, $phonenumArr, $msg, $subPort, $userMsgId, $gatewayMsgId, $status, $price) {
 		$smsContent = new SMSContent();
 		$smsContent->clientId = $clientId;
 		$smsContent->msg = $msg;
 		$smsContent->subPort = $subPort;
 		$smsContent->userMsgId = $userMsgId;
-		$smsContent->status = $status;
+		$smsContent->price = $price;
 		
 		$orm = App::Instance()->getService('orm');
 		foreach ($phonenumArr as $phonenum) {
@@ -96,6 +102,7 @@ class SMSSender extends Singleton {
 			$sms->content = $smsContent;
 			$sms->msgId = $gatewayMsgId;
 			$sms->clientId = $clientId;
+			$sms->status = $status;
 			
 			$orm->save($sms);
 		}

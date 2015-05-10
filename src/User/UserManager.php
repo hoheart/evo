@@ -6,6 +6,7 @@ use HHP\Singleton;
 use HHP\App;
 use ORM\Condition;
 use User\Entity\User;
+use User\Exception\OldPasswordErrorException;
 
 /**
  */
@@ -16,13 +17,6 @@ class UserManager extends Singleton {
 	 * @var string
 	 */
 	protected $mUserClassName = '\User\Entity\User';
-	
-	/**
-	 * 验证码操作类型：修改手机号
-	 *
-	 * @var string
-	 */
-	const CAPTCHA_OP_MODIFY_PHONENUM = 'modifyPhonenum';
 
 	public function __construct () {
 	}
@@ -57,68 +51,6 @@ class UserManager extends Singleton {
 		}
 		
 		return null;
-	}
-
-	/**
-	 * (non-PHPdoc)
-	 *
-	 * @see \util\captcha\ISmsContentCreator::createSmsContent()
-	 */
-	public function createSmsContent ($captcha) {
-		$smsTemplateManager = SMSTemplateManager::Instance();
-		
-		return sprintf($smsTemplateManager->getModifyPhonenumTemplate(), $captcha);
-	}
-
-	/**
-	 * 添加用户
-	 *
-	 * @param string $phonenum        	
-	 * @param string $password        	
-	 * @param string $captcha        	
-	 * @param string $realName        	
-	 * @throws PhonenumExistingException
-	 * @throws QueryException
-	 */
-	public function addUser ($phonenum, $password, $captcha, $realName = '', $gender = User::Unknow) {
-		$salt = $this->createSalt();
-		$encodedPassword = $this->encryptPassword($salt, $password);
-		
-		$this->addUserCore($phonenum, $salt, $encodedPassword, $captcha, $realName, $gender);
-	}
-
-	public function addUserNoPassword ($phonenum, $captcha, $realName, $gender = User::Unknow) {
-		$this->addUserCore($phonenum, '', '', $captcha, $realName, $gender);
-	}
-
-	protected function addUserCore ($phonenum, $salt, $encodedPassword, $captcha, $realName, $gender = User::Unknow) {
-		$sc = BaseCaptcha::Instance();
-		$sc->checkCaptcha($captcha, self::CAPTCHA_OP_REG, $phonenum);
-		
-		$u = new User();
-		$u->phonenum = $phonenum;
-		$u->salt = $salt;
-		$u->password = $encodedPassword;
-		$u->realName = $realName;
-		
-		$im = InvitationManager::Instance();
-		$recommendUserId = $im->getInvitedUserId();
-		if (! empty($recommendUserId)) {
-			$u->recommendUserId = $recommendUserId;
-		}
-		
-		$u->gender = $gender;
-		
-		try {
-			$u->save();
-			return $u;
-		} catch (DatabaseQueryException $e) {
-			if ('23000' == $e->getSourceCode()) {
-				throw new PhonenumExistingException();
-			} else {
-				throw $e;
-			}
-		}
 	}
 
 	/**
@@ -159,46 +91,6 @@ class UserManager extends Singleton {
 		return $enPwd === $u->password;
 	}
 
-	/**
-	 * 取得修改手机号码的验证码
-	 *
-	 * @param string $phonenum        	
-	 */
-	public function getModifyPhonenumCaptcha ($phonenum) {
-		$u = Login::GetLoginedUser();
-		if ($u->phonenum == $phonenum) {
-			throw new ModifySamePhonenumErrorException();
-		}
-		$cnt = User::where('phonenum', '=', $phonenum)->count();
-		if ($cnt > 0) {
-			throw new PhonenumExistingException();
-		}
-		
-		$smsSender = SMSService::Instance();
-		$sc = new SMSCaptcha($this, $smsSender);
-		
-		$this->mCurrentOp = self::CAPTCHA_OP_MODIFY_PHONENUM;
-		
-		return $sc->getCaptcha(self::CAPTCHA_OP_MODIFY_PHONENUM, $phonenum, 
-				App::Instance()->getConfigValue('app.debug'));
-	}
-
-	/**
-	 * 修改手机号码
-	 *
-	 * @param string $phonenum        	
-	 * @param string $captcha        	
-	 */
-	public function modifyPhonenum ($phonenum, $captcha) {
-		$sc = new BaseCaptcha();
-		$sc->checkCaptcha($captcha, self::CAPTCHA_OP_MODIFY_PHONENUM, $phonenum);
-		
-		$u = Login::GetLoginedUser();
-		$u->phonenum = $phonenum;
-		
-		$u->save();
-	}
-
 	public function get ($id) {
 		if (empty($id)) {
 			return null;
@@ -207,6 +99,19 @@ class UserManager extends Singleton {
 		$orm = App::Instance()->getService('orm');
 		$u = $orm->get('\User\Entity\User', $id);
 		return $u;
+	}
+
+	public function updateUser ($userId, $arr) {
+		$user = User::find($userId);
+		if (! is_null($user)) {
+			foreach ($arr as $key => $value) {
+				if (isset($user->$key)) {
+					$user->$key = $value;
+				}
+			}
+			return $user->save();
+		}
+		return false;
 	}
 
 	/**
@@ -230,58 +135,157 @@ class UserManager extends Singleton {
 		$user->salt = $salt;
 		$user->password = $this->encryptPassword($salt, $newPassword);
 		
-		$user->save();
+		$this->update($user);
 	}
 
-	/**
-	 * 通过关键信息（用户名、手机、邮箱）取得唯一用户
-	 *
-	 * @param string $phonenum        	
-	 * @return User
-	 */
-	public function getUsersByKey ($key) {
-		if (! $key) {
-			return null;
-		}
-		return User::whereRaw("phonenum=? OR name=? OR email=? OR realName = ?", 
-				array(
-					$key,
-					$key,
-					$key,
-					$key
-				))->get()->toArray();
+	public function update (User $u) {
+		$orm = App::Instance()->getService('orm');
+		$orm->save($u);
 	}
-
-	public function lists ($where = null, array $value = null) {
-		$userArr = User::whereRaw($where, $value)->get();
-		return $userArr;
-	}
-
-	public function getListByIds (array $idArr = null) {
-		if (null == $idArr) {
-			return array();
-		}
-		return User::whereIn('id', $idArr)->get();
-	}
-
-	public function getRealName ($userId) {
-		return User::where('id', '=', $userId)->pluck('realName');
-	}
-
-	public function getUserInfo ($userId) {
-		return User::find($userId);
-	}
-
-	public function updateUser ($userId, $arr) {
-		$user = User::find($userId);
-		if (! is_null($user)) {
-			foreach ($arr as $key => $value) {
-				if (isset($user->$key)) {
-					$user->$key = $value;
-				}
-			}
-			return $user->save();
-		}
-		return false;
-	}
+	
+	// /**
+	// * (non-PHPdoc)
+	// *
+	// * @see \util\captcha\ISmsContentCreator::createSmsContent()
+	// */
+	// public function createSmsContent ($captcha) {
+	// $smsTemplateManager = SMSTemplateManager::Instance();
+	
+	// return sprintf($smsTemplateManager->getModifyPhonenumTemplate(),
+	// $captcha);
+	// }
+	
+	// /**
+	// * 添加用户
+	// *
+	// * @param string $phonenum
+	// * @param string $password
+	// * @param string $captcha
+	// * @param string $realName
+	// * @throws PhonenumExistingException
+	// * @throws QueryException
+	// */
+	// public function addUser ($phonenum, $password, $captcha, $realName = '',
+	// $gender = User::Unknow) {
+	// $salt = $this->createSalt();
+	// $encodedPassword = $this->encryptPassword($salt, $password);
+	
+	// $this->addUserCore($phonenum, $salt, $encodedPassword, $captcha,
+	// $realName, $gender);
+	// }
+	
+	// public function addUserNoPassword ($phonenum, $captcha, $realName,
+	// $gender = User::Unknow) {
+	// $this->addUserCore($phonenum, '', '', $captcha, $realName, $gender);
+	// }
+	
+	// protected function addUserCore ($phonenum, $salt, $encodedPassword,
+	// $captcha, $realName, $gender = User::Unknow) {
+	// $sc = BaseCaptcha::Instance();
+	// $sc->checkCaptcha($captcha, self::CAPTCHA_OP_REG, $phonenum);
+	
+	// $u = new User();
+	// $u->phonenum = $phonenum;
+	// $u->salt = $salt;
+	// $u->password = $encodedPassword;
+	// $u->realName = $realName;
+	
+	// $im = InvitationManager::Instance();
+	// $recommendUserId = $im->getInvitedUserId();
+	// if (! empty($recommendUserId)) {
+	// $u->recommendUserId = $recommendUserId;
+	// }
+	
+	// $u->gender = $gender;
+	
+	// try {
+	// $u->save();
+	// return $u;
+	// } catch (DatabaseQueryException $e) {
+	// if ('23000' == $e->getSourceCode()) {
+	// throw new PhonenumExistingException();
+	// } else {
+	// throw $e;
+	// }
+	// }
+	// }
+	
+	// /**
+	// * 取得修改手机号码的验证码
+	// *
+	// * @param string $phonenum
+	// */
+	// public function getModifyPhonenumCaptcha ($phonenum) {
+	// $u = Login::GetLoginedUser();
+	// if ($u->phonenum == $phonenum) {
+	// throw new ModifySamePhonenumErrorException();
+	// }
+	// $cnt = User::where('phonenum', '=', $phonenum)->count();
+	// if ($cnt > 0) {
+	// throw new PhonenumExistingException();
+	// }
+	
+	// $smsSender = SMSService::Instance();
+	// $sc = new SMSCaptcha($this, $smsSender);
+	
+	// $this->mCurrentOp = self::CAPTCHA_OP_MODIFY_PHONENUM;
+	
+	// return $sc->getCaptcha(self::CAPTCHA_OP_MODIFY_PHONENUM, $phonenum,
+	// App::Instance()->getConfigValue('app.debug'));
+	// }
+	
+	// /**
+	// * 修改手机号码
+	// *
+	// * @param string $phonenum
+	// * @param string $captcha
+	// */
+	// public function modifyPhonenum ($phonenum, $captcha) {
+	// $sc = new BaseCaptcha();
+	// $sc->checkCaptcha($captcha, self::CAPTCHA_OP_MODIFY_PHONENUM, $phonenum);
+	
+	// $u = Login::GetLoginedUser();
+	// $u->phonenum = $phonenum;
+	
+	// $u->save();
+	// }
+	
+	// /**
+	// * 通过关键信息（用户名、手机、邮箱）取得唯一用户
+	// *
+	// * @param string $phonenum
+	// * @return User
+	// */
+	// public function getUsersByKey ($key) {
+	// if (! $key) {
+	// return null;
+	// }
+	// return User::whereRaw("phonenum=? OR name=? OR email=? OR realName = ?",
+	// array(
+	// $key,
+	// $key,
+	// $key,
+	// $key
+	// ))->get()->toArray();
+	// }
+	
+	// public function lists ($where = null, array $value = null) {
+	// $userArr = User::whereRaw($where, $value)->get();
+	// return $userArr;
+	// }
+	
+	// public function getListByIds (array $idArr = null) {
+	// if (null == $idArr) {
+	// return array();
+	// }
+	// return User::whereIn('id', $idArr)->get();
+	// }
+	
+	// public function getRealName ($userId) {
+	// return User::where('id', '=', $userId)->pluck('realName');
+	// }
+	
+	// public function getUserInfo ($userId) {
+	// return User::find($userId);
+	// }
 }

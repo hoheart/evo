@@ -45,6 +45,12 @@ class ClientInfo extends DataClass {
 	 * @var string
 	 */
 	protected $sign;
+	
+	/**
+	 *
+	 * @var string
+	 */
+	protected $systemTitle;
 
 	public function getId () {
 		return $this->id;
