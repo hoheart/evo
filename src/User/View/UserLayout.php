@@ -20,10 +20,14 @@ $url = new URLGenerator();
 
 	<div class="mainwrapper">
 
-		<div class="header">
-			<div style="font-size: 18pt">
+		<div class="header" style="color:white; height:22px">
+			<div style="font-size: 18pt; float: left">
 				<?php echo $systemTitle;?>&nbsp;&nbsp;&nbsp;&nbsp;<span
 					style="font-size: 12pt">V3.0</span>
+			</div>
+			<div style="float: right">
+				<a style="color: white"
+					href="<?php echo $url->to( '\User\Controller\LoginController::logout' )?>">退出</a>
 			</div>
 		</div>
 
@@ -48,8 +52,6 @@ $url = new URLGenerator();
 								<?php if( $action == '\User\Controller\FundController::chargeRecord' ){?>
 								class="active" <?php }?>><a
 								href="<?php echo $url->to( '\User\Controller\FundController::chargeRecord' )?>">充值记录</a></li>
-							<li><a
-								href="<?php echo $url->to( '\User\Controller\LoginController::logout' )?>">退出</a></li>
 						</ul></li>
 
 					<li class="dropdown"><a
@@ -59,7 +61,7 @@ $url = new URLGenerator();
 							<li
 								<?php if( $action == '\User\Controller\SMSSenderController::send' ){?>
 								class="active" <?php }?>><a
-								href="<?php echo $url->to( '\User\Controller\SMSSenderController::send' )?>">马上发</a></li>
+								href="<?php echo $url->to( '\User\Controller\SMSSenderController::send' )?>">立即发送</a></li>
 							<li
 								<?php if( $action == '\User\Controller\SMSSenderController::sendRecord' ){?>
 								class="active" <?php }?>><a
