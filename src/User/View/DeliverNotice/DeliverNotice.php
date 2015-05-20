@@ -17,7 +17,7 @@ $action = '\User\Controller\DeliverNoticeController::index';
 		<tr>
 			<td>内容模板</td>
 			<td><textarea name="smsTemplate" id="smsTemplate"
-					style="width: 500px; height: 150px">尊敬的合作伙伴：您在我公司所采购的本批货已出库，货物件数：##货物件数##，货单号：##货单号##，物流公司：##物流公司##，电话：##电话##。预计3天左右到货，请注意查收，到货有异议请及时沟通联系。感谢您对佳能达的信赖与支持！祝您生意兴隆！</textarea></td>
+					style="width: 500px; height: 150px">尊敬的合作伙伴：您在我公司所采购的本批货已出库，货物件数：##货物件数##，货单号：##货单号##，物流公司：##物流公司##，电话：##物流公司电话##。预计3天左右到货，请注意查收，到货有异议请及时沟通联系。感谢您对佳能达的信赖与支持！祝您生意兴隆！</textarea></td>
 		</tr>
 		<tr>
 			<td>物流资料</td>
