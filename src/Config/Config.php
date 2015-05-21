@@ -91,8 +91,8 @@ return array(
 			'method' => 'create',
 			'config' => array(
 				'dbms' => 'mysql',
-				'user' => 'hoheart',
-				'password' => 'hoheart',
+				'user' => 'vosms',
+				'password' => 'vosms',
 				'server' => '127.0.0.1',
 				'port' => 3306,
 				'name' => 'evo',
@@ -150,9 +150,7 @@ return array(
 		'userId' => '800033',
 		'password' => 'ywok123456'
 	),
-	
-	'staticUrl' => 'http://static.levo.com/',
-	
+	'staticUrl' => 'http://static.vo-sms.com/',
 	/**
 	 * 整个系统存放数据的目录，包括日志的存放。所以，不需要对日志进行单独的目录配置。
 	 * 通过调用系统提供的日志
