@@ -64,7 +64,7 @@ class SMSSender extends Singleton {
 			
 			$gf = new SMSGatewayFactory();
 			$g = $gf->getGateway($client);
-			$msg = '【' . $client->getSign() . '】' . $msg;
+			$msg = '【' . $client->getSign() . '】' . $msg . '退订回N';
 			list ($ret, $gatewayMsgId) = $g->send($phonenumArr, $msg, $subPort, $msgId);
 		} catch (NotSufficientFundsException $e) {
 			$status = SMS::STATUS_NO_MONEY;
